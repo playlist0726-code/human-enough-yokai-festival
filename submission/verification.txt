@@ -1,0 +1,10 @@
+Human Enough! — Yokai Festival
+
+Public game: https://human-enough-yokai-festival.onrender.com/
+Local checks: syntax passed; 93 unit tests + 5 integration tests passed.
+Hosted check: two real WebSocket clients joined, readied, started, shared movement, ping, potion and ward state, and reconnected as the same player.
+Cover: actual game title screen; 1500 x 1000 pixels; 3:2.
+Description: 474 characters.
+
+Not claimed: a physical phone performance test, a fresh-user usability study, or verified historical use of ChatGPT Work.
+Hosting note: free Render instance may need 50 seconds or more to wake after inactivity. Active rooms reset when the server restarts or is redeployed.

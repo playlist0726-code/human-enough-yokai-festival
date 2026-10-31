@@ -27,3 +27,5 @@ Both static assets and WebSocket multiplayer use the same public origin. No lapt
 Run `npm run check`, `npm test`, and `npm run test:integration` locally. Model source tests require the original local Blender art folder; it is intentionally excluded from the deployment repository. Run `npm run test:live -- https://human-enough-yokai-festival.onrender.com/` for two real clients over the hosted network. That check does not replace testing on two physical devices.
 
 To roll back, use a previously successful deploy in the Render dashboard. The previous release's game sessions will not be restored.
+
+Model downloads are limited to three at once and retry transient failures up to three attempts with a 25-second per-attempt timeout. Successfully loading a previously missing model clears its failure report. Regression tests cover concurrency, shared requests, transient failures and recovery.

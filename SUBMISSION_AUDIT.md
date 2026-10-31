@@ -14,7 +14,7 @@ Checked on October 30, 2026 against the project brief supplied in chat.
 ## Validation
 
 - Syntax checks passed.
-- 90 unit tests passed; 5 integration tests passed; no failures (95 total).
+- 93 unit tests passed; 5 integration tests passed; no failures (98 total).
 - Browser test used a desktop game tab and the 390 × 844 Phone Lab iframe on the same Mac. This was not a physical phone or external-network test.
 - Both clients reached the same shared loss outcome after the idle crew was sealed. Both were returned to the character menu after testing.
 - Screenshot: `artifacts/submission-audit/two-player-check.png`.

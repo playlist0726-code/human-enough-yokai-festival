@@ -6,8 +6,28 @@ import {createPotion,POTION_COLORS} from './renderkit.mjs';
 
 const loader=new GLTFLoader(),cache=new Map();
 export const modelReport={loaded:new Set(),failed:new Set()};
+// Keep large model downloads bounded on phones; a transient network error must
+// not permanently downgrade the player's character for the rest of the round.
+const pendingLoads=[];let activeLoads=0;
+function pumpLoads(){while(activeLoads<3&&pendingLoads.length){const job=pendingLoads.shift();activeLoads++;job.run().then(job.resolve,job.reject).finally(()=>{activeLoads--;pumpLoads();});}}
+function scheduleLoad(run){return new Promise((resolve,reject)=>{pendingLoads.push({run,resolve,reject});pumpLoads();});}
+async function fetchModel(key){
+  let failure;
+  for(let attempt=0;attempt<3;attempt++){
+    const abort=new AbortController(),timeout=setTimeout(()=>abort.abort(),25000);
+    try{
+      const response=await fetch(`/assets/models/${key}.glb`,{signal:abort.signal});
+      if(!response.ok)throw Error(`Model download returned ${response.status}`);
+      const bytes=await response.arrayBuffer();clearTimeout(timeout);
+      return await loader.parseAsync(bytes,'/assets/models/');
+    }catch(error){failure=error;if(/returned 4\d\d/.test(error.message))break;}
+    finally{clearTimeout(timeout);}
+    if(attempt<2)await new Promise(resolve=>setTimeout(resolve,400*2**attempt));
+  }
+  throw failure;
+}
 export function loadCharacterModel(key){
-  if(!cache.has(key))cache.set(key,loader.loadAsync(`/assets/models/${key}.glb`).then(g=>{modelReport.loaded.add(key);return g;}).catch(e=>{modelReport.failed.add(key);cache.delete(key);throw e;}));
+  if(!cache.has(key))cache.set(key,scheduleLoad(()=>fetchModel(key)).then(g=>{modelReport.failed.delete(key);modelReport.loaded.add(key);return g;}).catch(e=>{modelReport.failed.add(key);cache.delete(key);throw e;}));
   return cache.get(key);
 }
 // Merge only rigid, unanimated sibling meshes. Bones and face morphs survive.
