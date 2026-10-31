@@ -13,7 +13,7 @@ npm run dev
 
 Open http://127.0.0.1:4173/. Select **Enter the Festival** on the illustrated title screen. Choose one of seven yokai, then select **Solo practice** or **Create room**. Friends can join using the 5-character room code and select **Ready up**. The host starts a synchronized 3-second countdown once everyone is ready. A crew of 3–4 is recommended; smaller groups can start for testing.
 
-This address works on the local computer. A public deployment of both the site and WebSocket server is still needed for friends on other devices or a competition submission.
+Public game: https://human-enough-yokai-festival.onrender.com/ — both the game and WebSocket server are hosted on Render. The local address below is for development. The free hosted instance may take 50 seconds or more to wake after inactivity.
 
 ## Controls
 

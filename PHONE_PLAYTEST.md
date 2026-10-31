@@ -12,7 +12,7 @@ npm run dev:lan
 3. For co-op, create a room on the Mac and open **Invite a phone · QR code** in the lobby. Its QR contains the room code. The phone still chooses a character, then uses **Join room** with the prefilled code.
 4. Each player marks Ready before the host starts. Up to four players use the same authoritative game server.
 
-The detected network address can change when Wi-Fi changes; use **Refresh addresses** in Phone Lab. This shared-network address can be isolated by a guest network or VPN; a response on the Mac does not prove reachability from a phone. No internet deployment or public tunnel is configured.
+The detected network address can change when Wi-Fi changes; use **Refresh addresses** in Phone Lab. This shared-network address can be isolated by a guest network or VPN; a response on the Mac does not prove reachability from a phone. A public deployment is now available at https://human-enough-yokai-festival.onrender.com/. Public invitations work across networks without keeping this Mac awake; the local instructions above still apply to localhost testing.
 
 ## Controls and screen checks
 

@@ -10,7 +10,8 @@
     "check": "node --check server.mjs && node --check public/game.js && node --check public/festival.mjs && node --check public/visitors.mjs && node --check public/renderkit.mjs && node --check public/avatar.mjs && node --check public/art-materials.mjs && node --check public/visual-quality.mjs && node --check public/controls.mjs && node --check shared/world.mjs && node --check shared/simulation.mjs && node --check shared/minigames.mjs && node --check public/stall-ui.mjs && node --check shared/stall-protocol.mjs && node --check public/minigames/app.mjs && node --check public/minigames/first-person.mjs && node --check public/connection.mjs && node --check public/foundation-ui.mjs && node --check public/profile.mjs && node --check public/journey.mjs && node --check public/foliage.mjs && node --check public/character-motion.mjs && node --check public/motion-study.mjs && node --check shared/disguise.mjs && node --check public/disguise.mjs && node --check public/transformation.mjs && node --check public/model-assets.mjs && node --check public/free-camera.mjs && node --check public/festival-scenery.mjs && node --check playtest-network.mjs && node --check public/phone-lab.mjs && node --check public/playtest-client.mjs && node --check public/touch-controls.mjs && node --check shared/encounter.mjs && node --check public/encounter-view.mjs",
     "test:integration": "node --test tests/server.integration.mjs tests/encounter.integration.mjs",
     "start": "node server.mjs",
-    "build": "node scripts/build-production.mjs"
+    "build": "node scripts/build-production.mjs",
+    "test:live": "node scripts/smoke-live.mjs"
   },
   "dependencies": {
     "qrcode": "^1.5.4",
@@ -18,6 +19,6 @@
     "ws": "^8.18.3"
   },
   "engines": {
-    "node": ">=22"
+    "node": "22.x"
   }
 }

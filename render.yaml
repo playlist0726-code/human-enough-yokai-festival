@@ -14,4 +14,4 @@ services:
       - key: GAME_HOST
         value: 0.0.0.0
       - key: NODE_VERSION
-        value: 22.16.0
+        value: 22.22.3
