@@ -5,19 +5,19 @@
   <div class="lab-grid"><section class="connect card" aria-labelledby="connect-title"><p id="invite-mode" class="eyebrow">01 / SAME WI-FI</p><h2 id="connect-title">Your invitation</h2><p id="invite-explainer">Connect your phone and this Mac to the same Wi-Fi. Keep the game running on the Mac.</p>
     <p id="network-state" role="status">Finding the festival…</p>
     <label for="network">Network address</label><select id="network"></select>
-    <label for="room">Room code <small>optional · create a room on the Mac first</small></label><input id="room" maxlength="5" placeholder="ABCDE" autocomplete="off" autocapitalize="characters">
+    <label for="room">Room code <small>optional · create a room first</small></label><input id="room" maxlength="5" placeholder="ABCDE" autocomplete="off" autocapitalize="characters">
     <div class="qr-wrap"><img id="qr" width="232" height="232" alt="Scan this QR code to open the festival on your phone" hidden><p id="qr-empty">Your QR code will appear here.</p></div>
     <a id="invite" class="address"></a><button id="copy" disabled>Copy phone link</button><button id="refresh" class="quiet">Refresh addresses</button>
     <details id="connection-help"><summary>Phone cannot connect?</summary><ol><li>Use the same Wi-Fi, rather than cellular data or a guest network.</li><li>Keep this Mac awake and the server running.</li><li>If macOS asks, allow the game server to accept local network connections.</li><li>If a VPN or guest Wi-Fi isolates devices, try another trusted Wi-Fi or a personal hotspot.</li></ol><p>The phone link is for this local network. It is not an internet hosting address.</p></details>
   </section>
   <section class="preview card" aria-labelledby="preview-title"><div class="preview-heading"><div><p class="eyebrow">02 / SCREEN CHECK</p><h2 id="preview-title">Pocket rehearsal</h2></div><span id="size-label">390 × 844</span></div>
     <div class="toolbar"><label for="device">Screen</label><select id="device"><option value="390,844">Phone · 390 × 844</option><option value="360,740">Small phone · 360 × 740</option><option value="430,932">Large phone · 430 × 932</option><option value="768,1024">Tablet · 768 × 1024</option></select><button id="rotate" class="quiet">Rotate</button></div>
-    <p class="caption">A real, responsive game window. Drag the joystick to move; drag the world to look. This checks layout on the Mac; phone speed must be tested on the phone.</p>
+    <p class="caption">A real, responsive game window. Drag the joystick to move; drag the world to look. This checks layout in this browser; phone speed must be tested on the phone.</p>
     <div id="preview-space"><div id="device-frame"><iframe id="preview" title="Phone game preview" src="/?touch=1&test=1&lab=1" allow="fullscreen"></iframe></div></div>
   </section></div>
   <section class="card results"><div><p class="eyebrow">03 / PLAY, NOTICE, REPEAT</p><h2>A small test with a clear finish.</h2></div><div class="metrics" aria-live="polite"><span>Preview FPS <b id="fps">—</b></span><span>Connection <b id="connection">Not joined</b></span><span>Round trip <b id="ping">—</b></span><span>Models <b id="models">—</b></span></div>
     <p id="layout-state" role="status">Start the preview to inspect touch targets and screen fit.</p>
-    <div class="checks"><label><input type="checkbox"> Move + turn together</label><label><input type="checkbox"> Jump + drink potion</label><label><input type="checkbox"> Charm + teammate cover</label><label><input type="checkbox"> Enter + finish a stall game</label><label><input type="checkbox"> Rotate screen + return</label><label><input type="checkbox"> Join Mac room from a phone</label></div>
+    <div class="checks"><label><input type="checkbox"> Move + turn together</label><label><input type="checkbox"> Jump + drink potion</label><label><input type="checkbox"> Charm + teammate cover</label><label><input type="checkbox"> Enter + finish a stall game</label><label><input type="checkbox"> Rotate screen + return</label><label><input type="checkbox"> Join a friend’s room from a phone</label></div>
     <label for="notes">What felt wrong?</label><textarea id="notes" rows="3" placeholder="Device, browser, what you tried, and what happened…"></textarea><button id="report">Save this test report</button><p id="save-state" role="status">Reports stay on your device until you choose to share them.</p>
   </section>
 </main><script type="module" src="/phone-lab.mjs"></script></body></html>
