@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: human-enough-yokai-festival
+    runtime: node
+    plan: free
+    region: oregon
+    numInstances: 1
+    buildCommand: npm ci --omit=dev && npm run build
+    startCommand: npm start
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: GAME_HOST
+        value: 0.0.0.0
+      - key: NODE_VERSION
+        value: 22.16.0

@@ -1,0 +1,11 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#172b37"><title>Human Enough! · Festival Games</title><meta name="description" content="First-person festival games with seven original yokai."><link rel="stylesheet" href="style.css"><script type="importmap">{"imports":{"three":"/vendor/three/three.module.js","three/addons/":"/addons/"}}</script></head>
+<body><canvas id="world" tabindex="0" aria-label="First-person festival minigame"></canvas><div id="vignette"></div><div id="crosshair" aria-hidden="true"><i></i><b></b></div>
+<header><a class="brand" href="/"><small>e.v.e games</small><b>Human Enough!</b></a><div class="header-right"><span id="stamps" aria-live="polite">Stamps 0 / 6</span><button id="sound" aria-label="Turn sound on">Sound off</button><button id="help" aria-label="Show game instructions">?</button></div></header>
+<nav id="characters" aria-label="Choose your yokai"></nav>
+<main><div class="scene-heading"><span id="eyebrow">Moonlight Festival</span><h1 id="title">Festival Games</h1><p id="hint"></p></div><div id="scoreboard" class="hidden"><span id="progress"></span><span id="timer"></span></div><div id="feedback" role="status" aria-live="polite"></div>
+<section id="dialog" class="intro" aria-label="Minigame instructions and results"><small id="dialog-label">Welcome</small><h2 id="dialog-title">A little festival magic</h2><p id="dialog-body">Play a game to win a prize.</p><small id="intro-time" aria-live="off"></small><button id="begin" class="primary">Start playing <span>→</span></button></section>
+<div id="actions" class="hidden"><div id="timing" class="hidden" aria-label="Ring throw power; release in the golden zone"><span></span><i></i></div><div id="action-buttons"></div><div id="target-buttons" aria-label="Choose a target with the keyboard"></div></div>
+</main><footer><nav id="games" aria-label="Choose a festival game"></nav><p id="bottom-note">Choose a character and a game.</p></footer>
+<div id="loading"><span>Lighting the lanterns…</span></div><div id="fatal" class="hidden" role="alert">The 3D view could not open. Try a recent browser with WebGL support, or return to the festival.</div>
+<script type="module" src="app.mjs"></script></body></html>

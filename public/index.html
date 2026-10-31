@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#162d3c"><title>Human Enough! · e.v.e games</title>
+  <meta name="description" content="Seven terrible disguises. One unforgettable festival. Team up in Human Enough!, a 2–4 player browser adventure with festival games, five-second charms and a Demon King.">
+  <meta property="og:type" content="website"><meta property="og:title" content="Human Enough! — Yokai Festival"><meta property="og:description" content="Stay human. Cover your friends. Survive the festival. A 2–4 player co-op adventure by e.v.e games."><meta property="og:image" content="/assets/submission-cover.png"><meta name="twitter:card" content="summary_large_image">
+  <link rel="stylesheet" href="/style.css"><link rel="stylesheet" href="/stalls.css">
+  <script type="importmap">{"imports":{"three":"/vendor/three/three.module.js","three/addons/":"/addons/"}}</script>
+</head>
+<body>
+  <main id="game" inert aria-label="Yokai festival game"><canvas id="scene" tabindex="0" aria-label="Festival game world. Move with WASD or arrow keys."></canvas></main>
+  <section id="title-screen" class="title-screen" aria-labelledby="title-name">
+    <h1 id="title-name" class="sr-only">Human Enough! — Yokai Festival</h1>
+    <div class="title-ambience" aria-hidden="true"></div>
+    <img class="title-art" src="/assets/human-enough-title.png" alt="Mizu, Pon and Kon at a lantern-lit fireworks festival beneath the Human Enough! title." fetchpriority="high" decoding="async">
+    <div class="title-actions">
+      <button id="title-enter" type="button" disabled><span>Enter the Festival</span><span aria-hidden="true">→</span></button>
+      <p>2–4 players <span>✦</span> Play free in your browser</p>
+      <p class="title-hook">Stay human. Cover your friends. Survive the festival.</p>
+      <a class="phone-lab-link" href="/phone-lab.html" target="_blank" rel="noopener">Play on your phone ↗</a>
+    </div>
+  </section>
+  <section id="menu" class="overlay hidden">
+    <div class="menu-art"></div><div class="menu-shade"></div>
+    <div class="brand">e.v.e games <span>The first night</span></div>
+    <button id="title-back" class="title-back" type="button">← Title screen</button>
+    <div class="menu-content">
+      <p class="eyebrow">A mountaintop fireworks festival</p>
+      <h1>Human Enough<span>!</span></h1>
+      <p class="subtitle">Seven terrible disguises. One unforgettable festival.<br>Gather 2–4 friends, borrow a human face, and try to keep it.</p>
+      <div id="characters" class="characters" aria-label="Choose a character"></div>
+      <p id="character-name" class="character-name"></p>
+      <div id="character-story" class="character-story" aria-live="polite"><p id="character-quote"></p><p id="character-bio"></p><small>All seven share the same abilities. Pick your kind of trouble.</small></div>
+      <div class="join-row"><label class="sr-only" for="nickname">Your name (optional)</label><input id="nickname" maxlength="12" placeholder="Your name" autocomplete="off"><button id="create" class="primary">Create room</button><button id="practice" class="secondary">Solo practice</button><button id="boss-practice" class="secondary boss-practice">Boss practice</button></div>
+      <div class="code-row"><label class="sr-only" for="join-code">Friend’s room code</label><input id="join-code" maxlength="5" placeholder="Friend’s room code" autocomplete="off"><button id="join" class="text-button">Join room</button></div>
+      <p id="menu-error" role="alert"></p><div class="menu-footer"><button id="menu-rules" class="text-button">First time? How to play</button><span>2–4 players · Solo practice available · No login</span></div>
+    </div>
+  </section>
+  <section id="lobby" class="overlay hidden"><div class="lobby-card">
+    <p class="eyebrow">The festival is about to begin</p><h2>Your yokai crew</h2>
+    <div class="room-label">Share this room code with friends</div><button id="copy-code" class="room-code" aria-label="Copy room code"></button><a id="lobby-phone" class="lobby-phone" href="/phone-lab.html" target="_blank" rel="noopener">Invite a phone · QR code ↗</a><div id="party"></div><button id="ready" class="secondary">Ready up</button>
+    <button id="copy-invite" class="text-button">Copy invitation link ↗</button>
+    <p id="lobby-hint">Gather 2–4 players, then head out.</p><button id="start" class="primary">Enter the festival</button>
+    <div class="rules"><p><b>Your mission:</b> one player must escort <b>3 humans to the summit shrine</b>. Then the whole crew wins.</p><p>You have <b>8 minutes</b>. Charm a guest with <b>F</b> for 5 seconds, walk uphill, then charm again. Guests wait when it ends.</p><p>Drink potions with <b>Q</b> to refill spirit. Every <b>15 seconds</b>, a yokai feature slips out. <b>C</b> covers nearby friends and wards off attacks.</p><p><b>Survive:</b> dodge the Demon King, break his seals with <b>E</b>, then attack his open crystal with <b>J</b>. Rescue a sealed friend with <b>E</b>. You lose if time runs out or the whole multiplayer crew stays sealed for 4 seconds.</p></div>
+    <button id="leave" class="text-button">Back to menu</button>
+  </div></section>
+  <section id="transformation" class="transformation hidden" aria-label="Human disguise transformation"><div class="transformation-heading"><p class="eyebrow">Before the festival gates</p><h2 id="transformation-title">Borrow a human face</h2><p id="transformation-caption">Hide your true shape before the festival gates open.</p></div><div class="transformation-track"><i id="transformation-progress"></i></div></section>
+  <div id="hud" class="hidden">
+    <div class="top-left"><div class="night-badge"><span class="moon">☾</span><div><b>Fireworks night</b><small id="time">08:00</small></div></div><div class="room-small">Room <b id="hud-code"></b><button id="sound" aria-label="Turn sound on">♪</button><button id="open-menu" aria-label="Open game menu">☰</button></div></div>
+    <div class="objective"><small>Open the Spirit Gate</small><b>Bring humans to the shrine <span id="score">0 / 3</span></b><div id="team"></div><p id="next-step" class="next-step"></p><small id="route-hint"></small></div>
+    <div class="bottom-left"><div class="status"><canvas id="portrait" width="80" height="100" aria-label="Your yokai portrait"></canvas><div><div class="energy-label"><b id="player-name"></b><span id="energy-value">70</span></div><div class="meter"><i id="energy-fill"></i></div><div class="inventory"><span>Spirit</span><b id="bottles">Potions: 1</b></div></div></div><div id="disguise-status" class="disguise-status" role="status"></div><div id="followers" role="status"></div></div>
+    <div class="map-card"><canvas id="minimap" width="160" height="180" aria-label="Your position and the summit shrine"></canvas><span>Summit shrine ↟</span></div>
+    <div id="interaction" class="interaction hidden"></div>
+    <div class="keyboard"><span><kbd>WASD</kbd> Move</span><button type="button" class="command" data-action="interact" aria-label="E Pick up, talk or play"><kbd>E</kbd> Interact</button><button type="button" class="command" data-action="drink" aria-label="Q Drink potion"><kbd>Q</kbd> Potion</button><button type="button" class="command" data-action="charm" aria-label="F Charm human"><kbd>F</kbd> Charm</button><button type="button" class="command" data-action="cover" aria-label="C Cover friends"><kbd>C</kbd> <span class="cover-label">Cover</span></button><button type="button" class="command" data-action="jump" aria-label="Space Jump"><kbd>Space</kbd> Jump</button><button type="button" class="command" data-action="share"><kbd>R</kbd> Share</button><button type="button" class="command" data-action="handoff"><kbd>T</kbd> Hand off</button><button type="button" class="command" data-action="ping" aria-label="G Call for help"><kbd>G</kbd> Help</button><button type="button" class="command strike-button" data-action="strike" aria-label="J Spirit bolt"><kbd>J</kbd> Spirit bolt</button><button id="help" aria-label="How to play">?</button></div>
+    <div id="joystick" aria-label="Movement joystick"><div id="stick"></div></div>
+    <div class="touch-actions"><button data-action="interact">Interact</button><button data-action="drink">Potion</button><button data-action="charm" class="touch-charm">Charm</button><button data-action="cover" id="cover-touch">Cover</button><button data-action="jump" class="touch-jump">Jump ↟</button><button data-action="share">Share</button><button data-action="handoff">Hand off</button><button data-action="ping">Help ping</button><button data-action="strike" class="strike-button">Spirit bolt</button></div>
+  </div>
+  <div id="toast" role="status"></div>
+  <div id="dialog" class="dialog hidden"><span class="dialog-name" id="dialog-name"></span><p id="dialog-text"></p><button id="dialog-charm" class="primary">Show a magical vision <kbd>F</kbd></button><button id="dialog-close" class="text-button">Close</button></div>
+  <section id="instructions" class="modal hidden" role="dialog" aria-modal="true" aria-label="How to play"><div class="lobby-card"><p class="eyebrow">Tonight’s little adventure</p><h2>Human Enough!</h2><p>Approach a stall and press <b>E</b> to play a first-person minigame and win a prize.</p><p><b>WASD</b> to move · <b>Space</b> to jump · Mouse wheel to zoom · Right-drag to look in any direction, including the sky. Use Mouse look for hands-free camera control; Esc releases it. On touchscreens, drag the world to look and pinch to zoom.</p><p>Collect glowing potions and drink them to restore your spirit.</p><p>Press <b>F</b> near a human to make them follow for <b>5 seconds</b>. They stop and wait when it ends. Charm them again to continue uphill.</p><p>Each charm costs spirit. Collect and drink potions to keep guiding your guests.</p><p>You enter as a human. Every <b>15 seconds</b>, a yokai feature shows for 5 seconds. Press <b>C</b> near a teammate to hide their features for 5 seconds. Cover does not extend a charm.</p><p>Stay close to a teammate: <b>R</b> shares one potion; <b>T</b> hands over one following guest. The original 5-second timer keeps running. Deliveries count for the new escort.</p><p><b>G</b> calls for help and marks your location on everyone’s map. Choose a teammate in the crew menu to direct your potion shares and handoffs.</p><p><b>The Demon King invades the festival.</b> Dodge orange circles, jump over purple shockwaves, or press <b>C</b> to protect your crew with a talisman ward. Press <b>E</b> beside purple seals and stay close until they break. When his crystal opens, hold <b>J / Spirit bolt</b> to attack. Alternate shots with teammates for bonus damage. Press <b>E</b> near a sealed teammate to rescue them. Potions also restore one heart. Banishing the king rewards your crew with time, potions and a protected sprint.</p><p><b>Win together:</b> one player must bring all 3 humans to the summit shrine. Team totals do not combine. The round starts with <b>8 minutes</b>; banishing the Demon King can add time.</p><p><b>Lose:</b> time runs out, or every connected multiplayer teammate remains sealed for 4 seconds. A solo player reforms after 8 seconds. Stay close, ward with C, and rescue with E.</p><p><b>Esc</b> or <b>☰</b> opens your menu, settings and stall journal. Solo play pauses; online play keeps moving.</p><p>Your friends and the festival clock keep moving while you play a stall game.</p><button id="help-close" class="primary">Got it</button></div></section>
+  <section id="ending" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="ending-title"><div class="lobby-card"><p class="eyebrow" id="ending-label"></p><h2 id="ending-title"></h2><p id="ending-text"></p><p id="round-time" class="round-time"></p><div id="round-summary"></div><button id="restart" class="primary">Play again</button><button id="ending-leave" class="text-button">Back to menu</button></div></section>
+  <section id="game-menu" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="game-menu-title">
+    <div class="lobby-card game-menu-card"><p class="eyebrow">A moment beneath the lanterns</p><h2 id="game-menu-title">Festival menu</h2><p id="pause-note"></p>
+      <div class="menu-buttons"><button id="resume-game" class="primary">Resume game</button><button id="menu-help" class="text-button">How to play</button></div>
+      <details><summary>Your first night · Learn by playing</summary><ol id="journey-checklist" class="journey-checklist"></ol></details>
+      <details><summary>Your crew · Choose who to help</summary><label class="crew-target-label" for="assist-target">Share potions / hand off guests to</label><select id="assist-target"><option value="">Nearest teammate</option></select><div id="crew-status"></div><button id="crew-ping" class="secondary">Call for help · G</button></details>
+      <details open><summary>Settings</summary><div class="settings-grid">
+        <label for="setting-sound">Sound effects</label><input id="setting-sound" type="checkbox">
+        <label for="setting-quality">Graphics</label><select id="setting-quality"><option value="auto">Auto</option><option value="high">High</option><option value="light">Light</option></select>
+        <label for="setting-camera">Camera</label><select id="setting-camera"><option value="close">Close</option><option value="wide">Wide</option></select>
+      </div></details>
+      <details><summary>Stall journal · Choose a destination</summary><div id="stall-journal"></div></details>
+      <p id="personal-record" class="personal-record"></p><button id="request-leave" class="text-button">Leave festival</button>
+      <div id="leave-confirm" class="leave-confirm hidden"><b>Leave this crew?</b><p>Your current round progress will be lost.</p><button id="cancel-leave" class="secondary">Keep playing</button><button id="confirm-leave" class="text-button">Leave now</button></div>
+    </div>
+  </section>
+  <div id="connection-status" class="connection-status hidden" role="status"><b id="connection-text">Reconnecting to your crew…</b><span>Your spot is reserved for 30 seconds.</span><button id="connection-leave" class="text-button">Back to menu</button></div>
+  <div id="loading" class="loading">Lighting the festival lanterns…</div>
+  <script type="module" src="/game.js"></script>
+</body></html>

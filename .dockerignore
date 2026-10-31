@@ -1,0 +1,12 @@
+node_modules
+.git
+.cache
+art
+artifacts
+integrations
+exports
+submission
+.env*
+*.blend
+*.mov
+*.mp4
