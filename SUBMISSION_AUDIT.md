@@ -27,3 +27,7 @@ Checked on October 30, 2026 against the project brief supplied in chat.
 4. Confirm the ChatGPT Work process requirement from the actual creation history; this audit does not assert that Codex use alone satisfies it.
 
 Options A and B in the supplied brief are alternative workflows, not two separate sets of deliverables that must both be completed. This file records project checks, not contest eligibility or an official acceptance decision.
+
+## User phone feedback
+
+After opening the public phone invitation, the user reported that it worked and asked to proceed. This is recorded as user feedback. The agent did not independently capture a synchronized physical-phone round; the hosted two-client checks are recorded separately.

@@ -8,6 +8,6 @@ Project title: Human Enough! — Yokai Festival
 - Game link: https://human-enough-yokai-festival.onrender.com/ (also in `public-url.txt`). A GitHub repository or localhost link is not the playable game URL.
 - Keep Share to Showcase checked if entering the challenge, as indicated in the supplied submission screen.
 
-Before submission: open the public game, create a room, join from another physical device, start together and play a round. Automated checks and same-Mac browser tests do not replace this physical-device check.
+Public multiplayer checks passed. The user also reported that the game worked on the phone; a full synchronized physical-phone round was not independently captured. Review the description, paste the public game URL and upload the cover, then submit in Handshake.
 
 The mission brief requests ChatGPT Work. Confirm the actual creation history; the source code cannot verify the product used.

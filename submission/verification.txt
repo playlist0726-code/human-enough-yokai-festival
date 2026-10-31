@@ -6,5 +6,6 @@ Hosted check: two real WebSocket clients joined, readied, started, shared moveme
 Cover: actual game title screen; 1500 x 1000 pixels; 3:2.
 Description: 474 characters.
 
-Not claimed: a physical phone performance test, a fresh-user usability study, or verified historical use of ChatGPT Work.
+Phone feedback: the user reported that the public phone game worked and requested proceeding. No benchmark or synchronized physical-phone round was independently captured.
+Not claimed: a fresh-user usability study or verified historical use of ChatGPT Work.
 Hosting note: free Render instance may need 50 seconds or more to wake after inactivity. Active rooms reset when the server restarts or is redeployed.
