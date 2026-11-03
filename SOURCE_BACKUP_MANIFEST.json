@@ -1,10 +1,10 @@
 {
   "version": 1,
-  "created_at": "2026-11-03T07:58:32.940530+00:00",
+  "created_at": "2026-11-03T08:14:04.033380+00:00",
   "scope": "Human Enough game project, related eve-games workspace, and explicitly supplied original art, rules and promotional video",
   "restore_mapping": "Project files stay at repository root; source-archive/workspace mirrors the original eve-games siblings.",
-  "file_count": 4710,
-  "total_bytes": 1667500711,
+  "file_count": 4711,
+  "total_bytes": 1667507418,
   "files": [
     {
       "path": ".dockerignore",
@@ -52,6 +52,14 @@
       "origin_scope": "workspace",
       "bytes": 2462,
       "sha256": "8598c0d7ced7d4837fee6d15075c57c4f948400ba183f90a539cbcc69db9d801",
+      "mode": "0o644"
+    },
+    {
+      "path": "DEVELOPMENT_GUIDE_KO.md",
+      "origin": "yokai-festival/DEVELOPMENT_GUIDE_KO.md",
+      "origin_scope": "workspace",
+      "bytes": 6707,
+      "sha256": "ced263228e8f842298311afbbd4b0584e0edefa292e21ae3fc2c864a8dd47aa5",
       "mode": "0o644"
     },
     {
