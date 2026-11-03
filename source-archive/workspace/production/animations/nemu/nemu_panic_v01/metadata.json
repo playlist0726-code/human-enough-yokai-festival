@@ -1,0 +1,18 @@
+{
+  "character": "nemu",
+  "action": "panic",
+  "duration": 1.0,
+  "loop": false,
+  "start": 396,
+  "end": 419,
+  "fps": 24,
+  "size": [
+    512,
+    512
+  ],
+  "alpha": true,
+  "file": "nemu_panic_v01.webm",
+  "type": "3D motion study / procedural rigid-part rig",
+  "webm_bytes": 542550,
+  "preview_bytes": 30009
+}

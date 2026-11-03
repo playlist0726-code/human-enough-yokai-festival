@@ -1,0 +1,12 @@
+{
+  "name": "eve-festival-minigames-fps",
+  "version": "2.0.0",
+  "private": true,
+  "type": "module",
+  "description": "인간인 척! — 1인칭 일본 축제 미니게임 6종 전달 패키지",
+  "engines": { "node": ">=18" },
+  "scripts": {
+    "start": "node serve.mjs",
+    "test": "node --test tests/first-person-inputs.test.mjs"
+  }
+}

@@ -1,0 +1,227 @@
+00:00.344  blend            | Read blend: "/Users/gimjunsu/eve-games/yokai-festival/art/characters/roster-v02/mizu_yokai/mizu_yokai.blend"
+INFO Draco is available, use library at /Applications/Blender.app/Contents/Resources/5.2/scripts/addons_core/io_scene_gltf2/libbf_intern_draco_bridge.dylib
+INFO MeshOptimizer is available, use library at /Applications/Blender.app/Contents/Resources/5.2/scripts/addons_core/io_scene_gltf2/libbf_intern_meshopt_bridge.dylib
+14:04:10 | INFO: Starting glTF 2.0 export
+14:04:10 | INFO: Extracting primitive: Mizu.Sleeve.L.001
+14:04:10 | INFO: Primitives created: 2
+14:04:10 | INFO: Extracting primitive: Mizu.Sleeve.R.001
+14:04:10 | INFO: Primitives created: 2
+14:04:10 | INFO: Extracting primitive: Mizu.Yukata tailored body.001
+14:04:10 | INFO: Primitives created: 1
+14:04:10 | INFO: Extracting primitive: Mizu.Crossed ivory collar 1
+14:04:10 | INFO: Primitives created: 1
+14:04:10 | INFO: Extracting primitive: Mizu.Crossed ivory collar -1
+14:04:10 | INFO: Primitives created: 1
+14:04:10 | INFO: Extracting primitive: Sphere.017
+14:04:10 | INFO: Primitives created: 1
+14:04:10 | INFO: Extracting primitive: Sphere.016
+14:04:10 | INFO: Primitives created: 1
+14:04:10 | INFO: Extracting primitive: Sphere.018
+14:04:10 | INFO: Primitives created: 1
+14:04:10 | INFO: Extracting primitive: Mizu.Obi broad wrap
+14:04:10 | INFO: Primitives created: 1
+14:04:10 | INFO: Extracting primitive: Mizu.Obi woven seam
+14:04:10 | INFO: Primitives created: 1
+14:04:10 | INFO: Extracting primitive: Mizu.Obi woven seam.001
+14:04:10 | INFO: Primitives created: 1
+14:04:10 | INFO: Extracting primitive: Torus.006
+14:04:10 | INFO: Primitives created: 1
+14:04:10 | INFO: Extracting primitive: Sphere.034
+14:04:10 | INFO: Primitives created: 1
+14:04:10 | INFO: Extracting primitive: Torus.005
+14:04:10 | INFO: Primitives created: 1
+14:04:10 | INFO: Extracting primitive: Mizu.Potion cord
+14:04:10 | INFO: Primitives created: 1
+14:04:10 | INFO: Extracting primitive: Sphere.035
+14:04:10 | INFO: Primitives created: 1
+14:04:10 | INFO: Extracting primitive: Cylinder.003
+14:04:10 | INFO: Primitives created: 1
+14:04:10 | INFO: Extracting primitive: Sphere.033
+14:04:10 | INFO: Primitives created: 1
+14:04:10 | INFO: Extracting primitive: Cylinder.002
+14:04:10 | INFO: Primitives created: 1
+14:04:10 | INFO: Extracting primitive: Mizu.Potion reflection
+14:04:10 | INFO: Primitives created: 1
+14:04:10 | INFO: Extracting primitive: Sphere.015
+14:04:10 | INFO: Primitives created: 1
+14:04:10 | INFO: Extracting primitive: Mizu.Shell hex 0 0
+14:04:10 | INFO: Primitives created: 1
+14:04:10 | INFO: Extracting primitive: Mizu.Shell hex 0 1
+14:04:10 | INFO: Primitives created: 1
+14:04:10 | INFO: Extracting primitive: Mizu.Shell hex 0 2
+14:04:10 | INFO: Primitives created: 1
+14:04:10 | INFO: Extracting primitive: Mizu.Shell hex 0 -1
+14:04:10 | INFO: Primitives created: 1
+14:04:10 | INFO: Extracting primitive: Mizu.Shell hex 0 -2
+14:04:10 | INFO: Primitives created: 1
+14:04:10 | INFO: Extracting primitive: Mizu.Shell hex 1 0
+14:04:10 | INFO: Primitives created: 1
+14:04:10 | INFO: Extracting primitive: Mizu.Shell hex 1 1
+14:04:10 | INFO: Primitives created: 1
+14:04:10 | INFO: Extracting primitive: Mizu.Shell hex 1 -1
+14:04:10 | INFO: Primitives created: 1
+14:04:10 | INFO: Extracting primitive: Mizu.Shell hex 1 -2
+14:04:10 | INFO: Primitives created: 1
+14:04:10 | INFO: Extracting primitive: Mizu.Shell hex 2 0
+14:04:10 | INFO: Primitives created: 1
+14:04:10 | INFO: Extracting primitive: Mizu.Shell hex 2 1
+14:04:10 | INFO: Primitives created: 1
+14:04:10 | INFO: Extracting primitive: Mizu.Shell hex 2 -1
+14:04:10 | INFO: Primitives created: 1
+14:04:10 | INFO: Extracting primitive: Mizu.Shell hex -1 0
+14:04:10 | INFO: Primitives created: 1
+14:04:10 | INFO: Extracting primitive: Mizu.Shell hex -1 1
+14:04:10 | INFO: Primitives created: 1
+14:04:10 | INFO: Extracting primitive: Mizu.Shell hex -1 -1
+14:04:10 | INFO: Primitives created: 1
+14:04:10 | INFO: Extracting primitive: Mizu.Shell hex -1 -2
+14:04:10 | INFO: Primitives created: 1
+14:04:10 | INFO: Extracting primitive: Mizu.Shell hex -2 0
+14:04:10 | INFO: Primitives created: 1
+14:04:10 | INFO: Extracting primitive: Mizu.Shell hex -2 1
+14:04:10 | INFO: Primitives created: 1
+14:04:10 | INFO: Extracting primitive: Mizu.Shell hex -2 -1
+14:04:10 | INFO: Primitives created: 1
+14:04:10 | INFO: Extracting primitive: Torus.004
+14:04:10 | INFO: Primitives created: 1
+14:04:10 | INFO: Extracting primitive: Mizu.Cuff seam.L
+14:04:10 | INFO: Primitives created: 1
+14:04:10 | INFO: Extracting primitive: Mizu.Hand crease.L
+14:04:10 | INFO: Primitives created: 1
+14:04:10 | INFO: Extracting primitive: Sphere.019
+14:04:10 | INFO: Primitives created: 1
+14:04:10 | INFO: Extracting primitive: Sphere.020
+14:04:10 | INFO: Primitives created: 1
+14:04:10 | INFO: Extracting primitive: Mizu.Cuff seam.R
+14:04:10 | INFO: Primitives created: 1
+14:04:10 | INFO: Extracting primitive: Mizu.Hand crease.R
+14:04:10 | INFO: Primitives created: 1
+14:04:10 | INFO: Extracting primitive: Sphere.021
+14:04:10 | INFO: Primitives created: 1
+14:04:10 | INFO: Extracting primitive: Sphere.022
+14:04:10 | INFO: Primitives created: 1
+14:04:10 | INFO: Extracting primitive: Mizu.Crown leaf 00
+14:04:10 | INFO: Primitives created: 1
+14:04:10 | INFO: Extracting primitive: Mizu.Crown leaf 01
+14:04:10 | INFO: Primitives created: 1
+14:04:10 | INFO: Extracting primitive: Mizu.Crown leaf 02
+14:04:10 | INFO: Primitives created: 1
+14:04:10 | INFO: Extracting primitive: Mizu.Crown leaf 03
+14:04:10 | INFO: Primitives created: 1
+14:04:10 | INFO: Extracting primitive: Mizu.Crown leaf 04
+14:04:10 | INFO: Primitives created: 1
+14:04:10 | INFO: Extracting primitive: Mizu.Crown leaf 05
+14:04:10 | INFO: Primitives created: 1
+14:04:10 | INFO: Extracting primitive: Mizu.Crown leaf 06
+14:04:10 | INFO: Primitives created: 1
+14:04:10 | INFO: Extracting primitive: Mizu.Crown leaf 07
+14:04:10 | INFO: Primitives created: 1
+14:04:10 | INFO: Extracting primitive: Mizu.Crown leaf 08
+14:04:10 | INFO: Primitives created: 1
+14:04:10 | INFO: Extracting primitive: Mizu.Crown leaf 09
+14:04:10 | INFO: Primitives created: 1
+14:04:10 | INFO: Extracting primitive: Mizu.Crown leaf 10
+14:04:10 | INFO: Primitives created: 1
+14:04:10 | INFO: Extracting primitive: Mizu.Crown leaf 11
+14:04:10 | INFO: Primitives created: 1
+14:04:10 | INFO: Extracting primitive: Torus
+14:04:10 | INFO: Primitives created: 1
+14:04:10 | INFO: Extracting primitive: Sphere.008
+14:04:10 | INFO: Primitives created: 1
+14:04:10 | INFO: Extracting primitive: Sphere.009
+14:04:10 | INFO: Primitives created: 1
+14:04:10 | INFO: Extracting primitive: Sphere.011
+14:04:10 | INFO: Primitives created: 1
+14:04:10 | INFO: Extracting primitive: Sphere.013
+14:04:10 | INFO: Primitives created: 1
+14:04:10 | INFO: Extracting primitive: Sphere.010
+14:04:10 | INFO: Primitives created: 1
+14:04:10 | INFO: Extracting primitive: Sphere.012
+14:04:10 | INFO: Primitives created: 1
+14:04:10 | INFO: Extracting primitive: Sphere.014
+14:04:10 | INFO: Primitives created: 1
+14:04:10 | INFO: Extracting primitive: Sphere.002
+14:04:10 | INFO: Primitives created: 1
+14:04:10 | INFO: Extracting primitive: Sphere.004
+14:04:10 | INFO: Primitives created: 1
+14:04:10 | INFO: Extracting primitive: Sphere.003
+14:04:10 | INFO: Primitives created: 1
+14:04:10 | INFO: Extracting primitive: Sphere.001
+14:04:10 | INFO: Primitives created: 1
+14:04:10 | INFO: Extracting primitive: Sphere.005
+14:04:10 | INFO: Primitives created: 1
+14:04:10 | INFO: Extracting primitive: Mizu.Head • sculpted cheek silhouette
+14:04:10 | INFO: Primitives created: 1
+14:04:10 | INFO: Extracting primitive: Mizu.Leaf vein 00
+14:04:10 | INFO: Primitives created: 1
+14:04:10 | INFO: Extracting primitive: Mizu.Leaf vein 01
+14:04:10 | INFO: Primitives created: 1
+14:04:10 | INFO: Extracting primitive: Mizu.Leaf vein 02
+14:04:10 | INFO: Primitives created: 1
+14:04:10 | INFO: Extracting primitive: Mizu.Leaf vein 03
+14:04:10 | INFO: Primitives created: 1
+14:04:10 | INFO: Extracting primitive: Mizu.Leaf vein 04
+14:04:10 | INFO: Primitives created: 1
+14:04:10 | INFO: Extracting primitive: Mizu.Leaf vein 05
+14:04:10 | INFO: Primitives created: 1
+14:04:10 | INFO: Extracting primitive: Mizu.Leaf vein 06
+14:04:10 | INFO: Primitives created: 1
+14:04:10 | INFO: Extracting primitive: Mizu.Leaf vein 07
+14:04:10 | INFO: Primitives created: 1
+14:04:10 | INFO: Extracting primitive: Mizu.Leaf vein 08
+14:04:10 | INFO: Primitives created: 1
+14:04:10 | INFO: Extracting primitive: Mizu.Leaf vein 09
+14:04:10 | INFO: Primitives created: 1
+14:04:10 | INFO: Extracting primitive: Mizu.Leaf vein 10
+14:04:10 | INFO: Primitives created: 1
+14:04:10 | INFO: Extracting primitive: Mizu.Leaf vein 11
+14:04:10 | INFO: Primitives created: 1
+14:04:10 | INFO: Extracting primitive: Mizu.Small worried mouth
+14:04:10 | INFO: Primitives created: 1
+14:04:10 | INFO: Extracting primitive: Torus.001
+14:04:10 | INFO: Primitives created: 1
+14:04:10 | INFO: Extracting primitive: Torus.002
+14:04:10 | INFO: Primitives created: 1
+14:04:10 | INFO: Extracting primitive: Torus.003
+14:04:10 | INFO: Primitives created: 1
+14:04:10 | INFO: Extracting primitive: Sphere.024
+14:04:10 | INFO: Primitives created: 1
+14:04:10 | INFO: Extracting primitive: Cylinder
+14:04:10 | INFO: Primitives created: 1
+14:04:10 | INFO: Extracting primitive: Sphere.023
+14:04:10 | INFO: Primitives created: 1
+14:04:10 | INFO: Extracting primitive: Mizu.Sandal strap.L
+14:04:10 | INFO: Primitives created: 1
+14:04:10 | INFO: Extracting primitive: Mizu.Sandal toe divider.L
+14:04:10 | INFO: Primitives created: 1
+14:04:10 | INFO: Extracting primitive: Sphere.026
+14:04:10 | INFO: Primitives created: 1
+14:04:10 | INFO: Extracting primitive: Sphere.027
+14:04:10 | INFO: Primitives created: 1
+14:04:10 | INFO: Extracting primitive: Sphere.025
+14:04:10 | INFO: Primitives created: 1
+14:04:10 | INFO: Extracting primitive: Sphere.029
+14:04:10 | INFO: Primitives created: 1
+14:04:10 | INFO: Extracting primitive: Cylinder.001
+14:04:10 | INFO: Primitives created: 1
+14:04:10 | INFO: Extracting primitive: Sphere.028
+14:04:10 | INFO: Primitives created: 1
+14:04:10 | INFO: Extracting primitive: Mizu.Sandal strap.R
+14:04:10 | INFO: Primitives created: 1
+14:04:10 | INFO: Extracting primitive: Mizu.Sandal toe divider.R
+14:04:10 | INFO: Primitives created: 1
+14:04:10 | INFO: Extracting primitive: Sphere.031
+14:04:10 | INFO: Primitives created: 1
+14:04:10 | INFO: Extracting primitive: Sphere.032
+14:04:10 | INFO: Primitives created: 1
+14:04:10 | INFO: Extracting primitive: Sphere.030
+14:04:10 | INFO: Primitives created: 1
+14:04:10 | INFO: Extracting primitive: Cube
+14:04:10 | INFO: Primitives created: 1
+14:04:10 | INFO: Finished glTF 2.0 export in 0.25700998306274414 s
+
+Info: Saved as "mizu_yokai.blend"
+REFINED mizu_yokai [['Mizu.Yukata tailored body', 3634, 'cloth'], ['Mizu.Sleeve.L', 3426, 'sleeve'], ['Mizu.Sleeve.R', 3426, 'sleeve']]
+Blender 5.2.2 LTS (hash d13f752e3b9c built 2026-09-15 01:49:19)
+
+Blender quit

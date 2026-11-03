@@ -1,0 +1,21 @@
+{
+  "key": "pon_yokai",
+  "meshes": [
+    [
+      "pon_yokai__tailored_yukata",
+      2738,
+      "cloth"
+    ],
+    [
+      "pon_yokai__sleeve",
+      1794,
+      "sleeve"
+    ],
+    [
+      "pon_yokai__sleeve.001",
+      1794,
+      "sleeve"
+    ]
+  ],
+  "bones": 15
+}

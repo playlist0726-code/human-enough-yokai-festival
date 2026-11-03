@@ -1,0 +1,590 @@
+{
+  "version": "blender-roster-v03-weighted",
+  "models": [
+    {
+      "key": "mizu_yokai",
+      "ok": true,
+      "bytes": 4272104,
+      "url": "/assets/models/mizu_yokai.glb",
+      "source": "mizu_yokai/mizu_yokai.blend",
+      "deformation": [
+        [
+          "Mizu.Yukata tailored body",
+          3634,
+          "cloth"
+        ],
+        [
+          "Mizu.Sleeve.L",
+          3426,
+          "sleeve"
+        ],
+        [
+          "Mizu.Sleeve.R",
+          3426,
+          "sleeve"
+        ]
+      ],
+      "bones": 9
+    },
+    {
+      "key": "pon_yokai",
+      "ok": true,
+      "bytes": 1250200,
+      "url": "/assets/models/pon_yokai.glb",
+      "source": "pon_yokai/pon_yokai.blend",
+      "deformation": [
+        [
+          "pon_yokai__tailored_yukata",
+          2738,
+          "cloth"
+        ],
+        [
+          "pon_yokai__sleeve",
+          1794,
+          "sleeve"
+        ],
+        [
+          "pon_yokai__sleeve.001",
+          1794,
+          "sleeve"
+        ]
+      ],
+      "bones": 15
+    },
+    {
+      "key": "kon_yokai",
+      "ok": true,
+      "bytes": 1286664,
+      "url": "/assets/models/kon_yokai.glb",
+      "source": "kon_yokai/kon_yokai.blend",
+      "deformation": [
+        [
+          "kon_yokai__tailored_yukata",
+          2738,
+          "cloth"
+        ],
+        [
+          "kon_yokai__sleeve",
+          1794,
+          "sleeve"
+        ],
+        [
+          "kon_yokai__sleeve.001",
+          1794,
+          "sleeve"
+        ],
+        [
+          "kon_yokai__long_fox_neck",
+          396,
+          "neck"
+        ]
+      ],
+      "bones": 17
+    },
+    {
+      "key": "sumi_yokai",
+      "ok": true,
+      "bytes": 1704392,
+      "url": "/assets/models/sumi_yokai.glb",
+      "source": "sumi_yokai/sumi_yokai.blend",
+      "deformation": [
+        [
+          "sumi_yokai__tailored_yukata",
+          2738,
+          "cloth"
+        ],
+        [
+          "sumi_yokai__sleeve",
+          1794,
+          "sleeve"
+        ],
+        [
+          "sumi_yokai__sleeve.001",
+          1794,
+          "sleeve"
+        ]
+      ],
+      "bones": 15
+    },
+    {
+      "key": "nemu_yokai",
+      "ok": true,
+      "bytes": 1178120,
+      "url": "/assets/models/nemu_yokai.glb",
+      "source": "nemu_yokai/nemu_yokai.blend",
+      "deformation": [
+        [
+          "nemu_yokai__tailored_yukata",
+          2738,
+          "cloth"
+        ],
+        [
+          "nemu_yokai__sleeve",
+          1794,
+          "sleeve"
+        ],
+        [
+          "nemu_yokai__sleeve.001",
+          1794,
+          "sleeve"
+        ],
+        [
+          "nemu_yokai__face_tail",
+          396,
+          "tail"
+        ]
+      ],
+      "bones": 17
+    },
+    {
+      "key": "akari_yokai",
+      "ok": true,
+      "bytes": 1741444,
+      "url": "/assets/models/akari_yokai.glb",
+      "source": "akari_yokai/akari_yokai.blend",
+      "deformation": [
+        [
+          "akari_yokai__tailored_yukata",
+          2738,
+          "cloth"
+        ],
+        [
+          "akari_yokai__sleeve",
+          1794,
+          "sleeve"
+        ],
+        [
+          "akari_yokai__sleeve.001",
+          1794,
+          "sleeve"
+        ]
+      ],
+      "bones": 15
+    },
+    {
+      "key": "kasa_yokai",
+      "ok": true,
+      "bytes": 1088752,
+      "url": "/assets/models/kasa_yokai.glb",
+      "source": "kasa_yokai/kasa_yokai.blend",
+      "deformation": [
+        [
+          "kasa_yokai__tailored_yukata",
+          2738,
+          "cloth"
+        ],
+        [
+          "kasa_yokai__sleeve",
+          1794,
+          "sleeve"
+        ],
+        [
+          "kasa_yokai__sleeve.001",
+          1794,
+          "sleeve"
+        ]
+      ],
+      "bones": 15
+    },
+    {
+      "key": "mizu_human",
+      "ok": true,
+      "bytes": 1277412,
+      "url": "/assets/models/mizu_human.glb",
+      "source": "mizu_human/mizu_human.blend",
+      "deformation": [
+        [
+          "mizu_human__tailored_yukata",
+          2738,
+          "cloth"
+        ],
+        [
+          "mizu_human__sleeve",
+          1794,
+          "sleeve"
+        ],
+        [
+          "mizu_human__sleeve.001",
+          1794,
+          "sleeve"
+        ]
+      ],
+      "bones": 15
+    },
+    {
+      "key": "pon_human",
+      "ok": true,
+      "bytes": 1295720,
+      "url": "/assets/models/pon_human.glb",
+      "source": "pon_human/pon_human.blend",
+      "deformation": [
+        [
+          "pon_human__tailored_yukata",
+          2738,
+          "cloth"
+        ],
+        [
+          "pon_human__sleeve",
+          1794,
+          "sleeve"
+        ],
+        [
+          "pon_human__sleeve.001",
+          1794,
+          "sleeve"
+        ]
+      ],
+      "bones": 15
+    },
+    {
+      "key": "kon_human",
+      "ok": true,
+      "bytes": 1334524,
+      "url": "/assets/models/kon_human.glb",
+      "source": "kon_human/kon_human.blend",
+      "deformation": [
+        [
+          "kon_human__tailored_yukata",
+          2738,
+          "cloth"
+        ],
+        [
+          "kon_human__sleeve",
+          1794,
+          "sleeve"
+        ],
+        [
+          "kon_human__sleeve.001",
+          1794,
+          "sleeve"
+        ]
+      ],
+      "bones": 15
+    },
+    {
+      "key": "sumi_human",
+      "ok": true,
+      "bytes": 1274600,
+      "url": "/assets/models/sumi_human.glb",
+      "source": "sumi_human/sumi_human.blend",
+      "deformation": [
+        [
+          "sumi_human__tailored_yukata",
+          2738,
+          "cloth"
+        ],
+        [
+          "sumi_human__sleeve",
+          1794,
+          "sleeve"
+        ],
+        [
+          "sumi_human__sleeve.001",
+          1794,
+          "sleeve"
+        ]
+      ],
+      "bones": 15
+    },
+    {
+      "key": "nemu_human",
+      "ok": true,
+      "bytes": 1334416,
+      "url": "/assets/models/nemu_human.glb",
+      "source": "nemu_human/nemu_human.blend",
+      "deformation": [
+        [
+          "nemu_human__tailored_yukata",
+          2738,
+          "cloth"
+        ],
+        [
+          "nemu_human__sleeve",
+          1794,
+          "sleeve"
+        ],
+        [
+          "nemu_human__sleeve.001",
+          1794,
+          "sleeve"
+        ]
+      ],
+      "bones": 15
+    },
+    {
+      "key": "akari_human",
+      "ok": true,
+      "bytes": 1371300,
+      "url": "/assets/models/akari_human.glb",
+      "source": "akari_human/akari_human.blend",
+      "deformation": [
+        [
+          "akari_human__tailored_yukata",
+          2738,
+          "cloth"
+        ],
+        [
+          "akari_human__sleeve",
+          1794,
+          "sleeve"
+        ],
+        [
+          "akari_human__sleeve.001",
+          1794,
+          "sleeve"
+        ]
+      ],
+      "bones": 15
+    },
+    {
+      "key": "kasa_human",
+      "ok": true,
+      "bytes": 1327880,
+      "url": "/assets/models/kasa_human.glb",
+      "source": "kasa_human/kasa_human.blend",
+      "deformation": [
+        [
+          "kasa_human__tailored_yukata",
+          2738,
+          "cloth"
+        ],
+        [
+          "kasa_human__sleeve",
+          1794,
+          "sleeve"
+        ],
+        [
+          "kasa_human__sleeve.001",
+          1794,
+          "sleeve"
+        ]
+      ],
+      "bones": 15
+    },
+    {
+      "key": "guest-0_guest",
+      "ok": true,
+      "bytes": 1326132,
+      "url": "/assets/models/guest-0_guest.glb",
+      "source": "guest-0_guest/guest-0_guest.blend",
+      "deformation": [
+        [
+          "guest-0_guest__tailored_yukata",
+          2738,
+          "cloth"
+        ],
+        [
+          "guest-0_guest__sleeve",
+          1794,
+          "sleeve"
+        ],
+        [
+          "guest-0_guest__sleeve.001",
+          1794,
+          "sleeve"
+        ]
+      ],
+      "bones": 15
+    },
+    {
+      "key": "guest-1_guest",
+      "ok": true,
+      "bytes": 1285864,
+      "url": "/assets/models/guest-1_guest.glb",
+      "source": "guest-1_guest/guest-1_guest.blend",
+      "deformation": [
+        [
+          "guest-1_guest__tailored_yukata",
+          2738,
+          "cloth"
+        ],
+        [
+          "guest-1_guest__sleeve",
+          1794,
+          "sleeve"
+        ],
+        [
+          "guest-1_guest__sleeve.001",
+          1794,
+          "sleeve"
+        ]
+      ],
+      "bones": 15
+    },
+    {
+      "key": "guest-2_guest",
+      "ok": true,
+      "bytes": 1323128,
+      "url": "/assets/models/guest-2_guest.glb",
+      "source": "guest-2_guest/guest-2_guest.blend",
+      "deformation": [
+        [
+          "guest-2_guest__tailored_yukata",
+          2738,
+          "cloth"
+        ],
+        [
+          "guest-2_guest__sleeve",
+          1794,
+          "sleeve"
+        ],
+        [
+          "guest-2_guest__sleeve.001",
+          1794,
+          "sleeve"
+        ]
+      ],
+      "bones": 15
+    },
+    {
+      "key": "guest-3_guest",
+      "ok": true,
+      "bytes": 1296384,
+      "url": "/assets/models/guest-3_guest.glb",
+      "source": "guest-3_guest/guest-3_guest.blend",
+      "deformation": [
+        [
+          "guest-3_guest__tailored_yukata",
+          2738,
+          "cloth"
+        ],
+        [
+          "guest-3_guest__sleeve",
+          1794,
+          "sleeve"
+        ],
+        [
+          "guest-3_guest__sleeve.001",
+          1794,
+          "sleeve"
+        ]
+      ],
+      "bones": 15
+    },
+    {
+      "key": "guest-4_guest",
+      "ok": true,
+      "bytes": 1416196,
+      "url": "/assets/models/guest-4_guest.glb",
+      "source": "guest-4_guest/guest-4_guest.blend",
+      "deformation": [
+        [
+          "guest-4_guest__tailored_yukata",
+          2738,
+          "cloth"
+        ],
+        [
+          "guest-4_guest__sleeve",
+          1794,
+          "sleeve"
+        ],
+        [
+          "guest-4_guest__sleeve.001",
+          1794,
+          "sleeve"
+        ]
+      ],
+      "bones": 15
+    },
+    {
+      "key": "guest-5_guest",
+      "ok": true,
+      "bytes": 1310340,
+      "url": "/assets/models/guest-5_guest.glb",
+      "source": "guest-5_guest/guest-5_guest.blend",
+      "deformation": [
+        [
+          "guest-5_guest__tailored_yukata",
+          2738,
+          "cloth"
+        ],
+        [
+          "guest-5_guest__sleeve",
+          1794,
+          "sleeve"
+        ],
+        [
+          "guest-5_guest__sleeve.001",
+          1794,
+          "sleeve"
+        ]
+      ],
+      "bones": 15
+    },
+    {
+      "key": "guest-6_guest",
+      "ok": true,
+      "bytes": 1289508,
+      "url": "/assets/models/guest-6_guest.glb",
+      "source": "guest-6_guest/guest-6_guest.blend",
+      "deformation": [
+        [
+          "guest-6_guest__tailored_yukata",
+          2738,
+          "cloth"
+        ],
+        [
+          "guest-6_guest__sleeve",
+          1794,
+          "sleeve"
+        ],
+        [
+          "guest-6_guest__sleeve.001",
+          1794,
+          "sleeve"
+        ]
+      ],
+      "bones": 15
+    },
+    {
+      "key": "guest-7_guest",
+      "ok": true,
+      "bytes": 1399512,
+      "url": "/assets/models/guest-7_guest.glb",
+      "source": "guest-7_guest/guest-7_guest.blend",
+      "deformation": [
+        [
+          "guest-7_guest__tailored_yukata",
+          2738,
+          "cloth"
+        ],
+        [
+          "guest-7_guest__sleeve",
+          1794,
+          "sleeve"
+        ],
+        [
+          "guest-7_guest__sleeve.001",
+          1794,
+          "sleeve"
+        ]
+      ],
+      "bones": 15
+    },
+    {
+      "key": "guest-8_guest",
+      "ok": true,
+      "bytes": 1296396,
+      "url": "/assets/models/guest-8_guest.glb",
+      "source": "guest-8_guest/guest-8_guest.blend",
+      "deformation": [
+        [
+          "guest-8_guest__tailored_yukata",
+          2738,
+          "cloth"
+        ],
+        [
+          "guest-8_guest__sleeve",
+          1794,
+          "sleeve"
+        ],
+        [
+          "guest-8_guest__sleeve.001",
+          1794,
+          "sleeve"
+        ]
+      ],
+      "bones": 15
+    }
+  ]
+}

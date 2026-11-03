@@ -1,0 +1,147 @@
+{
+  "environment": "Mac responsive browser preview, not physical phone",
+  "metrics": {
+    "fps": 65,
+    "profile": "mobile",
+    "connection": "connected",
+    "rtt": 7,
+    "phase": "playing",
+    "encounter": {
+      "phase": "assault",
+      "hp": 84,
+      "wave": 1,
+      "banished": 0
+    },
+    "room": "P7PG8",
+    "player": {
+      "x": 0,
+      "z": 16,
+      "energy": 14,
+      "bottles": 1,
+      "action": "down",
+      "health": 0,
+      "combat": {
+        "hits": 1,
+        "wards": 2,
+        "seals": 0,
+        "revives": 0
+      },
+      "jumps": 0
+    },
+    "drawCalls": 1319,
+    "triangles": 4581122,
+    "modelsLoaded": 11,
+    "modelsFailed": 0,
+    "viewport": {
+      "width": 844,
+      "height": 390,
+      "ratio": 2
+    },
+    "touch": true,
+    "layout": {
+      "overflow": false,
+      "targets": [
+        {
+          "name": "Movement joystick",
+          "x": 16,
+          "y": 270,
+          "width": 96,
+          "height": 96
+        },
+        {
+          "name": "Interact",
+          "x": 588,
+          "y": 280,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "name": "Potion",
+          "x": 638,
+          "y": 280,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "name": "Charm",
+          "x": 688,
+          "y": 280,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "name": "Ward",
+          "x": 738,
+          "y": 280,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "name": "Jump ↟",
+          "x": 788,
+          "y": 280,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "name": "Share",
+          "x": 588,
+          "y": 330,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "name": "Hand off",
+          "x": 638,
+          "y": 330,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "name": "Help ping",
+          "x": 688,
+          "y": 330,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "name": "Spirit bolt",
+          "x": 738,
+          "y": 330,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "name": "Change camera distance",
+          "x": 180,
+          "y": 12,
+          "width": 78,
+          "height": 44
+        },
+        {
+          "name": "Reset camera",
+          "x": 263,
+          "y": 12,
+          "width": 72,
+          "height": 44
+        },
+        {
+          "name": "Change graphics quality",
+          "x": 340,
+          "y": 12,
+          "width": 86,
+          "height": 44
+        }
+      ]
+    },
+    "webglLost": false,
+    "time": "2026-10-30T02:07:29.049Z"
+  },
+  "checks": {
+    "portrait": true,
+    "landscape": true,
+    "minimumTouchTarget": 44,
+    "wardButton": true,
+    "spiritBoltButton": true
+  }
+}

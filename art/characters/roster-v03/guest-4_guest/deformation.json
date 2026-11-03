@@ -1,0 +1,21 @@
+{
+  "key": "guest-4_guest",
+  "meshes": [
+    [
+      "guest-4_guest__tailored_yukata",
+      2738,
+      "cloth"
+    ],
+    [
+      "guest-4_guest__sleeve",
+      1794,
+      "sleeve"
+    ],
+    [
+      "guest-4_guest__sleeve.001",
+      1794,
+      "sleeve"
+    ]
+  ],
+  "bones": 15
+}

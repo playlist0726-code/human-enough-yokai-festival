@@ -1,0 +1,18 @@
+{
+  "character": "akari",
+  "action": "cover",
+  "duration": 2.0,
+  "loop": false,
+  "start": 310,
+  "end": 357,
+  "fps": 24,
+  "size": [
+    512,
+    512
+  ],
+  "alpha": true,
+  "file": "akari_cover_v01.webm",
+  "type": "3D motion study / procedural rigid-part rig",
+  "webm_bytes": 1165567,
+  "preview_bytes": 78802
+}

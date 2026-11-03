@@ -1,0 +1,21 @@
+{
+  "key": "kon_human",
+  "meshes": [
+    [
+      "kon_human__tailored_yukata",
+      2738,
+      "cloth"
+    ],
+    [
+      "kon_human__sleeve",
+      1794,
+      "sleeve"
+    ],
+    [
+      "kon_human__sleeve.001",
+      1794,
+      "sleeve"
+    ]
+  ],
+  "bones": 15
+}

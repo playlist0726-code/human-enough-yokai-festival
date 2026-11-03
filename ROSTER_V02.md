@@ -1,0 +1,13 @@
+# Blender roster and free camera — v02
+
+The playable game now uses 23 locally authored Blender/GLB models: seven yokai, seven human disguises, and nine human guests/shopkeepers. Individual native studios and GLBs are in `art/characters/roster-v02/`; the combined editable gallery is `eve-roster-v02.blend`. Live assets are in `public/assets/models/`.
+
+`public/model-assets.mjs` caches downloads, clones skeletons independently, normalizes size/ground contact, batches compatible rigid parts, and drives imported bones for idle, walking, jumping, potion, charm and cover poses. It retains the existing procedural visuals only as a download-failure fallback and for the timed partial-reveal attachments. The new models use rigid bone articulation; fine skin deformation, cloth simulation and full facial expression rigs are not part of this version.
+
+`public/free-camera.mjs` adds 360-degree yaw, vertical look from ground to sky, shoulder-height upward look, zoom limits, and camera retraction against stalls, hills and new decorative structures. Drag either mouse button to look; a stationary left click still navigates. Mouse look requests pointer lock from a deliberate click, with cursor-based free look when the in-app browser denies pointer lock; Esc releases either mode. Touch drag looks around; a second touch pinches to zoom. Reset view restores the follow camera. Movement uses the displayed camera heading.
+
+`public/festival-scenery.mjs` supplies continuous surrounding terrain, 360-degree mountain geometry, a valley village/lake, a shrine, torii gates, wisteria pergolas, flowering cherry trees, stone lanterns, a full sky with stars and moon, and drifting petals. Overhead structures fade when they obstruct the player. Decorative ground-level structures share collision boxes with the server. The portable static kit is in `art/environment/festival-v02/`; animated shaders and existing stalls/path remain in the game source.
+
+Verification: 73 automated tests and two real-socket integration tests pass. Browser checks verified the imported assets in both forms, camera sky look, camera-relative movement, collision retraction, and potion consumption/effects. The in-app browser did not apply the requested temporary mobile viewport override (it remained 1280×720), so a real phone/touch-device check remains outstanding. The override was reset. Desktop sampling was approximately 48–56 FPS in this session's High profile; this is not a performance guarantee for other devices.
+
+`http://127.0.0.1:4173/motion-study.html` uses the same game models for inspecting all seven characters and their actions/forms.

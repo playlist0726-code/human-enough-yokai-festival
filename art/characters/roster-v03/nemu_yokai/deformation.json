@@ -1,0 +1,26 @@
+{
+  "key": "nemu_yokai",
+  "meshes": [
+    [
+      "nemu_yokai__tailored_yukata",
+      2738,
+      "cloth"
+    ],
+    [
+      "nemu_yokai__sleeve",
+      1794,
+      "sleeve"
+    ],
+    [
+      "nemu_yokai__sleeve.001",
+      1794,
+      "sleeve"
+    ],
+    [
+      "nemu_yokai__face_tail",
+      396,
+      "tail"
+    ]
+  ],
+  "bones": 17
+}

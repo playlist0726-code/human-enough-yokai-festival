@@ -1,0 +1,18 @@
+{
+  "character": "mizu",
+  "action": "cover",
+  "duration": 2.0,
+  "loop": false,
+  "start": 310,
+  "end": 357,
+  "fps": 24,
+  "size": [
+    512,
+    512
+  ],
+  "alpha": true,
+  "file": "mizu_cover_v01.webm",
+  "type": "3D motion study / procedural rigid-part rig",
+  "webm_bytes": 1514863,
+  "preview_bytes": 115059
+}

@@ -1,0 +1,21 @@
+{
+  "key": "sumi_yokai",
+  "meshes": [
+    [
+      "sumi_yokai__tailored_yukata",
+      2738,
+      "cloth"
+    ],
+    [
+      "sumi_yokai__sleeve",
+      1794,
+      "sleeve"
+    ],
+    [
+      "sumi_yokai__sleeve.001",
+      1794,
+      "sleeve"
+    ]
+  ],
+  "bones": 15
+}

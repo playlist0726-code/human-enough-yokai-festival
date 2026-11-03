@@ -1,0 +1,5 @@
+# 네무 시트 v02
+
+v01의 후면 의상 확대도에 있는 포션병을 캐릭터 왼쪽 허리 기준으로 수정했다. 나머지 아트와 기본 이미지는 유지했다.
+
+Use case: precise-object-edit. Make ONE local continuity fix in the attached NEMU character sheet. Keep the entire image layout, character, textures, 3D game style, five full-body views, all expressions, blank original head, exactly one curved tail with one cream face mask, moon-pattern sage yukata and magenta belt completely unchanged. In the bottom OUTFIT section, the small rear-view torso detail currently shows the potion bottle at VIEWER RIGHT; move that single bottle to VIEWER LEFT hip, because Nemu's personal potion is always on anatomical LEFT hip, which is viewer right in the FRONT view and viewer left in the BACK view. The bottle remains the same round pale cream glass bottle, same stopper and same tie. Remove the incorrect right-side bottle completely and put exactly one identical bottle on the left side of that rear outfit detail. Change NOTHING ELSE. No added faces, no extra tail, no extra bottles.

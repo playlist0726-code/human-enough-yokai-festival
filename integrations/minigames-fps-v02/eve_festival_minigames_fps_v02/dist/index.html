@@ -1,0 +1,11 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#172b37"><title>인간인 척! · 달빛 축제 놀이터</title><meta name="description" content="일곱 요괴와 함께 직접 즐기는 3D 축제 놀이. 금붕어 건지기, 고리 던지기, 사격, 타코야키, 뽑기, 빙수."><link rel="stylesheet" href="style.css?v=3"><script type="importmap">{"imports":{"three":"./vendor/three/three.module.js","three/addons/":"./vendor/addons/"}}</script></head>
+<body><canvas id="world" aria-label="요괴 캐릭터가 직접 참여하는 입체 축제 놀이터"></canvas><div id="vignette"></div><div id="crosshair" aria-hidden="true"><i></i><b></b></div>
+<header><a class="brand" href="./"><small>e.v.e games</small><b>인간인 척!</b></a><div class="header-right"><span id="stamps" aria-live="polite">도장 0 / 6</span><button id="sound" aria-label="효과음 켜기">소리 꺼짐</button><button id="help" aria-label="놀이 안내 열기">?</button></div></header>
+<nav id="characters" aria-label="플레이할 요괴 선택"></nav>
+<main><div class="scene-heading"><span id="eyebrow">달빛 축제 · 첫 번째 포차</span><h1 id="title">금붕어 건지기</h1><p id="hint">헤엄치는 금붕어를 톡 눌러 건져요</p></div><div id="scoreboard" class="hidden"><span id="progress"></span><span id="timer"></span></div><div id="feedback" role="status" aria-live="polite"></div>
+<section id="dialog" class="intro"><small id="dialog-label">미즈와 함께</small><h2 id="dialog-title">물고기를 살살 건져 볼까요?</h2><p id="dialog-body">금붕어를 누르면 미즈가 뜰채를 내밀어요. 세 마리를 건지면 축제 도장을 받아요.</p><button id="begin" class="primary">놀이 시작 <span>→</span></button></section>
+<div id="actions" class="hidden"><div id="timing" class="hidden"><span></span><i></i></div><div id="action-buttons"></div><div id="target-buttons" aria-label="키보드로 놀이 대상 선택"></div></div>
+</main><footer><nav id="games" aria-label="축제 놀이 선택"></nav><p id="bottom-note">캐릭터와 놀이를 고르고, 화면 속 도구를 직접 눌러 보세요.</p></footer>
+<div id="loading"><span>등불을 밝히는 중…</span></div><div id="fatal" class="hidden" role="alert">입체 화면을 열지 못했어요. WebGL을 지원하는 최신 브라우저에서 다시 열어 주세요.</div>
+<script type="module" src="app.mjs?v=3"></script></body></html>

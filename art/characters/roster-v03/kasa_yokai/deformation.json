@@ -1,0 +1,21 @@
+{
+  "key": "kasa_yokai",
+  "meshes": [
+    [
+      "kasa_yokai__tailored_yukata",
+      2738,
+      "cloth"
+    ],
+    [
+      "kasa_yokai__sleeve",
+      1794,
+      "sleeve"
+    ],
+    [
+      "kasa_yokai__sleeve.001",
+      1794,
+      "sleeve"
+    ]
+  ],
+  "bones": 15
+}

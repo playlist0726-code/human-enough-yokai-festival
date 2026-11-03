@@ -1,0 +1,21 @@
+{
+  "key": "akari_yokai",
+  "meshes": [
+    [
+      "akari_yokai__tailored_yukata",
+      2738,
+      "cloth"
+    ],
+    [
+      "akari_yokai__sleeve",
+      1794,
+      "sleeve"
+    ],
+    [
+      "akari_yokai__sleeve.001",
+      1794,
+      "sleeve"
+    ]
+  ],
+  "bones": 15
+}

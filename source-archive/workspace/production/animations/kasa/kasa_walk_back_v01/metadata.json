@@ -1,0 +1,18 @@
+{
+  "character": "kasa",
+  "action": "walk_back",
+  "duration": 1.2083333333333333,
+  "loop": true,
+  "start": 88,
+  "end": 116,
+  "fps": 24,
+  "size": [
+    512,
+    512
+  ],
+  "alpha": true,
+  "file": "kasa_walk_back_v01.webm",
+  "type": "3D motion study / procedural rigid-part rig",
+  "webm_bytes": 749168,
+  "preview_bytes": 34427
+}

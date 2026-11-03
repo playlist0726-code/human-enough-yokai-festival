@@ -1,0 +1,15 @@
+{
+  "id": "appgdep_6ad06b19d870819193f3180fa473db82",
+  "project_id": "appgprj_6acff3911a5881919bf21277d1e70b5c",
+  "title": "인간인 척! · 요괴들의 축제 놀이",
+  "version_id": "appgprj_6acff3911a5881919bf21277d1e70b5c~appgver_01144e1a26648191b12752241830a032",
+  "type": "publish",
+  "status": "succeeded",
+  "url": "https://eve-yokai-festival-play.starbuild4590.chatgpt.site",
+  "has_mcp": false,
+  "screenshot_asset_pointer": null,
+  "provider_deployment_id": "site---6acff3911a5881919bf21277d1e70b5c",
+  "failure_message": null,
+  "env_set_revision": 0,
+  "updated_at": "2026-10-15T05:56:49.938731+00:00"
+}

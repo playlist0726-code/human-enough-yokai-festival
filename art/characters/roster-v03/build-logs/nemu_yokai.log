@@ -1,0 +1,117 @@
+00:00.340  blend            | Read blend: "/Users/gimjunsu/eve-games/yokai-festival/art/characters/roster-v02/nemu_yokai/nemu_yokai.blend"
+INFO Draco is available, use library at /Applications/Blender.app/Contents/Resources/5.2/scripts/addons_core/io_scene_gltf2/libbf_intern_draco_bridge.dylib
+INFO MeshOptimizer is available, use library at /Applications/Blender.app/Contents/Resources/5.2/scripts/addons_core/io_scene_gltf2/libbf_intern_meshopt_bridge.dylib
+14:04:13 | INFO: Starting glTF 2.0 export
+14:04:14 | INFO: Extracting primitive: face_tail.001
+14:04:14 | INFO: Primitives created: 1
+14:04:14 | INFO: Extracting primitive: sleeve.002
+14:04:14 | INFO: Primitives created: 1
+14:04:14 | INFO: Extracting primitive: sleeve.003
+14:04:14 | INFO: Primitives created: 1
+14:04:14 | INFO: Extracting primitive: tailored_yukata.001
+14:04:14 | INFO: Primitives created: 1
+14:04:14 | INFO: Extracting primitive: cross_collar
+14:04:14 | INFO: Primitives created: 1
+14:04:14 | INFO: Extracting primitive: cross_collar.001
+14:04:14 | INFO: Primitives created: 1
+14:04:14 | INFO: Extracting primitive: Cylinder
+14:04:14 | INFO: Primitives created: 1
+14:04:14 | INFO: Extracting primitive: Sphere
+14:04:14 | INFO: Primitives created: 1
+14:04:14 | INFO: Extracting primitive: Sphere.008
+14:04:14 | INFO: Primitives created: 1
+14:04:14 | INFO: Extracting primitive: Cylinder.004
+14:04:14 | INFO: Primitives created: 1
+14:04:14 | INFO: Extracting primitive: potion_glint
+14:04:14 | INFO: Primitives created: 1
+14:04:14 | INFO: Extracting primitive: Torus
+14:04:14 | INFO: Primitives created: 1
+14:04:14 | INFO: Extracting primitive: Sphere.023
+14:04:14 | INFO: Primitives created: 1
+14:04:14 | INFO: Extracting primitive: Cylinder.003
+14:04:14 | INFO: Primitives created: 1
+14:04:14 | INFO: Extracting primitive: Sphere.001
+14:04:14 | INFO: Primitives created: 1
+14:04:14 | INFO: Extracting primitive: Sphere.002
+14:04:14 | INFO: Primitives created: 1
+14:04:14 | INFO: Extracting primitive: Sphere.009
+14:04:14 | INFO: Primitives created: 1
+14:04:14 | INFO: Extracting primitive: Sphere.010
+14:04:14 | INFO: Primitives created: 1
+14:04:14 | INFO: Extracting primitive: ear_inner
+14:04:14 | INFO: Primitives created: 1
+14:04:14 | INFO: Extracting primitive: ear_inner.001
+14:04:14 | INFO: Primitives created: 1
+14:04:14 | INFO: Extracting primitive: faceless_cat_head
+14:04:14 | INFO: Primitives created: 1
+14:04:14 | INFO: Extracting primitive: pointed_ear
+14:04:14 | INFO: Primitives created: 1
+14:04:14 | INFO: Extracting primitive: pointed_ear.001
+14:04:14 | INFO: Primitives created: 1
+14:04:14 | INFO: Extracting primitive: ear_inner.002
+14:04:14 | INFO: Primitives created: 1
+14:04:14 | INFO: Extracting primitive: ear_inner.003
+14:04:14 | INFO: Primitives created: 1
+14:04:14 | INFO: Extracting primitive: Sphere.016
+14:04:14 | INFO: Primitives created: 1
+14:04:14 | INFO: Extracting primitive: Sphere.019
+14:04:14 | INFO: Primitives created: 1
+14:04:14 | INFO: Extracting primitive: Sphere.018
+14:04:14 | INFO: Primitives created: 1
+14:04:14 | INFO: Extracting primitive: Sphere.021
+14:04:14 | INFO: Primitives created: 1
+14:04:14 | INFO: Extracting primitive: Sphere.017
+14:04:14 | INFO: Primitives created: 1
+14:04:14 | INFO: Extracting primitive: Sphere.020
+14:04:14 | INFO: Primitives created: 1
+14:04:14 | INFO: Extracting primitive: pointed_ear.002
+14:04:14 | INFO: Primitives created: 1
+14:04:14 | INFO: Extracting primitive: pointed_ear.003
+14:04:14 | INFO: Primitives created: 1
+14:04:14 | INFO: Extracting primitive: sleepy_lid
+14:04:14 | INFO: Primitives created: 1
+14:04:14 | INFO: Extracting primitive: sleepy_lid.001
+14:04:14 | INFO: Primitives created: 1
+14:04:14 | INFO: Extracting primitive: smile
+14:04:14 | INFO: Primitives created: 1
+14:04:14 | INFO: Extracting primitive: tail_face
+14:04:14 | INFO: Primitives created: 1
+14:04:14 | INFO: Extracting primitive: Sphere.022
+14:04:14 | INFO: Primitives created: 1
+14:04:14 | INFO: Extracting primitive: Sphere.003
+14:04:14 | INFO: Primitives created: 1
+14:04:14 | INFO: Extracting primitive: Sphere.004
+14:04:14 | INFO: Primitives created: 1
+14:04:14 | INFO: Extracting primitive: Cylinder.001
+14:04:14 | INFO: Primitives created: 1
+14:04:14 | INFO: Extracting primitive: sandal_strap
+14:04:14 | INFO: Primitives created: 1
+14:04:14 | INFO: Extracting primitive: Sphere.005
+14:04:14 | INFO: Primitives created: 1
+14:04:14 | INFO: Extracting primitive: Sphere.006
+14:04:14 | INFO: Primitives created: 1
+14:04:14 | INFO: Extracting primitive: Sphere.007
+14:04:14 | INFO: Primitives created: 1
+14:04:14 | INFO: Extracting primitive: Sphere.011
+14:04:14 | INFO: Primitives created: 1
+14:04:14 | INFO: Extracting primitive: Sphere.012
+14:04:14 | INFO: Primitives created: 1
+14:04:14 | INFO: Extracting primitive: Cylinder.002
+14:04:14 | INFO: Primitives created: 1
+14:04:14 | INFO: Extracting primitive: sandal_strap.001
+14:04:14 | INFO: Primitives created: 1
+14:04:14 | INFO: Extracting primitive: Sphere.013
+14:04:14 | INFO: Primitives created: 1
+14:04:14 | INFO: Extracting primitive: Sphere.014
+14:04:14 | INFO: Primitives created: 1
+14:04:14 | INFO: Extracting primitive: Sphere.015
+14:04:14 | INFO: Primitives created: 1
+14:04:14 | INFO: Extracting primitive: Cube
+14:04:14 | INFO: Primitives created: 1
+14:04:14 | INFO: Finished glTF 2.0 export in 0.12720894813537598 s
+
+Info: Saved as "nemu_yokai.blend"
+REFINED nemu_yokai [['nemu_yokai__tailored_yukata', 2738, 'cloth'], ['nemu_yokai__sleeve', 1794, 'sleeve'], ['nemu_yokai__sleeve.001', 1794, 'sleeve'], ['nemu_yokai__face_tail', 396, 'tail']]
+Blender 5.2.2 LTS (hash d13f752e3b9c built 2026-09-15 01:49:19)
+
+Blender quit

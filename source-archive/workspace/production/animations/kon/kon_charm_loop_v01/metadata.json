@@ -1,0 +1,18 @@
+{
+  "character": "kon",
+  "action": "charm_loop",
+  "duration": 2.0,
+  "loop": true,
+  "start": 262,
+  "end": 309,
+  "fps": 24,
+  "size": [
+    512,
+    512
+  ],
+  "alpha": true,
+  "file": "kon_charm_loop_v01.webm",
+  "type": "3D motion study / procedural rigid-part rig",
+  "webm_bytes": 1584667,
+  "preview_bytes": 101178
+}

@@ -1,0 +1,18 @@
+{
+  "character": "akari",
+  "action": "walk_right",
+  "duration": 1.2083333333333333,
+  "loop": true,
+  "start": 146,
+  "end": 174,
+  "fps": 24,
+  "size": [
+    512,
+    512
+  ],
+  "alpha": true,
+  "file": "akari_walk_right_v01.webm",
+  "type": "3D motion study / procedural rigid-part rig",
+  "webm_bytes": 831527,
+  "preview_bytes": 46922
+}

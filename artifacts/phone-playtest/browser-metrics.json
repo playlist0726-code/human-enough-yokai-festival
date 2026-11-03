@@ -1,0 +1,127 @@
+{
+  "environment": "Mac browser responsive preview, not a physical phone",
+  "metrics": {
+    "fps": 30,
+    "profile": "mobile",
+    "connection": "connected",
+    "rtt": 5,
+    "phase": "playing",
+    "room": "35SPF",
+    "player": {
+      "x": -1.0140951358552959,
+      "z": 11.1514272459068,
+      "energy": 100,
+      "bottles": 0,
+      "action": "idle",
+      "jumps": 1
+    },
+    "drawCalls": 909,
+    "triangles": 4033882,
+    "modelsLoaded": 11,
+    "modelsFailed": 0,
+    "viewport": {
+      "width": 390,
+      "height": 844,
+      "ratio": 2
+    },
+    "touch": true,
+    "layout": {
+      "overflow": false,
+      "targets": [
+        {
+          "name": "Movement joystick",
+          "x": 16,
+          "y": 712,
+          "width": 108,
+          "height": 108
+        },
+        {
+          "name": "Interact",
+          "x": 202,
+          "y": 670,
+          "width": 54,
+          "height": 48
+        },
+        {
+          "name": "Potion",
+          "x": 263,
+          "y": 670,
+          "width": 54,
+          "height": 48
+        },
+        {
+          "name": "Charm",
+          "x": 324,
+          "y": 670,
+          "width": 54,
+          "height": 48
+        },
+        {
+          "name": "Cover",
+          "x": 202,
+          "y": 725,
+          "width": 54,
+          "height": 48
+        },
+        {
+          "name": "Jump ↟",
+          "x": 263,
+          "y": 725,
+          "width": 54,
+          "height": 48
+        },
+        {
+          "name": "Share",
+          "x": 324,
+          "y": 725,
+          "width": 54,
+          "height": 48
+        },
+        {
+          "name": "Hand off",
+          "x": 202,
+          "y": 780,
+          "width": 54,
+          "height": 48
+        },
+        {
+          "name": "Help ping",
+          "x": 263,
+          "y": 780,
+          "width": 54,
+          "height": 48
+        },
+        {
+          "name": "Change camera distance",
+          "x": 12,
+          "y": 108,
+          "width": 78,
+          "height": 44
+        },
+        {
+          "name": "Reset camera",
+          "x": 95,
+          "y": 108,
+          "width": 72,
+          "height": 44
+        },
+        {
+          "name": "Change graphics quality",
+          "x": 172,
+          "y": 108,
+          "width": 86,
+          "height": 44
+        }
+      ]
+    },
+    "webglLost": false,
+    "time": "2026-10-24T20:23:40.635Z"
+  },
+  "checks": {
+    "joystickMovementAndRelease": true,
+    "jump": true,
+    "potion": true,
+    "portraitAndLandscape": true,
+    "physicalPhone": false
+  }
+}

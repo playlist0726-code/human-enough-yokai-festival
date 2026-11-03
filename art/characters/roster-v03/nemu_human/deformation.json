@@ -1,0 +1,21 @@
+{
+  "key": "nemu_human",
+  "meshes": [
+    [
+      "nemu_human__tailored_yukata",
+      2738,
+      "cloth"
+    ],
+    [
+      "nemu_human__sleeve",
+      1794,
+      "sleeve"
+    ],
+    [
+      "nemu_human__sleeve.001",
+      1794,
+      "sleeve"
+    ]
+  ],
+  "bones": 15
+}

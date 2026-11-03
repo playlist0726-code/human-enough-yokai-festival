@@ -1,0 +1,26 @@
+{
+  "key": "kon_yokai",
+  "meshes": [
+    [
+      "kon_yokai__tailored_yukata",
+      2738,
+      "cloth"
+    ],
+    [
+      "kon_yokai__sleeve",
+      1794,
+      "sleeve"
+    ],
+    [
+      "kon_yokai__sleeve.001",
+      1794,
+      "sleeve"
+    ],
+    [
+      "kon_yokai__long_fox_neck",
+      396,
+      "neck"
+    ]
+  ],
+  "bones": 17
+}

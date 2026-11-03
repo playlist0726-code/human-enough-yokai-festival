@@ -1,0 +1,17 @@
+{
+  "ok": true,
+  "origin": "https://human-enough-yokai-festival.onrender.com",
+  "checkedAt": "2026-10-31T02:44:49.347Z",
+  "checks": [
+    "HTTP health",
+    "game document",
+    "two real WebSocket clients",
+    "shared readiness and start",
+    "movement synchronization",
+    "help ping",
+    "potion synchronization",
+    "teammate ward",
+    "reconnect with same player"
+  ],
+  "physicalDevicesTested": false
+}

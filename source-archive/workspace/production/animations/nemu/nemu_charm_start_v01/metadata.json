@@ -1,0 +1,18 @@
+{
+  "character": "nemu",
+  "action": "charm_start",
+  "duration": 1.2083333333333333,
+  "loop": false,
+  "start": 233,
+  "end": 261,
+  "fps": 24,
+  "size": [
+    512,
+    512
+  ],
+  "alpha": true,
+  "file": "nemu_charm_start_v01.webm",
+  "type": "3D motion study / procedural rigid-part rig",
+  "webm_bytes": 790902,
+  "preview_bytes": 41114
+}

@@ -1,0 +1,18 @@
+{
+  "character": "mizu",
+  "action": "reveal",
+  "duration": 1.5833333333333333,
+  "loop": false,
+  "start": 358,
+  "end": 395,
+  "fps": 24,
+  "size": [
+    512,
+    512
+  ],
+  "alpha": true,
+  "file": "mizu_reveal_v01.webm",
+  "type": "3D motion study / procedural rigid-part rig",
+  "webm_bytes": 1024268,
+  "preview_bytes": 67003
+}

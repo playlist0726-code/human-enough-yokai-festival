@@ -1,0 +1,18 @@
+{
+  "character": "pon",
+  "action": "cover",
+  "duration": 2.0,
+  "loop": false,
+  "start": 310,
+  "end": 357,
+  "fps": 24,
+  "size": [
+    512,
+    512
+  ],
+  "alpha": true,
+  "file": "pon_cover_v01.webm",
+  "type": "3D motion study / procedural rigid-part rig",
+  "webm_bytes": 899298,
+  "preview_bytes": 50722
+}

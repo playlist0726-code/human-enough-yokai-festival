@@ -1,0 +1,21 @@
+{
+  "key": "kasa_human",
+  "meshes": [
+    [
+      "kasa_human__tailored_yukata",
+      2738,
+      "cloth"
+    ],
+    [
+      "kasa_human__sleeve",
+      1794,
+      "sleeve"
+    ],
+    [
+      "kasa_human__sleeve.001",
+      1794,
+      "sleeve"
+    ]
+  ],
+  "bones": 15
+}

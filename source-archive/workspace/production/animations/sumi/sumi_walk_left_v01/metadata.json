@@ -1,0 +1,18 @@
+{
+  "character": "sumi",
+  "action": "walk_left",
+  "duration": 1.2083333333333333,
+  "loop": true,
+  "start": 117,
+  "end": 145,
+  "fps": 24,
+  "size": [
+    512,
+    512
+  ],
+  "alpha": true,
+  "file": "sumi_walk_left_v01.webm",
+  "type": "3D motion study / procedural rigid-part rig",
+  "webm_bytes": 516606,
+  "preview_bytes": 27250
+}

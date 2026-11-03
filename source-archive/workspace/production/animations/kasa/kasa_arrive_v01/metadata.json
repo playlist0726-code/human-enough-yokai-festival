@@ -1,0 +1,18 @@
+{
+  "character": "kasa",
+  "action": "arrive",
+  "duration": 1.7916666666666667,
+  "loop": false,
+  "start": 420,
+  "end": 462,
+  "fps": 24,
+  "size": [
+    512,
+    512
+  ],
+  "alpha": true,
+  "file": "kasa_arrive_v01.webm",
+  "type": "3D motion study / procedural rigid-part rig",
+  "webm_bytes": 1049460,
+  "preview_bytes": 55835
+}

@@ -1,0 +1,18 @@
+{
+  "character": "kon",
+  "action": "drink",
+  "duration": 2.4166666666666665,
+  "loop": false,
+  "start": 175,
+  "end": 232,
+  "fps": 24,
+  "size": [
+    512,
+    512
+  ],
+  "alpha": true,
+  "file": "kon_drink_v01.webm",
+  "type": "3D motion study / procedural rigid-part rig",
+  "webm_bytes": 1212410,
+  "preview_bytes": 73148
+}

@@ -1,0 +1,210 @@
+[
+  {
+    "character": "mizu",
+    "action": "idle",
+    "duration": 2.4166666666666665,
+    "loop": true,
+    "start": 1,
+    "end": 58,
+    "fps": 24,
+    "size": [
+      512,
+      512
+    ],
+    "alpha": true,
+    "file": "mizu_idle_v01.webm",
+    "type": "3D motion study / procedural rigid-part rig"
+  },
+  {
+    "character": "mizu",
+    "action": "walk_front",
+    "duration": 1.2083333333333333,
+    "loop": true,
+    "start": 59,
+    "end": 87,
+    "fps": 24,
+    "size": [
+      512,
+      512
+    ],
+    "alpha": true,
+    "file": "mizu_walk_front_v01.webm",
+    "type": "3D motion study / procedural rigid-part rig"
+  },
+  {
+    "character": "mizu",
+    "action": "walk_back",
+    "duration": 1.2083333333333333,
+    "loop": true,
+    "start": 88,
+    "end": 116,
+    "fps": 24,
+    "size": [
+      512,
+      512
+    ],
+    "alpha": true,
+    "file": "mizu_walk_back_v01.webm",
+    "type": "3D motion study / procedural rigid-part rig"
+  },
+  {
+    "character": "mizu",
+    "action": "walk_left",
+    "duration": 1.2083333333333333,
+    "loop": true,
+    "start": 117,
+    "end": 145,
+    "fps": 24,
+    "size": [
+      512,
+      512
+    ],
+    "alpha": true,
+    "file": "mizu_walk_left_v01.webm",
+    "type": "3D motion study / procedural rigid-part rig"
+  },
+  {
+    "character": "mizu",
+    "action": "walk_right",
+    "duration": 1.2083333333333333,
+    "loop": true,
+    "start": 146,
+    "end": 174,
+    "fps": 24,
+    "size": [
+      512,
+      512
+    ],
+    "alpha": true,
+    "file": "mizu_walk_right_v01.webm",
+    "type": "3D motion study / procedural rigid-part rig"
+  },
+  {
+    "character": "mizu",
+    "action": "drink",
+    "duration": 2.4166666666666665,
+    "loop": false,
+    "start": 175,
+    "end": 232,
+    "fps": 24,
+    "size": [
+      512,
+      512
+    ],
+    "alpha": true,
+    "file": "mizu_drink_v01.webm",
+    "type": "3D motion study / procedural rigid-part rig"
+  },
+  {
+    "character": "mizu",
+    "action": "charm_start",
+    "duration": 1.2083333333333333,
+    "loop": false,
+    "start": 233,
+    "end": 261,
+    "fps": 24,
+    "size": [
+      512,
+      512
+    ],
+    "alpha": true,
+    "file": "mizu_charm_start_v01.webm",
+    "type": "3D motion study / procedural rigid-part rig"
+  },
+  {
+    "character": "mizu",
+    "action": "charm_loop",
+    "duration": 2.0,
+    "loop": true,
+    "start": 262,
+    "end": 309,
+    "fps": 24,
+    "size": [
+      512,
+      512
+    ],
+    "alpha": true,
+    "file": "mizu_charm_loop_v01.webm",
+    "type": "3D motion study / procedural rigid-part rig"
+  },
+  {
+    "character": "mizu",
+    "action": "cover",
+    "duration": 2.0,
+    "loop": false,
+    "start": 310,
+    "end": 357,
+    "fps": 24,
+    "size": [
+      512,
+      512
+    ],
+    "alpha": true,
+    "file": "mizu_cover_v01.webm",
+    "type": "3D motion study / procedural rigid-part rig"
+  },
+  {
+    "character": "mizu",
+    "action": "reveal",
+    "duration": 1.5833333333333333,
+    "loop": false,
+    "start": 358,
+    "end": 395,
+    "fps": 24,
+    "size": [
+      512,
+      512
+    ],
+    "alpha": true,
+    "file": "mizu_reveal_v01.webm",
+    "type": "3D motion study / procedural rigid-part rig"
+  },
+  {
+    "character": "mizu",
+    "action": "panic",
+    "duration": 1.0,
+    "loop": false,
+    "start": 396,
+    "end": 419,
+    "fps": 24,
+    "size": [
+      512,
+      512
+    ],
+    "alpha": true,
+    "file": "mizu_panic_v01.webm",
+    "type": "3D motion study / procedural rigid-part rig"
+  },
+  {
+    "character": "mizu",
+    "action": "arrive",
+    "duration": 1.7916666666666667,
+    "loop": false,
+    "start": 420,
+    "end": 462,
+    "fps": 24,
+    "size": [
+      512,
+      512
+    ],
+    "alpha": true,
+    "file": "mizu_arrive_v01.webm",
+    "type": "3D motion study / procedural rigid-part rig"
+  },
+  {
+    "character": "mizu",
+    "action": "success",
+    "duration": 1.7916666666666667,
+    "loop": false,
+    "start": 463,
+    "end": 505,
+    "fps": 24,
+    "size": [
+      512,
+      512
+    ],
+    "alpha": true,
+    "file": "mizu_success_v01.webm",
+    "type": "3D motion study / procedural rigid-part rig"
+  }
+]

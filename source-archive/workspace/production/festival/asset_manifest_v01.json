@@ -1,0 +1,88 @@
+{
+  "image_count": 9,
+  "expected_count": 9,
+  "missing": [],
+  "files": [
+    {
+      "file": "festival_overview_v02.png",
+      "title": "축제 전체 전경",
+      "width": 1672,
+      "height": 941,
+      "mode": "RGB",
+      "bytes": 2869375,
+      "sha256": "78732ae4094218a6f13d7255018ff5859aeddb173fd3feed87f9922cee98317d"
+    },
+    {
+      "file": "stalls/stall_kingyo_sukui_v01.png",
+      "title": "금붕어 건지기",
+      "width": 1536,
+      "height": 1024,
+      "mode": "RGB",
+      "bytes": 2706436,
+      "sha256": "09c011b8df00ea18110b9def92182e8f902a615718d5008af291fcd132e17aec"
+    },
+    {
+      "file": "stalls/stall_yoyo_tsuri_v01.png",
+      "title": "물풍선 요요 낚시",
+      "width": 1536,
+      "height": 1024,
+      "mode": "RGB",
+      "bytes": 2558096,
+      "sha256": "32e658b3913ff27a3ec232fa5469bfc49abaa012051bed981c7cf6176979ee65"
+    },
+    {
+      "file": "stalls/stall_shateki_v01.png",
+      "title": "코르크 사격",
+      "width": 1536,
+      "height": 1024,
+      "mode": "RGB",
+      "bytes": 2471365,
+      "sha256": "629716898e7fa3e237435082d646aa07c86f89b2deb99496e8d84af1131cfa8f"
+    },
+    {
+      "file": "stalls/stall_wanage_v01.png",
+      "title": "고리 던지기",
+      "width": 1536,
+      "height": 1024,
+      "mode": "RGB",
+      "bytes": 2610195,
+      "sha256": "b8bbe8b24b124b9abd90be8ac4e37c2006b65a212d0e76e641b063231015d32b"
+    },
+    {
+      "file": "stalls/stall_superball_sukui_v01.png",
+      "title": "슈퍼볼 건지기",
+      "width": 1536,
+      "height": 1024,
+      "mode": "RGB",
+      "bytes": 2655038,
+      "sha256": "c3129518b8971fad7e636265112b1790fe58264b0ad1d9bc9347c8b5917364b9"
+    },
+    {
+      "file": "stalls/stall_kuji_v01.png",
+      "title": "경품 뽑기",
+      "width": 1536,
+      "height": 1024,
+      "mode": "RGB",
+      "bytes": 2763280,
+      "sha256": "d703ffcf6bdc7d38a05c51f12ae3ac47ee9ad64216ee994211fa8f2e98ffaba7"
+    },
+    {
+      "file": "stalls/stall_takoyaki_v01.png",
+      "title": "타코야키",
+      "width": 1402,
+      "height": 1122,
+      "mode": "RGB",
+      "bytes": 2408029,
+      "sha256": "8a131bff6298e445066dd180da58207a1258759964b84e6cd9203a87db4683d6"
+    },
+    {
+      "file": "stalls/stall_kakigori_v01.png",
+      "title": "빙수",
+      "width": 1536,
+      "height": 1024,
+      "mode": "RGB",
+      "bytes": 2661213,
+      "sha256": "784f54fab48740e8312cec79ede72c618576a69a50eb2b6fa4b479bacaa5adf4"
+    }
+  ]
+}

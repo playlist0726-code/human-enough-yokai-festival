@@ -1,0 +1,166 @@
+{
+  "version": "blender-roster-v02",
+  "models": [
+    {
+      "key": "mizu_yokai",
+      "ok": true,
+      "bytes": 3628348,
+      "url": "/assets/models/mizu_yokai.glb",
+      "source": "mizu_yokai/mizu_yokai.blend"
+    },
+    {
+      "key": "pon_yokai",
+      "ok": true,
+      "bytes": 858968,
+      "url": "/assets/models/pon_yokai.glb",
+      "source": "pon_yokai/pon_yokai.blend"
+    },
+    {
+      "key": "kon_yokai",
+      "ok": true,
+      "bytes": 885496,
+      "url": "/assets/models/kon_yokai.glb",
+      "source": "kon_yokai/kon_yokai.blend"
+    },
+    {
+      "key": "sumi_yokai",
+      "ok": true,
+      "bytes": 1313148,
+      "url": "/assets/models/sumi_yokai.glb",
+      "source": "sumi_yokai/sumi_yokai.blend"
+    },
+    {
+      "key": "nemu_yokai",
+      "ok": true,
+      "bytes": 777420,
+      "url": "/assets/models/nemu_yokai.glb",
+      "source": "nemu_yokai/nemu_yokai.blend"
+    },
+    {
+      "key": "akari_yokai",
+      "ok": true,
+      "bytes": 1350180,
+      "url": "/assets/models/akari_yokai.glb",
+      "source": "akari_yokai/akari_yokai.blend"
+    },
+    {
+      "key": "kasa_yokai",
+      "ok": true,
+      "bytes": 697524,
+      "url": "/assets/models/kasa_yokai.glb",
+      "source": "kasa_yokai/kasa_yokai.blend"
+    },
+    {
+      "key": "mizu_human",
+      "ok": true,
+      "bytes": 886172,
+      "url": "/assets/models/mizu_human.glb",
+      "source": "mizu_human/mizu_human.blend"
+    },
+    {
+      "key": "pon_human",
+      "ok": true,
+      "bytes": 904484,
+      "url": "/assets/models/pon_human.glb",
+      "source": "pon_human/pon_human.blend"
+    },
+    {
+      "key": "kon_human",
+      "ok": true,
+      "bytes": 943292,
+      "url": "/assets/models/kon_human.glb",
+      "source": "kon_human/kon_human.blend"
+    },
+    {
+      "key": "sumi_human",
+      "ok": true,
+      "bytes": 883376,
+      "url": "/assets/models/sumi_human.glb",
+      "source": "sumi_human/sumi_human.blend"
+    },
+    {
+      "key": "nemu_human",
+      "ok": true,
+      "bytes": 943172,
+      "url": "/assets/models/nemu_human.glb",
+      "source": "nemu_human/nemu_human.blend"
+    },
+    {
+      "key": "akari_human",
+      "ok": true,
+      "bytes": 980052,
+      "url": "/assets/models/akari_human.glb",
+      "source": "akari_human/akari_human.blend"
+    },
+    {
+      "key": "kasa_human",
+      "ok": true,
+      "bytes": 936640,
+      "url": "/assets/models/kasa_human.glb",
+      "source": "kasa_human/kasa_human.blend"
+    },
+    {
+      "key": "guest-0_guest",
+      "ok": true,
+      "bytes": 934884,
+      "url": "/assets/models/guest-0_guest.glb",
+      "source": "guest-0_guest/guest-0_guest.blend"
+    },
+    {
+      "key": "guest-1_guest",
+      "ok": true,
+      "bytes": 894624,
+      "url": "/assets/models/guest-1_guest.glb",
+      "source": "guest-1_guest/guest-1_guest.blend"
+    },
+    {
+      "key": "guest-2_guest",
+      "ok": true,
+      "bytes": 931884,
+      "url": "/assets/models/guest-2_guest.glb",
+      "source": "guest-2_guest/guest-2_guest.blend"
+    },
+    {
+      "key": "guest-3_guest",
+      "ok": true,
+      "bytes": 905140,
+      "url": "/assets/models/guest-3_guest.glb",
+      "source": "guest-3_guest/guest-3_guest.blend"
+    },
+    {
+      "key": "guest-4_guest",
+      "ok": true,
+      "bytes": 1024936,
+      "url": "/assets/models/guest-4_guest.glb",
+      "source": "guest-4_guest/guest-4_guest.blend"
+    },
+    {
+      "key": "guest-5_guest",
+      "ok": true,
+      "bytes": 919096,
+      "url": "/assets/models/guest-5_guest.glb",
+      "source": "guest-5_guest/guest-5_guest.blend"
+    },
+    {
+      "key": "guest-6_guest",
+      "ok": true,
+      "bytes": 898264,
+      "url": "/assets/models/guest-6_guest.glb",
+      "source": "guest-6_guest/guest-6_guest.blend"
+    },
+    {
+      "key": "guest-7_guest",
+      "ok": true,
+      "bytes": 1008256,
+      "url": "/assets/models/guest-7_guest.glb",
+      "source": "guest-7_guest/guest-7_guest.blend"
+    },
+    {
+      "key": "guest-8_guest",
+      "ok": true,
+      "bytes": 905148,
+      "url": "/assets/models/guest-8_guest.glb",
+      "source": "guest-8_guest/guest-8_guest.blend"
+    }
+  ]
+}

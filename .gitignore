@@ -3,7 +3,10 @@ node_modules/
 .env
 .env.*
 .cache/
-art/
-artifacts/
-integrations/
-exports/
+
+# Reproducible dependencies, local caches and credentials are never archived.
+.transcode-cache/
+__pycache__/
+.venv/
+venv/
+*.pyc

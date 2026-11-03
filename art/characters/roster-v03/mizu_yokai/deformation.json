@@ -1,0 +1,21 @@
+{
+  "key": "mizu_yokai",
+  "meshes": [
+    [
+      "Mizu.Yukata tailored body",
+      3634,
+      "cloth"
+    ],
+    [
+      "Mizu.Sleeve.L",
+      3426,
+      "sleeve"
+    ],
+    [
+      "Mizu.Sleeve.R",
+      3426,
+      "sleeve"
+    ]
+  ],
+  "bones": 9
+}

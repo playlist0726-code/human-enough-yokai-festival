@@ -1,0 +1,2254 @@
+{
+  "bases": [
+    {
+      "character": "mizu",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "bounds": [
+        0,
+        13,
+        1240,
+        1228
+      ]
+    },
+    {
+      "character": "pon",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "bounds": [
+        0,
+        21,
+        1235,
+        1254
+      ]
+    },
+    {
+      "character": "kon",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "bounds": [
+        25,
+        35,
+        1218,
+        1230
+      ]
+    },
+    {
+      "character": "sumi",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "bounds": [
+        0,
+        17,
+        1253,
+        1254
+      ]
+    },
+    {
+      "character": "nemu",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "bounds": [
+        99,
+        23,
+        1238,
+        1223
+      ]
+    },
+    {
+      "character": "akari",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "bounds": [
+        0,
+        30,
+        1240,
+        1230
+      ]
+    },
+    {
+      "character": "kasa",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "bounds": [
+        0,
+        19,
+        1240,
+        1254
+      ]
+    }
+  ],
+  "clips": [
+    {
+      "character": "mizu",
+      "action": "idle",
+      "frames": 58,
+      "expected_frames": 58,
+      "dimensions": [
+        512,
+        512
+      ],
+      "fps": "24/1",
+      "duration": 2.417,
+      "alpha_mode": "1",
+      "loop": true,
+      "loop_endpoint_mean_diff": [
+        1.9073486328125e-05,
+        2.6702880859375e-05,
+        1.1444091796875e-05,
+        0.0
+      ],
+      "midpoint_bounds": [
+        165,
+        87,
+        350,
+        459
+      ]
+    },
+    {
+      "character": "mizu",
+      "action": "walk_front",
+      "frames": 29,
+      "expected_frames": 29,
+      "dimensions": [
+        512,
+        512
+      ],
+      "fps": "24/1",
+      "duration": 1.209,
+      "alpha_mode": "1",
+      "loop": true,
+      "loop_endpoint_mean_diff": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "midpoint_bounds": [
+        154,
+        89,
+        358,
+        452
+      ]
+    },
+    {
+      "character": "mizu",
+      "action": "walk_back",
+      "frames": 29,
+      "expected_frames": 29,
+      "dimensions": [
+        512,
+        512
+      ],
+      "fps": "24/1",
+      "duration": 1.209,
+      "alpha_mode": "1",
+      "loop": true,
+      "loop_endpoint_mean_diff": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "midpoint_bounds": [
+        154,
+        89,
+        358,
+        436
+      ]
+    },
+    {
+      "character": "mizu",
+      "action": "walk_left",
+      "frames": 29,
+      "expected_frames": 29,
+      "dimensions": [
+        512,
+        512
+      ],
+      "fps": "24/1",
+      "duration": 1.209,
+      "alpha_mode": "1",
+      "loop": true,
+      "loop_endpoint_mean_diff": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "midpoint_bounds": [
+        164,
+        82,
+        347,
+        455
+      ]
+    },
+    {
+      "character": "mizu",
+      "action": "walk_right",
+      "frames": 29,
+      "expected_frames": 29,
+      "dimensions": [
+        512,
+        512
+      ],
+      "fps": "24/1",
+      "duration": 1.209,
+      "alpha_mode": "1",
+      "loop": true,
+      "loop_endpoint_mean_diff": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "midpoint_bounds": [
+        165,
+        82,
+        348,
+        455
+      ]
+    },
+    {
+      "character": "mizu",
+      "action": "drink",
+      "frames": 58,
+      "expected_frames": 58,
+      "dimensions": [
+        512,
+        512
+      ],
+      "fps": "24/1",
+      "duration": 2.417,
+      "alpha_mode": "1",
+      "loop": false,
+      "loop_endpoint_mean_diff": null,
+      "midpoint_bounds": [
+        165,
+        87,
+        350,
+        459
+      ]
+    },
+    {
+      "character": "mizu",
+      "action": "charm_start",
+      "frames": 29,
+      "expected_frames": 29,
+      "dimensions": [
+        512,
+        512
+      ],
+      "fps": "24/1",
+      "duration": 1.209,
+      "alpha_mode": "1",
+      "loop": false,
+      "loop_endpoint_mean_diff": null,
+      "midpoint_bounds": [
+        162,
+        88,
+        350,
+        459
+      ]
+    },
+    {
+      "character": "mizu",
+      "action": "charm_loop",
+      "frames": 48,
+      "expected_frames": 48,
+      "dimensions": [
+        512,
+        512
+      ],
+      "fps": "24/1",
+      "duration": 2.0,
+      "alpha_mode": "1",
+      "loop": true,
+      "loop_endpoint_mean_diff": [
+        7.62939453125e-06,
+        7.62939453125e-06,
+        3.814697265625e-06,
+        0.0
+      ],
+      "midpoint_bounds": [
+        143,
+        88,
+        363,
+        459
+      ]
+    },
+    {
+      "character": "mizu",
+      "action": "cover",
+      "frames": 48,
+      "expected_frames": 48,
+      "dimensions": [
+        512,
+        512
+      ],
+      "fps": "24/1",
+      "duration": 2.0,
+      "alpha_mode": "1",
+      "loop": false,
+      "loop_endpoint_mean_diff": null,
+      "midpoint_bounds": [
+        121,
+        89,
+        393,
+        456
+      ]
+    },
+    {
+      "character": "mizu",
+      "action": "reveal",
+      "frames": 38,
+      "expected_frames": 38,
+      "dimensions": [
+        512,
+        512
+      ],
+      "fps": "24/1",
+      "duration": 1.584,
+      "alpha_mode": "1",
+      "loop": false,
+      "loop_endpoint_mean_diff": null,
+      "midpoint_bounds": [
+        165,
+        89,
+        350,
+        459
+      ]
+    },
+    {
+      "character": "mizu",
+      "action": "panic",
+      "frames": 24,
+      "expected_frames": 24,
+      "dimensions": [
+        512,
+        512
+      ],
+      "fps": "24/1",
+      "duration": 1.0,
+      "alpha_mode": "1",
+      "loop": false,
+      "loop_endpoint_mean_diff": null,
+      "midpoint_bounds": [
+        157,
+        82,
+        350,
+        459
+      ]
+    },
+    {
+      "character": "mizu",
+      "action": "arrive",
+      "frames": 43,
+      "expected_frames": 43,
+      "dimensions": [
+        512,
+        512
+      ],
+      "fps": "24/1",
+      "duration": 1.792,
+      "alpha_mode": "1",
+      "loop": false,
+      "loop_endpoint_mean_diff": null,
+      "midpoint_bounds": [
+        163,
+        86,
+        351,
+        459
+      ]
+    },
+    {
+      "character": "mizu",
+      "action": "success",
+      "frames": 43,
+      "expected_frames": 43,
+      "dimensions": [
+        512,
+        512
+      ],
+      "fps": "24/1",
+      "duration": 1.792,
+      "alpha_mode": "1",
+      "loop": false,
+      "loop_endpoint_mean_diff": null,
+      "midpoint_bounds": [
+        128,
+        78,
+        379,
+        459
+      ]
+    },
+    {
+      "character": "pon",
+      "action": "idle",
+      "frames": 58,
+      "expected_frames": 58,
+      "dimensions": [
+        512,
+        512
+      ],
+      "fps": "24/1",
+      "duration": 2.417,
+      "alpha_mode": "1",
+      "loop": true,
+      "loop_endpoint_mean_diff": [
+        3.814697265625e-06,
+        7.62939453125e-06,
+        7.62939453125e-06,
+        0.0
+      ],
+      "midpoint_bounds": [
+        165,
+        103,
+        365,
+        458
+      ]
+    },
+    {
+      "character": "pon",
+      "action": "walk_front",
+      "frames": 29,
+      "expected_frames": 29,
+      "dimensions": [
+        512,
+        512
+      ],
+      "fps": "24/1",
+      "duration": 1.209,
+      "alpha_mode": "1",
+      "loop": true,
+      "loop_endpoint_mean_diff": [
+        2.6702880859375e-05,
+        3.814697265625e-06,
+        1.52587890625e-05,
+        0.0
+      ],
+      "midpoint_bounds": [
+        153,
+        95,
+        358,
+        453
+      ]
+    },
+    {
+      "character": "pon",
+      "action": "walk_back",
+      "frames": 29,
+      "expected_frames": 29,
+      "dimensions": [
+        512,
+        512
+      ],
+      "fps": "24/1",
+      "duration": 1.209,
+      "alpha_mode": "1",
+      "loop": true,
+      "loop_endpoint_mean_diff": [
+        7.62939453125e-06,
+        7.62939453125e-06,
+        7.62939453125e-06,
+        0.0
+      ],
+      "midpoint_bounds": [
+        153,
+        150,
+        358,
+        436
+      ]
+    },
+    {
+      "character": "pon",
+      "action": "walk_left",
+      "frames": 29,
+      "expected_frames": 29,
+      "dimensions": [
+        512,
+        512
+      ],
+      "fps": "24/1",
+      "duration": 1.209,
+      "alpha_mode": "1",
+      "loop": true,
+      "loop_endpoint_mean_diff": [
+        3.814697265625e-06,
+        1.52587890625e-05,
+        7.62939453125e-06,
+        0.0
+      ],
+      "midpoint_bounds": [
+        168,
+        120,
+        395,
+        455
+      ]
+    },
+    {
+      "character": "pon",
+      "action": "walk_right",
+      "frames": 29,
+      "expected_frames": 29,
+      "dimensions": [
+        512,
+        512
+      ],
+      "fps": "24/1",
+      "duration": 1.209,
+      "alpha_mode": "1",
+      "loop": true,
+      "loop_endpoint_mean_diff": [
+        0.000164031982421875,
+        8.392333984375e-05,
+        9.5367431640625e-05,
+        0.0
+      ],
+      "midpoint_bounds": [
+        117,
+        120,
+        344,
+        455
+      ]
+    },
+    {
+      "character": "pon",
+      "action": "drink",
+      "frames": 58,
+      "expected_frames": 58,
+      "dimensions": [
+        512,
+        512
+      ],
+      "fps": "24/1",
+      "duration": 2.417,
+      "alpha_mode": "1",
+      "loop": false,
+      "loop_endpoint_mean_diff": null,
+      "midpoint_bounds": [
+        165,
+        103,
+        365,
+        458
+      ]
+    },
+    {
+      "character": "pon",
+      "action": "charm_start",
+      "frames": 29,
+      "expected_frames": 29,
+      "dimensions": [
+        512,
+        512
+      ],
+      "fps": "24/1",
+      "duration": 1.209,
+      "alpha_mode": "1",
+      "loop": false,
+      "loop_endpoint_mean_diff": null,
+      "midpoint_bounds": [
+        162,
+        103,
+        365,
+        458
+      ]
+    },
+    {
+      "character": "pon",
+      "action": "charm_loop",
+      "frames": 48,
+      "expected_frames": 48,
+      "dimensions": [
+        512,
+        512
+      ],
+      "fps": "24/1",
+      "duration": 2.0,
+      "alpha_mode": "1",
+      "loop": true,
+      "loop_endpoint_mean_diff": [
+        7.62939453125e-06,
+        7.62939453125e-06,
+        1.52587890625e-05,
+        0.0
+      ],
+      "midpoint_bounds": [
+        144,
+        103,
+        365,
+        458
+      ]
+    },
+    {
+      "character": "pon",
+      "action": "cover",
+      "frames": 48,
+      "expected_frames": 48,
+      "dimensions": [
+        512,
+        512
+      ],
+      "fps": "24/1",
+      "duration": 2.0,
+      "alpha_mode": "1",
+      "loop": false,
+      "loop_endpoint_mean_diff": null,
+      "midpoint_bounds": [
+        134,
+        119,
+        373,
+        458
+      ]
+    },
+    {
+      "character": "pon",
+      "action": "reveal",
+      "frames": 38,
+      "expected_frames": 38,
+      "dimensions": [
+        512,
+        512
+      ],
+      "fps": "24/1",
+      "duration": 1.584,
+      "alpha_mode": "1",
+      "loop": false,
+      "loop_endpoint_mean_diff": null,
+      "midpoint_bounds": [
+        165,
+        103,
+        364,
+        458
+      ]
+    },
+    {
+      "character": "pon",
+      "action": "panic",
+      "frames": 24,
+      "expected_frames": 24,
+      "dimensions": [
+        512,
+        512
+      ],
+      "fps": "24/1",
+      "duration": 1.0,
+      "alpha_mode": "1",
+      "loop": false,
+      "loop_endpoint_mean_diff": null,
+      "midpoint_bounds": [
+        157,
+        97,
+        365,
+        458
+      ]
+    },
+    {
+      "character": "pon",
+      "action": "arrive",
+      "frames": 43,
+      "expected_frames": 43,
+      "dimensions": [
+        512,
+        512
+      ],
+      "fps": "24/1",
+      "duration": 1.792,
+      "alpha_mode": "1",
+      "loop": false,
+      "loop_endpoint_mean_diff": null,
+      "midpoint_bounds": [
+        163,
+        103,
+        367,
+        458
+      ]
+    },
+    {
+      "character": "pon",
+      "action": "success",
+      "frames": 43,
+      "expected_frames": 43,
+      "dimensions": [
+        512,
+        512
+      ],
+      "fps": "24/1",
+      "duration": 1.792,
+      "alpha_mode": "1",
+      "loop": false,
+      "loop_endpoint_mean_diff": null,
+      "midpoint_bounds": [
+        128,
+        94,
+        379,
+        458
+      ]
+    },
+    {
+      "character": "kon",
+      "action": "idle",
+      "frames": 58,
+      "expected_frames": 58,
+      "dimensions": [
+        512,
+        512
+      ],
+      "fps": "24/1",
+      "duration": 2.417,
+      "alpha_mode": "1",
+      "loop": true,
+      "loop_endpoint_mean_diff": [
+        7.62939453125e-06,
+        3.814697265625e-06,
+        1.9073486328125e-05,
+        0.0
+      ],
+      "midpoint_bounds": [
+        165,
+        55,
+        374,
+        458
+      ]
+    },
+    {
+      "character": "kon",
+      "action": "walk_front",
+      "frames": 29,
+      "expected_frames": 29,
+      "dimensions": [
+        512,
+        512
+      ],
+      "fps": "24/1",
+      "duration": 1.209,
+      "alpha_mode": "1",
+      "loop": true,
+      "loop_endpoint_mean_diff": [
+        1.1444091796875e-05,
+        7.62939453125e-06,
+        1.9073486328125e-05,
+        0.0
+      ],
+      "midpoint_bounds": [
+        153,
+        51,
+        358,
+        453
+      ]
+    },
+    {
+      "character": "kon",
+      "action": "walk_back",
+      "frames": 29,
+      "expected_frames": 29,
+      "dimensions": [
+        512,
+        512
+      ],
+      "fps": "24/1",
+      "duration": 1.209,
+      "alpha_mode": "1",
+      "loop": true,
+      "loop_endpoint_mean_diff": [
+        3.814697265625e-06,
+        0.0,
+        1.1444091796875e-05,
+        0.0
+      ],
+      "midpoint_bounds": [
+        153,
+        51,
+        358,
+        436
+      ]
+    },
+    {
+      "character": "kon",
+      "action": "walk_left",
+      "frames": 29,
+      "expected_frames": 29,
+      "dimensions": [
+        512,
+        512
+      ],
+      "fps": "24/1",
+      "duration": 1.209,
+      "alpha_mode": "1",
+      "loop": true,
+      "loop_endpoint_mean_diff": [
+        3.814697265625e-06,
+        7.62939453125e-06,
+        0.0,
+        0.0
+      ],
+      "midpoint_bounds": [
+        187,
+        47,
+        355,
+        455
+      ]
+    },
+    {
+      "character": "kon",
+      "action": "walk_right",
+      "frames": 29,
+      "expected_frames": 29,
+      "dimensions": [
+        512,
+        512
+      ],
+      "fps": "24/1",
+      "duration": 1.209,
+      "alpha_mode": "1",
+      "loop": true,
+      "loop_endpoint_mean_diff": [
+        7.62939453125e-06,
+        1.1444091796875e-05,
+        1.52587890625e-05,
+        0.0
+      ],
+      "midpoint_bounds": [
+        157,
+        19,
+        325,
+        455
+      ]
+    },
+    {
+      "character": "kon",
+      "action": "drink",
+      "frames": 58,
+      "expected_frames": 58,
+      "dimensions": [
+        512,
+        512
+      ],
+      "fps": "24/1",
+      "duration": 2.417,
+      "alpha_mode": "1",
+      "loop": false,
+      "loop_endpoint_mean_diff": null,
+      "midpoint_bounds": [
+        165,
+        53,
+        374,
+        458
+      ]
+    },
+    {
+      "character": "kon",
+      "action": "charm_start",
+      "frames": 29,
+      "expected_frames": 29,
+      "dimensions": [
+        512,
+        512
+      ],
+      "fps": "24/1",
+      "duration": 1.209,
+      "alpha_mode": "1",
+      "loop": false,
+      "loop_endpoint_mean_diff": null,
+      "midpoint_bounds": [
+        162,
+        56,
+        374,
+        458
+      ]
+    },
+    {
+      "character": "kon",
+      "action": "charm_loop",
+      "frames": 48,
+      "expected_frames": 48,
+      "dimensions": [
+        512,
+        512
+      ],
+      "fps": "24/1",
+      "duration": 2.0,
+      "alpha_mode": "1",
+      "loop": true,
+      "loop_endpoint_mean_diff": [
+        0.06377410888671875,
+        0.06250381469726562,
+        0.07440185546875,
+        0.0
+      ],
+      "midpoint_bounds": [
+        144,
+        58,
+        374,
+        458
+      ]
+    },
+    {
+      "character": "kon",
+      "action": "cover",
+      "frames": 48,
+      "expected_frames": 48,
+      "dimensions": [
+        512,
+        512
+      ],
+      "fps": "24/1",
+      "duration": 2.0,
+      "alpha_mode": "1",
+      "loop": false,
+      "loop_endpoint_mean_diff": null,
+      "midpoint_bounds": [
+        134,
+        66,
+        374,
+        458
+      ]
+    },
+    {
+      "character": "kon",
+      "action": "reveal",
+      "frames": 38,
+      "expected_frames": 38,
+      "dimensions": [
+        512,
+        512
+      ],
+      "fps": "24/1",
+      "duration": 1.584,
+      "alpha_mode": "1",
+      "loop": false,
+      "loop_endpoint_mean_diff": null,
+      "midpoint_bounds": [
+        165,
+        2,
+        374,
+        458
+      ]
+    },
+    {
+      "character": "kon",
+      "action": "panic",
+      "frames": 24,
+      "expected_frames": 24,
+      "dimensions": [
+        512,
+        512
+      ],
+      "fps": "24/1",
+      "duration": 1.0,
+      "alpha_mode": "1",
+      "loop": false,
+      "loop_endpoint_mean_diff": null,
+      "midpoint_bounds": [
+        157,
+        51,
+        374,
+        458
+      ]
+    },
+    {
+      "character": "kon",
+      "action": "arrive",
+      "frames": 43,
+      "expected_frames": 43,
+      "dimensions": [
+        512,
+        512
+      ],
+      "fps": "24/1",
+      "duration": 1.792,
+      "alpha_mode": "1",
+      "loop": false,
+      "loop_endpoint_mean_diff": null,
+      "midpoint_bounds": [
+        163,
+        52,
+        376,
+        458
+      ]
+    },
+    {
+      "character": "kon",
+      "action": "success",
+      "frames": 43,
+      "expected_frames": 43,
+      "dimensions": [
+        512,
+        512
+      ],
+      "fps": "24/1",
+      "duration": 1.792,
+      "alpha_mode": "1",
+      "loop": false,
+      "loop_endpoint_mean_diff": null,
+      "midpoint_bounds": [
+        128,
+        46,
+        379,
+        458
+      ]
+    },
+    {
+      "character": "sumi",
+      "action": "idle",
+      "frames": 58,
+      "expected_frames": 58,
+      "dimensions": [
+        512,
+        512
+      ],
+      "fps": "24/1",
+      "duration": 2.417,
+      "alpha_mode": "1",
+      "loop": true,
+      "loop_endpoint_mean_diff": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "midpoint_bounds": [
+        165,
+        111,
+        347,
+        459
+      ]
+    },
+    {
+      "character": "sumi",
+      "action": "walk_front",
+      "frames": 29,
+      "expected_frames": 29,
+      "dimensions": [
+        512,
+        512
+      ],
+      "fps": "24/1",
+      "duration": 1.209,
+      "alpha_mode": "1",
+      "loop": true,
+      "loop_endpoint_mean_diff": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "midpoint_bounds": [
+        153,
+        101,
+        359,
+        453
+      ]
+    },
+    {
+      "character": "sumi",
+      "action": "walk_back",
+      "frames": 29,
+      "expected_frames": 29,
+      "dimensions": [
+        512,
+        512
+      ],
+      "fps": "24/1",
+      "duration": 1.209,
+      "alpha_mode": "1",
+      "loop": true,
+      "loop_endpoint_mean_diff": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "midpoint_bounds": [
+        153,
+        112,
+        359,
+        437
+      ]
+    },
+    {
+      "character": "sumi",
+      "action": "walk_left",
+      "frames": 29,
+      "expected_frames": 29,
+      "dimensions": [
+        512,
+        512
+      ],
+      "fps": "24/1",
+      "duration": 1.209,
+      "alpha_mode": "1",
+      "loop": true,
+      "loop_endpoint_mean_diff": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "midpoint_bounds": [
+        173,
+        122,
+        355,
+        455
+      ]
+    },
+    {
+      "character": "sumi",
+      "action": "walk_right",
+      "frames": 29,
+      "expected_frames": 29,
+      "dimensions": [
+        512,
+        512
+      ],
+      "fps": "24/1",
+      "duration": 1.209,
+      "alpha_mode": "1",
+      "loop": true,
+      "loop_endpoint_mean_diff": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "midpoint_bounds": [
+        157,
+        81,
+        339,
+        455
+      ]
+    },
+    {
+      "character": "sumi",
+      "action": "drink",
+      "frames": 58,
+      "expected_frames": 58,
+      "dimensions": [
+        512,
+        512
+      ],
+      "fps": "24/1",
+      "duration": 2.417,
+      "alpha_mode": "1",
+      "loop": false,
+      "loop_endpoint_mean_diff": null,
+      "midpoint_bounds": [
+        165,
+        109,
+        347,
+        459
+      ]
+    },
+    {
+      "character": "sumi",
+      "action": "charm_start",
+      "frames": 29,
+      "expected_frames": 29,
+      "dimensions": [
+        512,
+        512
+      ],
+      "fps": "24/1",
+      "duration": 1.209,
+      "alpha_mode": "1",
+      "loop": false,
+      "loop_endpoint_mean_diff": null,
+      "midpoint_bounds": [
+        162,
+        112,
+        344,
+        459
+      ]
+    },
+    {
+      "character": "sumi",
+      "action": "charm_loop",
+      "frames": 48,
+      "expected_frames": 48,
+      "dimensions": [
+        512,
+        512
+      ],
+      "fps": "24/1",
+      "duration": 2.0,
+      "alpha_mode": "1",
+      "loop": true,
+      "loop_endpoint_mean_diff": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "midpoint_bounds": [
+        143,
+        113,
+        363,
+        459
+      ]
+    },
+    {
+      "character": "sumi",
+      "action": "cover",
+      "frames": 48,
+      "expected_frames": 48,
+      "dimensions": [
+        512,
+        512
+      ],
+      "fps": "24/1",
+      "duration": 2.0,
+      "alpha_mode": "1",
+      "loop": false,
+      "loop_endpoint_mean_diff": null,
+      "midpoint_bounds": [
+        128,
+        111,
+        390,
+        459
+      ]
+    },
+    {
+      "character": "sumi",
+      "action": "reveal",
+      "frames": 38,
+      "expected_frames": 38,
+      "dimensions": [
+        512,
+        512
+      ],
+      "fps": "24/1",
+      "duration": 1.584,
+      "alpha_mode": "1",
+      "loop": false,
+      "loop_endpoint_mean_diff": null,
+      "midpoint_bounds": [
+        159,
+        113,
+        347,
+        459
+      ]
+    },
+    {
+      "character": "sumi",
+      "action": "panic",
+      "frames": 24,
+      "expected_frames": 24,
+      "dimensions": [
+        512,
+        512
+      ],
+      "fps": "24/1",
+      "duration": 1.0,
+      "alpha_mode": "1",
+      "loop": false,
+      "loop_endpoint_mean_diff": null,
+      "midpoint_bounds": [
+        157,
+        101,
+        341,
+        459
+      ]
+    },
+    {
+      "character": "sumi",
+      "action": "arrive",
+      "frames": 43,
+      "expected_frames": 43,
+      "dimensions": [
+        512,
+        512
+      ],
+      "fps": "24/1",
+      "duration": 1.792,
+      "alpha_mode": "1",
+      "loop": false,
+      "loop_endpoint_mean_diff": null,
+      "midpoint_bounds": [
+        163,
+        108,
+        345,
+        459
+      ]
+    },
+    {
+      "character": "sumi",
+      "action": "success",
+      "frames": 43,
+      "expected_frames": 43,
+      "dimensions": [
+        512,
+        512
+      ],
+      "fps": "24/1",
+      "duration": 1.792,
+      "alpha_mode": "1",
+      "loop": false,
+      "loop_endpoint_mean_diff": null,
+      "midpoint_bounds": [
+        128,
+        102,
+        386,
+        459
+      ]
+    },
+    {
+      "character": "nemu",
+      "action": "idle",
+      "frames": 58,
+      "expected_frames": 58,
+      "dimensions": [
+        512,
+        512
+      ],
+      "fps": "24/1",
+      "duration": 2.417,
+      "alpha_mode": "1",
+      "loop": true,
+      "loop_endpoint_mean_diff": [
+        1.8667755126953125,
+        1.786407470703125,
+        1.76837158203125,
+        0.14754486083984375
+      ],
+      "midpoint_bounds": [
+        165,
+        80,
+        360,
+        459
+      ]
+    },
+    {
+      "character": "nemu",
+      "action": "walk_front",
+      "frames": 29,
+      "expected_frames": 29,
+      "dimensions": [
+        512,
+        512
+      ],
+      "fps": "24/1",
+      "duration": 1.209,
+      "alpha_mode": "1",
+      "loop": true,
+      "loop_endpoint_mean_diff": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "midpoint_bounds": [
+        153,
+        99,
+        361,
+        453
+      ]
+    },
+    {
+      "character": "nemu",
+      "action": "walk_back",
+      "frames": 29,
+      "expected_frames": 29,
+      "dimensions": [
+        512,
+        512
+      ],
+      "fps": "24/1",
+      "duration": 1.209,
+      "alpha_mode": "1",
+      "loop": true,
+      "loop_endpoint_mean_diff": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "midpoint_bounds": [
+        151,
+        95,
+        359,
+        437
+      ]
+    },
+    {
+      "character": "nemu",
+      "action": "walk_left",
+      "frames": 29,
+      "expected_frames": 29,
+      "dimensions": [
+        512,
+        512
+      ],
+      "fps": "24/1",
+      "duration": 1.209,
+      "alpha_mode": "1",
+      "loop": true,
+      "loop_endpoint_mean_diff": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "midpoint_bounds": [
+        187,
+        64,
+        322,
+        455
+      ]
+    },
+    {
+      "character": "nemu",
+      "action": "walk_right",
+      "frames": 29,
+      "expected_frames": 29,
+      "dimensions": [
+        512,
+        512
+      ],
+      "fps": "24/1",
+      "duration": 1.209,
+      "alpha_mode": "1",
+      "loop": true,
+      "loop_endpoint_mean_diff": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "midpoint_bounds": [
+        190,
+        96,
+        325,
+        455
+      ]
+    },
+    {
+      "character": "nemu",
+      "action": "drink",
+      "frames": 58,
+      "expected_frames": 58,
+      "dimensions": [
+        512,
+        512
+      ],
+      "fps": "24/1",
+      "duration": 2.417,
+      "alpha_mode": "1",
+      "loop": false,
+      "loop_endpoint_mean_diff": null,
+      "midpoint_bounds": [
+        165,
+        80,
+        360,
+        459
+      ]
+    },
+    {
+      "character": "nemu",
+      "action": "charm_start",
+      "frames": 29,
+      "expected_frames": 29,
+      "dimensions": [
+        512,
+        512
+      ],
+      "fps": "24/1",
+      "duration": 1.209,
+      "alpha_mode": "1",
+      "loop": false,
+      "loop_endpoint_mean_diff": null,
+      "midpoint_bounds": [
+        162,
+        80,
+        360,
+        459
+      ]
+    },
+    {
+      "character": "nemu",
+      "action": "charm_loop",
+      "frames": 48,
+      "expected_frames": 48,
+      "dimensions": [
+        512,
+        512
+      ],
+      "fps": "24/1",
+      "duration": 2.0,
+      "alpha_mode": "1",
+      "loop": true,
+      "loop_endpoint_mean_diff": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "midpoint_bounds": [
+        143,
+        81,
+        363,
+        459
+      ]
+    },
+    {
+      "character": "nemu",
+      "action": "cover",
+      "frames": 48,
+      "expected_frames": 48,
+      "dimensions": [
+        512,
+        512
+      ],
+      "fps": "24/1",
+      "duration": 2.0,
+      "alpha_mode": "1",
+      "loop": false,
+      "loop_endpoint_mean_diff": null,
+      "midpoint_bounds": [
+        134,
+        128,
+        442,
+        459
+      ]
+    },
+    {
+      "character": "nemu",
+      "action": "reveal",
+      "frames": 38,
+      "expected_frames": 38,
+      "dimensions": [
+        512,
+        512
+      ],
+      "fps": "24/1",
+      "duration": 1.584,
+      "alpha_mode": "1",
+      "loop": false,
+      "loop_endpoint_mean_diff": null,
+      "midpoint_bounds": [
+        165,
+        82,
+        361,
+        459
+      ]
+    },
+    {
+      "character": "nemu",
+      "action": "panic",
+      "frames": 24,
+      "expected_frames": 24,
+      "dimensions": [
+        512,
+        512
+      ],
+      "fps": "24/1",
+      "duration": 1.0,
+      "alpha_mode": "1",
+      "loop": false,
+      "loop_endpoint_mean_diff": null,
+      "midpoint_bounds": [
+        157,
+        75,
+        359,
+        459
+      ]
+    },
+    {
+      "character": "nemu",
+      "action": "arrive",
+      "frames": 43,
+      "expected_frames": 43,
+      "dimensions": [
+        512,
+        512
+      ],
+      "fps": "24/1",
+      "duration": 1.792,
+      "alpha_mode": "1",
+      "loop": false,
+      "loop_endpoint_mean_diff": null,
+      "midpoint_bounds": [
+        163,
+        78,
+        362,
+        459
+      ]
+    },
+    {
+      "character": "nemu",
+      "action": "success",
+      "frames": 43,
+      "expected_frames": 43,
+      "dimensions": [
+        512,
+        512
+      ],
+      "fps": "24/1",
+      "duration": 1.792,
+      "alpha_mode": "1",
+      "loop": false,
+      "loop_endpoint_mean_diff": null,
+      "midpoint_bounds": [
+        128,
+        71,
+        380,
+        459
+      ]
+    },
+    {
+      "character": "akari",
+      "action": "idle",
+      "frames": 58,
+      "expected_frames": 58,
+      "dimensions": [
+        512,
+        512
+      ],
+      "fps": "24/1",
+      "duration": 2.417,
+      "alpha_mode": "1",
+      "loop": true,
+      "loop_endpoint_mean_diff": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "midpoint_bounds": [
+        165,
+        86,
+        347,
+        459
+      ]
+    },
+    {
+      "character": "akari",
+      "action": "walk_front",
+      "frames": 29,
+      "expected_frames": 29,
+      "dimensions": [
+        512,
+        512
+      ],
+      "fps": "24/1",
+      "duration": 1.209,
+      "alpha_mode": "1",
+      "loop": true,
+      "loop_endpoint_mean_diff": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "midpoint_bounds": [
+        153,
+        87,
+        359,
+        453
+      ]
+    },
+    {
+      "character": "akari",
+      "action": "walk_back",
+      "frames": 29,
+      "expected_frames": 29,
+      "dimensions": [
+        512,
+        512
+      ],
+      "fps": "24/1",
+      "duration": 1.209,
+      "alpha_mode": "1",
+      "loop": true,
+      "loop_endpoint_mean_diff": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "midpoint_bounds": [
+        153,
+        87,
+        359,
+        437
+      ]
+    },
+    {
+      "character": "akari",
+      "action": "walk_left",
+      "frames": 29,
+      "expected_frames": 29,
+      "dimensions": [
+        512,
+        512
+      ],
+      "fps": "24/1",
+      "duration": 1.209,
+      "alpha_mode": "1",
+      "loop": true,
+      "loop_endpoint_mean_diff": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "midpoint_bounds": [
+        176,
+        85,
+        326,
+        455
+      ]
+    },
+    {
+      "character": "akari",
+      "action": "walk_right",
+      "frames": 29,
+      "expected_frames": 29,
+      "dimensions": [
+        512,
+        512
+      ],
+      "fps": "24/1",
+      "duration": 1.209,
+      "alpha_mode": "1",
+      "loop": true,
+      "loop_endpoint_mean_diff": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "midpoint_bounds": [
+        186,
+        85,
+        336,
+        455
+      ]
+    },
+    {
+      "character": "akari",
+      "action": "drink",
+      "frames": 58,
+      "expected_frames": 58,
+      "dimensions": [
+        512,
+        512
+      ],
+      "fps": "24/1",
+      "duration": 2.417,
+      "alpha_mode": "1",
+      "loop": false,
+      "loop_endpoint_mean_diff": null,
+      "midpoint_bounds": [
+        165,
+        86,
+        347,
+        459
+      ]
+    },
+    {
+      "character": "akari",
+      "action": "charm_start",
+      "frames": 29,
+      "expected_frames": 29,
+      "dimensions": [
+        512,
+        512
+      ],
+      "fps": "24/1",
+      "duration": 1.209,
+      "alpha_mode": "1",
+      "loop": false,
+      "loop_endpoint_mean_diff": null,
+      "midpoint_bounds": [
+        162,
+        86,
+        344,
+        459
+      ]
+    },
+    {
+      "character": "akari",
+      "action": "charm_loop",
+      "frames": 48,
+      "expected_frames": 48,
+      "dimensions": [
+        512,
+        512
+      ],
+      "fps": "24/1",
+      "duration": 2.0,
+      "alpha_mode": "1",
+      "loop": true,
+      "loop_endpoint_mean_diff": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "midpoint_bounds": [
+        143,
+        86,
+        363,
+        459
+      ]
+    },
+    {
+      "character": "akari",
+      "action": "cover",
+      "frames": 48,
+      "expected_frames": 48,
+      "dimensions": [
+        512,
+        512
+      ],
+      "fps": "24/1",
+      "duration": 2.0,
+      "alpha_mode": "1",
+      "loop": false,
+      "loop_endpoint_mean_diff": null,
+      "midpoint_bounds": [
+        134,
+        86,
+        374,
+        459
+      ]
+    },
+    {
+      "character": "akari",
+      "action": "reveal",
+      "frames": 38,
+      "expected_frames": 38,
+      "dimensions": [
+        512,
+        512
+      ],
+      "fps": "24/1",
+      "duration": 1.584,
+      "alpha_mode": "1",
+      "loop": false,
+      "loop_endpoint_mean_diff": null,
+      "midpoint_bounds": [
+        165,
+        76,
+        347,
+        459
+      ]
+    },
+    {
+      "character": "akari",
+      "action": "panic",
+      "frames": 24,
+      "expected_frames": 24,
+      "dimensions": [
+        512,
+        512
+      ],
+      "fps": "24/1",
+      "duration": 1.0,
+      "alpha_mode": "1",
+      "loop": false,
+      "loop_endpoint_mean_diff": null,
+      "midpoint_bounds": [
+        157,
+        80,
+        341,
+        459
+      ]
+    },
+    {
+      "character": "akari",
+      "action": "arrive",
+      "frames": 43,
+      "expected_frames": 43,
+      "dimensions": [
+        512,
+        512
+      ],
+      "fps": "24/1",
+      "duration": 1.792,
+      "alpha_mode": "1",
+      "loop": false,
+      "loop_endpoint_mean_diff": null,
+      "midpoint_bounds": [
+        163,
+        84,
+        345,
+        459
+      ]
+    },
+    {
+      "character": "akari",
+      "action": "success",
+      "frames": 43,
+      "expected_frames": 43,
+      "dimensions": [
+        512,
+        512
+      ],
+      "fps": "24/1",
+      "duration": 1.792,
+      "alpha_mode": "1",
+      "loop": false,
+      "loop_endpoint_mean_diff": null,
+      "midpoint_bounds": [
+        128,
+        77,
+        380,
+        459
+      ]
+    },
+    {
+      "character": "kasa",
+      "action": "idle",
+      "frames": 58,
+      "expected_frames": 58,
+      "dimensions": [
+        512,
+        512
+      ],
+      "fps": "24/1",
+      "duration": 2.417,
+      "alpha_mode": "1",
+      "loop": true,
+      "loop_endpoint_mean_diff": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "midpoint_bounds": [
+        136,
+        119,
+        376,
+        455
+      ]
+    },
+    {
+      "character": "kasa",
+      "action": "walk_front",
+      "frames": 29,
+      "expected_frames": 29,
+      "dimensions": [
+        512,
+        512
+      ],
+      "fps": "24/1",
+      "duration": 1.209,
+      "alpha_mode": "1",
+      "loop": true,
+      "loop_endpoint_mean_diff": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "midpoint_bounds": [
+        136,
+        98,
+        376,
+        436
+      ]
+    },
+    {
+      "character": "kasa",
+      "action": "walk_back",
+      "frames": 29,
+      "expected_frames": 29,
+      "dimensions": [
+        512,
+        512
+      ],
+      "fps": "24/1",
+      "duration": 1.209,
+      "alpha_mode": "1",
+      "loop": true,
+      "loop_endpoint_mean_diff": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "midpoint_bounds": [
+        136,
+        77,
+        376,
+        420
+      ]
+    },
+    {
+      "character": "kasa",
+      "action": "walk_left",
+      "frames": 29,
+      "expected_frames": 29,
+      "dimensions": [
+        512,
+        512
+      ],
+      "fps": "24/1",
+      "duration": 1.209,
+      "alpha_mode": "1",
+      "loop": true,
+      "loop_endpoint_mean_diff": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "midpoint_bounds": [
+        136,
+        98,
+        376,
+        425
+      ]
+    },
+    {
+      "character": "kasa",
+      "action": "walk_right",
+      "frames": 29,
+      "expected_frames": 29,
+      "dimensions": [
+        512,
+        512
+      ],
+      "fps": "24/1",
+      "duration": 1.209,
+      "alpha_mode": "1",
+      "loop": true,
+      "loop_endpoint_mean_diff": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "midpoint_bounds": [
+        136,
+        98,
+        376,
+        425
+      ]
+    },
+    {
+      "character": "kasa",
+      "action": "drink",
+      "frames": 58,
+      "expected_frames": 58,
+      "dimensions": [
+        512,
+        512
+      ],
+      "fps": "24/1",
+      "duration": 2.417,
+      "alpha_mode": "1",
+      "loop": false,
+      "loop_endpoint_mean_diff": null,
+      "midpoint_bounds": [
+        136,
+        117,
+        375,
+        455
+      ]
+    },
+    {
+      "character": "kasa",
+      "action": "charm_start",
+      "frames": 29,
+      "expected_frames": 29,
+      "dimensions": [
+        512,
+        512
+      ],
+      "fps": "24/1",
+      "duration": 1.209,
+      "alpha_mode": "1",
+      "loop": false,
+      "loop_endpoint_mean_diff": null,
+      "midpoint_bounds": [
+        137,
+        120,
+        376,
+        455
+      ]
+    },
+    {
+      "character": "kasa",
+      "action": "charm_loop",
+      "frames": 48,
+      "expected_frames": 48,
+      "dimensions": [
+        512,
+        512
+      ],
+      "fps": "24/1",
+      "duration": 2.0,
+      "alpha_mode": "1",
+      "loop": true,
+      "loop_endpoint_mean_diff": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "midpoint_bounds": [
+        137,
+        121,
+        376,
+        455
+      ]
+    },
+    {
+      "character": "kasa",
+      "action": "cover",
+      "frames": 48,
+      "expected_frames": 48,
+      "dimensions": [
+        512,
+        512
+      ],
+      "fps": "24/1",
+      "duration": 2.0,
+      "alpha_mode": "1",
+      "loop": false,
+      "loop_endpoint_mean_diff": null,
+      "midpoint_bounds": [
+        134,
+        113,
+        376,
+        455
+      ]
+    },
+    {
+      "character": "kasa",
+      "action": "reveal",
+      "frames": 38,
+      "expected_frames": 38,
+      "dimensions": [
+        512,
+        512
+      ],
+      "fps": "24/1",
+      "duration": 1.584,
+      "alpha_mode": "1",
+      "loop": false,
+      "loop_endpoint_mean_diff": null,
+      "midpoint_bounds": [
+        136,
+        114,
+        376,
+        455
+      ]
+    },
+    {
+      "character": "kasa",
+      "action": "panic",
+      "frames": 24,
+      "expected_frames": 24,
+      "dimensions": [
+        512,
+        512
+      ],
+      "fps": "24/1",
+      "duration": 1.0,
+      "alpha_mode": "1",
+      "loop": false,
+      "loop_endpoint_mean_diff": null,
+      "midpoint_bounds": [
+        136,
+        99,
+        375,
+        440
+      ]
+    },
+    {
+      "character": "kasa",
+      "action": "arrive",
+      "frames": 43,
+      "expected_frames": 43,
+      "dimensions": [
+        512,
+        512
+      ],
+      "fps": "24/1",
+      "duration": 1.792,
+      "alpha_mode": "1",
+      "loop": false,
+      "loop_endpoint_mean_diff": null,
+      "midpoint_bounds": [
+        139,
+        116,
+        378,
+        455
+      ]
+    },
+    {
+      "character": "kasa",
+      "action": "success",
+      "frames": 43,
+      "expected_frames": 43,
+      "dimensions": [
+        512,
+        512
+      ],
+      "fps": "24/1",
+      "duration": 1.792,
+      "alpha_mode": "1",
+      "loop": false,
+      "loop_endpoint_mean_diff": null,
+      "midpoint_bounds": [
+        128,
+        109,
+        380,
+        455
+      ]
+    }
+  ],
+  "missing": []
+}

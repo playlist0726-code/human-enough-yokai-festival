@@ -1,0 +1,21 @@
+{
+  "key": "pon_human",
+  "meshes": [
+    [
+      "pon_human__tailored_yukata",
+      2738,
+      "cloth"
+    ],
+    [
+      "pon_human__sleeve",
+      1794,
+      "sleeve"
+    ],
+    [
+      "pon_human__sleeve.001",
+      1794,
+      "sleeve"
+    ]
+  ],
+  "bones": 15
+}
