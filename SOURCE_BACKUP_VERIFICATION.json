@@ -1,0 +1,37 @@
+{
+  "verified_at": "2026-11-03T08:19:16.334026+00:00",
+  "snapshot_commit": "20e727ed5f92e61cc95a7a747107426c8c53bc0c",
+  "repository": "https://github.com/playlist0726-code/human-enough-yokai-festival",
+  "private": true,
+  "manifest_sha256": "8b877d62275bf3438bc90cb849069b30ee39a34a0180f814d373c172e95d6f64",
+  "source_original_comparison": {
+    "ok": true,
+    "files_checked": 4711,
+    "bytes_checked": 1667507418,
+    "originals_compared": true,
+    "failures": []
+  },
+  "fresh_github_clone_comparison": {
+    "ok": true,
+    "files_checked": 4711,
+    "bytes_checked": 1667507418,
+    "originals_compared": false,
+    "failures": []
+  },
+  "lfs_objects_downloaded": 3931,
+  "lfs_fsck": "passed",
+  "syntax_checks": "passed",
+  "restored_game_tests": {
+    "unit": {
+      "passed": 93,
+      "failed": 0
+    },
+    "integration": {
+      "passed": 5,
+      "failed": 0
+    }
+  },
+  "runtime_files_changed_by_backup": [],
+  "render_auto_deploy_skip": "[skip render] in backup commit messages",
+  "restore_note": "All large files were hydrated from downloaded Git LFS objects after checking out the final snapshot; a pointer-only checkout is not a complete restore."
+}
