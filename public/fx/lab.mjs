@@ -4,7 +4,7 @@
 import * as THREE from 'three';
 import {createPlayerAvatar,animatePlayerAvatar} from '../disguise.mjs';
 import {modelReport} from '../model-assets.mjs';
-import {createTransformation} from '../transformation.mjs';
+import {createTransformation,transformationPose} from '../transformation.mjs';
 
 const q=new URLSearchParams(location.search),mode=q.get('mode')||'transform';
 const W=+(q.get('w')||960),H=+(q.get('h')||540);
@@ -24,7 +24,7 @@ if(mode==='transform'){
   tf.start(nodes);
   window.labFrame=(i,fps=24)=>{
     const time=i/fps,progress=Math.min(1,time/tf.duration);
-    for(const n of nodes)animatePlayerAvatar(n.r,n.p,1/fps,time,0,{x:0,z:0},{form:'transform',progress});
+    nodes.forEach((n,k)=>{Object.assign(n.p,transformationPose(progress,k));animatePlayerAvatar(n.r,n.p,1/fps,time,0,{x:0,z:0},{form:'transform',progress});});
     tf.render(progress,time);return {progress,done:progress>=1,particles:tf.pools.smoke.count+tf.pools.glow.count};
   };
   window.labFrames=Math.ceil(tf.duration*24)+6;

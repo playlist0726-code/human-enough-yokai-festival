@@ -19,27 +19,29 @@ export const GLOW={dot:0,sparkle:1,heart:2,ring:3};
 const vertexShader=`
 attribute vec3 aOffset;attribute vec4 aColor;attribute vec3 aShade;attribute vec4 aParams;
 uniform vec2 uGrid;
-varying vec2 vUv;varying vec4 vColor;varying vec3 vShade;
+varying vec2 vUv;varying vec2 vUv2;varying float vMix;varying vec4 vColor;varying vec3 vShade;
 void main(){
   float size=aParams.x,rot=aParams.y,frame=aParams.z;
   vec2 c=position.xy;float cs=cos(rot),sn=sin(rot);c=vec2(c.x*cs-c.y*sn,c.x*sn+c.y*cs)*size;
   vec3 right=vec3(viewMatrix[0][0],viewMatrix[1][0],viewMatrix[2][0]);
   vec3 up=vec3(viewMatrix[0][1],viewMatrix[1][1],viewMatrix[2][1]);
   vec3 world=aOffset+right*c.x+up*c.y;
-  float f=floor(frame+.5);vec2 cell=vec2(mod(f,uGrid.x),uGrid.y-1.-floor(f/uGrid.x));
-  vUv=(cell+uv)/uGrid;vColor=aColor;vShade=aShade;
+  // flipbook frame blending: sample this frame and the next, cross-fade by the fraction (smooth at any fps)
+  float f=floor(frame),n=min(f+1.,uGrid.x*uGrid.y-1.);vMix=frame-f;
+  vec2 cell=vec2(mod(f,uGrid.x),uGrid.y-1.-floor(f/uGrid.x)),cell2=vec2(mod(n,uGrid.x),uGrid.y-1.-floor(n/uGrid.x));
+  vUv=(cell+uv)/uGrid;vUv2=(cell2+uv)/uGrid;vColor=aColor;vShade=aShade;
   gl_Position=projectionMatrix*viewMatrix*vec4(world,1.);
 }`;
 const smokeFragment=`
-uniform sampler2D uMap;varying vec2 vUv;varying vec4 vColor;varying vec3 vShade;
-void main(){vec4 t=texture2D(uMap,vUv);float a=t.a*vColor.a;if(a<.01)discard;
+uniform sampler2D uMap;varying vec2 vUv;varying vec2 vUv2;varying float vMix;varying vec4 vColor;varying vec3 vShade;
+void main(){vec4 t=mix(texture2D(uMap,vUv),texture2D(uMap,vUv2),vMix);float a=t.a*vColor.a;if(a<.01)discard;
   gl_FragColor=vec4(mix(vShade,vColor.rgb,t.r),a);
   #include <tonemapping_fragment>
   #include <colorspace_fragment>
 }`;
 const glowFragment=`
-uniform sampler2D uMap;varying vec2 vUv;varying vec4 vColor;varying vec3 vShade;
-void main(){vec4 t=texture2D(uMap,vUv);float a=t.a*vColor.a;if(a<.004)discard;
+uniform sampler2D uMap;varying vec2 vUv;varying vec2 vUv2;varying float vMix;varying vec4 vColor;varying vec3 vShade;
+void main(){vec4 t=mix(texture2D(uMap,vUv),texture2D(uMap,vUv2),vMix);float a=t.a*vColor.a;if(a<.004)discard;
   gl_FragColor=vec4(vColor.rgb,a);
   #include <tonemapping_fragment>
   #include <colorspace_fragment>

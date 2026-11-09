@@ -12,6 +12,20 @@ import {createPool,fxTexture,GLOW} from './fx/particles.mjs';
 
 const POP=.51,SMOKE_START=.40;
 const ease=t=>t<.5?2*t*t:1-Math.pow(-2*t+2,2)/2;
+const clamp01=t=>Math.min(1,Math.max(0,t));
+// damped spring response to an impulse at t=0 (jelly settle): amplitude * e^(-k t) * sin(w t)
+const jelly=(t,k=5.5,w=15)=>t<0?0:Math.exp(-k*t)*Math.sin(w*t);
+const hopArc=(t,d=.42)=>t<0||t>d?0:4*(t/d)*(1-t/d);
+
+/**
+ * Pose the legacy rig for the opening so nobody stands frozen: magic-hands 'charm' pose while
+ * gathering, a 'ta-da' cover pose after the pop, and idle breathing otherwise. The rig's own
+ * damped blends (character-motion.mjs) keep every change smooth.
+ */
+export function transformationPose(progress,i=0){
+  const charm=progress>.16+i*.03&&progress<POP-.02,tada=progress>POP+.07+i*.025&&progress<.82+i*.02;
+  return {action:charm?'charm':'idle',cover:tada?1:0};
+}
 
 function warmPoolTexture(){
   const c=typeof document!=='undefined'?document.createElement('canvas'):null;if(!c)return null;c.width=c.height=128;
@@ -48,7 +62,7 @@ export function createTransformation(renderer,{budget=1}={}){
   const overlay=document.querySelector('#transformation'),title=document.querySelector('#transformation-title'),caption=document.querySelector('#transformation-caption'),fill=document.querySelector('#transformation-progress');
 
   function clear(){
-    for(const {node,parent}of originals.values()){node.scale.set(1,1,1);parent?.add(node);}originals.clear();crew.length=0;
+    for(const {node,parent}of originals.values()){node.scale.set(1,1,1);node.rotation.set(0,0,0);parent?.add(node);}originals.clear();crew.length=0;
     for(const d of dais){for(const m of d.meshes){scene.remove(m);if(m.geometry!==ringGeo)m.geometry.dispose();if(m.material!==shockMat&&m.material!==lanternMat)m.material.dispose();}}dais.length=0;
     smoke.clear();glow.clear();last=-1;emitAcc=0;overlay?.classList.add('hidden');
   }
@@ -99,13 +113,18 @@ export function createTransformation(renderer,{budget=1}={}){
   function render(progress,time){
     const dt=last<0?1/60:THREE.MathUtils.clamp(time-lastTime,0,.1),count=crew.length;lastTime=time;
     const crossed=t=>last<t&&progress>=t;
-    const pre=THREE.MathUtils.clamp((progress-.4)/(POP-.4),0,1),after=THREE.MathUtils.clamp((progress-POP)/.12,0,1);
+    const pre=clamp01((progress-.4)/(POP-.4)),after=clamp01((progress-POP)/.12);
     crew.forEach((n,i)=>{
       const d=dais[i],x=d.x;n.group.position.set(x,0,0);n.label.visible=false;n.aura.visible=false;
-      // squash & stretch on top of the rig's own morph: anticipation squash, pop stretch, settle
-      const squash=progress<POP?1-.12*ease(pre):1+.16*Math.sin(after*Math.PI)*(1-after);
+      // whole-body secondary motion: each character on its own phase so the crew never moves in lockstep
+      const ph=i*1.7,tPop=(progress-POP)*DISGUISE.intro-i*.04;
+      const sway=Math.sin(time*1.6+ph)*.045*(1-pre*.6),bob=(Math.sin(time*3.2+ph)*.5+.5)*.035;
+      const crouch=progress<POP?ease(pre):0;                                   // anticipation
+      const squash=1-.13*crouch+.2*jelly(tPop)+.05*jelly(tPop-.5,4,11);         // pop stretch, jelly settle
       n.group.scale.set(1/Math.sqrt(squash),squash,1/Math.sqrt(squash));
-      d.ring.position.y=.05+Math.sin(Math.min(1,progress/POP)*Math.PI*.5)*1.25*(progress<POP?1:1-after);
+      n.group.position.y=bob*(1-crouch)+hopArc(tPop)*.55;
+      n.group.rotation.set(-.06*crouch+.08*jelly(tPop,5,9),Math.sin(time*.9+ph)*.18*(1-pre)+(i-(count-1)/2)*-.12,sway+.06*jelly(tPop-.08,4.5,12)*(i%2?1:-1));
+      d.ring.position.y=.05+ease(Math.min(1,progress/POP))*1.25*(progress<POP?1:1-ease(after));
       d.ring.scale.setScalar(1-.35*pre+after*.6);d.ring.material.opacity=progress<POP?.55+.45*pre:1-after;d.ring.rotation.z=time*1.2;
       const sh=THREE.MathUtils.clamp((progress-POP)/.16,0,1);d.shock.scale.setScalar(.6+sh*3.6);d.shock.material.opacity=progress>=POP?(1-sh)*.9:0;
       if(progress<POP)emitGather(x,dt,.4+pre*1.6);
@@ -121,8 +140,8 @@ export function createTransformation(renderer,{budget=1}={}){
     const width=Math.max(3,(count-1)*2.6+2.9),base=Math.max(6.6,width/(2*Math.tan(36*Math.PI/360)*camera.aspect));
     const push=progress<POP?1.12-.2*ease(Math.min(1,progress/POP)):.92+.08*ease(THREE.MathUtils.clamp((progress-POP)/(1-POP),0,1));
     const trauma=Math.max(pre*pre*.25*(progress<POP?1:0),Math.max(0,1-(progress-POP)/.08)*(progress>=POP?1:0));
-    const sx=Math.sin(time*47)*.07*trauma*trauma,sy=Math.sin(time*53+1)*.06*trauma*trauma;
-    camera.position.set(Math.sin(time*.2)*.3+sx,2.3+sy,base*push);camera.lookAt(0,1.45,0);camera.rotation.z+=Math.sin(time*31)*.012*trauma*trauma;camera.updateProjectionMatrix();
+    const sx=(Math.sin(time*23)+Math.sin(time*31.7)*.5)*.045*trauma*trauma,sy=(Math.sin(time*27+1)+Math.sin(time*19.3)*.5)*.04*trauma*trauma;
+    camera.position.set(Math.sin(time*.2)*.3+sx,2.3+sy,base*push);camera.lookAt(0,1.45,0);camera.rotation.z+=Math.sin(time*17)*.01*trauma*trauma;camera.updateProjectionMatrix();
     if(title){title.textContent=progress<.4?'Borrow a human face':progress<.7?'One little trick…':'Human enough. For now.';
       caption.textContent=progress<.7?'Hide your true shape before the festival gates open.':'Stay close. Every 15 seconds, your disguise may slip.';
       fill.style.width=`${progress*100}%`;overlay.style.setProperty('--flash',String(flash*.55));}
