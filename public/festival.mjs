@@ -6,6 +6,9 @@ import {createVisitor,animateVisitor} from './visitors.mjs';
 import {buildFoliage} from './foliage.mjs';
 import {buildFestivalScenery} from './festival-scenery.mjs';
 import {timber,stoneSurface,groundMaterial,pavingMaterial} from './art-materials.mjs';
+// REMASTER-HOOK r02: lanterns register light anchors so the render pipeline can paint light pools and place real lights.
+import {registerLantern} from './render/lanterns.mjs';
+const lanternAt=(parent,x,y,z,kind,extra)=>{parent.updateWorldMatrix(true,false);const p=parent.localToWorld(new THREE.Vector3(x,y,z));registerLantern({x:p.x,y:p.y,z:p.z,kind:kind||(p.y-groundHeight(p.x,p.z)>4?'string':'paper'),...extra});};
 
 const wood=timber('#886048'),gold=surface('#d5a758',{metalness:.4,roughness:.45}),red=surface('#b94942'),stone=stoneSurface('#9a9ca3');
 const lamp=surface('#ffba6c',{emissive:'#ff9b48',emissiveIntensity:1.05,roughness:.82});
@@ -22,7 +25,7 @@ function lantern(parent,x,y,z,color=null){
   if(!paperTexture){const c=document.createElement('canvas');c.width=128;c.height=256;const ctx=c.getContext('2d');ctx.fillStyle='#fff4dc';ctx.fillRect(0,0,128,256);for(let i=0;i<256;i+=16){ctx.fillStyle='#a5774944';ctx.fillRect(0,i,128,2);ctx.fillStyle='#ffffff66';ctx.fillRect(0,i+2,128,2);}for(let i=0;i<1800;i++){ctx.fillStyle=i%2?'#bd8d5120':'#ffffff44';ctx.fillRect((Math.sin(i*13.4)*.5+.5)*128,(Math.cos(i*21)*.5+.5)*256,1,2);}paperTexture=new THREE.CanvasTexture(c);paperTexture.colorSpace=THREE.SRGBColorSpace;}
   const tint=color||'#ffc681';if(!paperMaterials.has(tint))paperMaterials.set(tint,new THREE.MeshStandardMaterial({color:tint,map:paperTexture,emissive:tint,emissiveMap:paperTexture,emissiveIntensity:.65,roughness:.85}));const m=paperMaterials.get(tint);
   const profile=[];for(let i=0;i<=24;i++){const t=i/24;profile.push(new THREE.Vector2(.11+Math.sin(Math.PI*t)*.21+Math.cos(t*Math.PI*24)*.006,(t-.5)*.75));}
-  part(parent,new THREE.LatheGeometry(profile,24),m,x,y,z);
+  part(parent,new THREE.LatheGeometry(profile,24),m,x,y,z);lanternAt(parent,x,y,z,null,color?{color}:undefined); // REMASTER-HOOK r02
   for(const yy of [-.37,.37])tube(parent,wood,.13,.13,.055,x,y+yy,z);
   curve(parent,wood,[[x,y+.4,z],[x,y+.54,z],[x+.08,y+.59,z]],.014);
   const tassel=part(parent,new THREE.ConeGeometry(.025,.18,5),gold,x,y-.48,z);tassel.rotation.z=.08;
@@ -98,8 +101,8 @@ export function buildFestival(scene,potionNodes){
     // Small stepping stones connect every booth to the festival lane.
     for(let k=0;k<5;k++){const t=(k+.5)/5,x=THREE.MathUtils.lerp(Math.sign(s.x)*2.8,s.x,t),z=s.z+s.d/2+1;for(const side of [-1,1]){const pz=z+side*.34,slab=softBox(world,stone,x,groundHeight(x,pz)+.04,pz,.82,.09,.64,.11);slab.rotation.y=Math.sin(k*4+s.x)*.15;}}
 
-    const light=new THREE.PointLight('#ffb36c',16,10,2);light.position.set(s.x,2.5,s.z+2);scene.add(light);
-    light.position.y+=groundHeight(s.x,s.z);
+    // REMASTER-HOOK r02: the stall glow is a lantern anchor; the render pipeline decides how many real lights exist per profile.
+    registerLantern({x:s.x,y:2.5+groundHeight(s.x,s.z),z:s.z+2,kind:'stall'});
     const flag=group(scene,s.x+s.w/2+.6,groundHeight(s.x,s.z),s.z);tube(flag,wood,.04,.04,4.3,0,2.15,0);const banner=cube(flag,cloth,.45,3.05,0,.85,1.85,.018);wind.push(banner);
   }
   // The water garden is an actual obstacle, with a consistent sloping ground plane.
@@ -111,7 +114,8 @@ export function buildFestival(scene,potionNodes){
     const x=side*17.1,y=groundHeight(x,z);tube(world,wood,.075,.09,1.1,x,y+.55,z);for(const yy of [.42,.85])cube(world,red,x,y+yy,z+1.72,.13,.14,3.5);
   }
   for(const [x,z]of [[-5,16],[5,15],[-6,-5],[5,-15],[-7,-23],[6,-25]]){
-    const g=group(world,x,groundHeight(x,z),z);softBox(g,stone,0,.25,0,.6,.5,.6,.06);tube(g,stone,.19,.27,.7,0,.72,0);softBox(g,wood,0,1.17,0,.58,.46,.58,.02);orb(g,lamp,0,1.16,0,.19,.19,.19);part(g,new THREE.ConeGeometry(.59,.35,4),stone,0,1.61,0).rotation.y=Math.PI/4;
+    const g=group(world,x,groundHeight(x,z),z);softBox(g,stone,0,.25,0,.6,.5,.6,.06);tube(g,stone,.19,.27,.7,0,.72,0);softBox(g,wood,0,1.17,0,.58,.46,.58,.02);orb(g,lamp,0,1.16,0,.19,.19,.19);registerLantern({x,y:groundHeight(x,z)+1.16,z,kind:'stone'}); // REMASTER-HOOK r02
+    part(g,new THREE.ConeGeometry(.59,.35,4),stone,0,1.61,0).rotation.y=Math.PI/4;
     for(const s of [-1,1])for(const zz of [-.22,.22])cube(g,wood,s*.22,1.18,zz,.045,.5,.045);
   }
   for(const [x,z]of [[-5,5],[5,-7],[-5,-20]]){const g=group(world,x,groundHeight(x,z),z);softBox(g,timber('#b68561'),0,.52,0,2.2,.15,.6,.04);for(const s of [-1,1])softBox(g,wood,s*.7,.24,0,.12,.5,.4,.025);}
@@ -132,7 +136,8 @@ export function buildFestival(scene,potionNodes){
   cube(summit,red,0,5.28,0,8.1,.25,.65);cube(summit,wood,0,.99,-1,2.5,.7,1);sign(summit,'Spirit Gate',0,4.35,.35,2.4);
   const rope=curve(summit,'#d5be89',[[-2.7,4.3,.25],[0,3.84,.4],[2.7,4.3,.25]],.055);
   for(const x of [-1.6,0,1.6]){const paper=cube(summit,'#fff4d3',x,3.76,.43,.18,.5,.03);paper.rotation.z=.3;}
-  const portal=part(scene,new THREE.PlaneGeometry(5.35,4.15),new THREE.ShaderMaterial({transparent:true,depthWrite:false,side:THREE.DoubleSide,uniforms:{time:{value:0}},vertexShader:'varying vec2 v;void main(){v=uv;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.);}',fragmentShader:'varying vec2 v;uniform float time;void main(){vec2 p=v-.5;float r=length(p*vec2(1.,1.3));float s=sin(r*50.-time*3.)*.5+.5;float a=smoothstep(.57,.2,r)*(.17+s*.16);gl_FragColor=vec4(.44+s*.3,.32+s*.23,.9,a);}'}),0,groundHeight(0,-30)+2.5,-30.1);portal.name='summit-portal';
+  const portal=part(scene,new THREE.PlaneGeometry(5.35,4.15),new THREE.ShaderMaterial({transparent:true,depthWrite:false,side:THREE.DoubleSide,uniforms:{time:{value:0}},vertexShader:'varying vec2 v;void main(){v=uv;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.);}',fragmentShader:'varying vec2 v;uniform float time;void main(){vec2 p=v-.5;float r=length(p*vec2(1.,1.3));float s=sin(r*50.-time*3.)*.5+.5;float a=smoothstep(.57,.2,r)*(.17+s*.16);gl_FragColor=vec4(.44+s*.3,.32+s*.23,.9,a);}'}),0,groundHeight(0,-30)+2.5,-30.1);portal.name='summit-portal';registerLantern({x:0,y:groundHeight(0,-30)+1.6,z:-29.4,kind:'portal'}); // REMASTER-HOOK r02
+  
   for(const x of [-4.3,4.3]){cube(summit,stone,x,.75,1.9,.55,1.1,.55);lantern(summit,x,1.72,1.9);}
   const arrival=ring(world,surface('#c49cf9',{emissive:'#9672ee',emissiveIntensity:1.3}),2.5,.06,0,.11,18.5);arrival.rotation.x=-Math.PI/2;
   for(let i=0;i<14;i++){const a=i/14*Math.PI*2;const rune=part(world,new THREE.OctahedronGeometry(.08),gold,Math.sin(a)*2.8,.12,18.5+Math.cos(a)*2.8);rune.scale.y=.2;}
@@ -150,7 +155,8 @@ export function buildFestival(scene,potionNodes){
     const g=group(scene,p.x,groundHeight(p.x,p.z),p.z);g.name=p.id;
     tube(g,surface('#5b5770'),.39,.48,.15,0,.07,0);const halo=ring(g,surface('#52d4f5',{emissive:'#46bffd',emissiveIntensity:2}),.36,.02,0,.17,0);halo.rotation.x=Math.PI/2;
     const b=createPotion(['#25c8ff','#b978ff','#ffb53e'][Number(p.id.slice(1))%3],1.15);b.position.y=.9;g.add(b);g.userData.bottle=b;
-    const motes=group(g);for(let i=0;i<5;i++){const spark=part(motes,new THREE.OctahedronGeometry(.035),surface('#e5f9ff',{emissive:'#a6eaff',emissiveIntensity:2.5}));spark.position.set(Math.sin(i*2.4)*.43,.6+i*.16,Math.cos(i*2.4)*.43);}g.userData.motes=motes;potionNodes.set(p.id,g);
+    const motes=group(g);for(let i=0;i<5;i++){const spark=part(motes,new THREE.OctahedronGeometry(.035),surface('#e5f9ff',{emissive:'#a6eaff',emissiveIntensity:2.5}));spark.position.set(Math.sin(i*2.4)*.43,.6+i*.16,Math.cos(i*2.4)*.43);}g.userData.motes=motes;potionNodes.set(p.id,g);registerLantern({x:p.x,y:groundHeight(p.x,p.z)+.9,z:p.z,kind:'potion'}); // REMASTER-HOOK r02
+  
   }
   const scenery=buildFestivalScenery(scene);
   const motePositions=new Float32Array(135*3),moteGeo=new THREE.BufferGeometry();moteGeo.setAttribute('position',new THREE.BufferAttribute(motePositions,3));const moteMat=new THREE.PointsMaterial({color:'#ffe2a0',size:.045,transparent:true,opacity:.65,depthWrite:false});scene.add(new THREE.Points(moteGeo,moteMat));

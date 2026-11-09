@@ -9,7 +9,8 @@ import {createFireworks} from './fireworks.mjs';
  */
 export function createFx({scene,bus,pipeline}){
   const actions=createActionEffects(scene);
-  const fireworks=createFireworks(scene,{onBurst:burst=>bus?.emit('firework',{playerId:null,...burst})});
+  // REMASTER-HOOK r02: each burst also tints sky and ground through the render pipeline's flash API.
+  const fireworks=createFireworks(scene,{onBurst:burst=>{bus?.emit('firework',{playerId:null,...burst});pipeline?.flash?.(burst.color,.8);}});
   return {
     actions,fireworks,
     /** Legacy path: server events with an `fx` field (kept until R10 moves them onto the bus). */
