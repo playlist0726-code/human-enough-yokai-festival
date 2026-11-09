@@ -2,7 +2,7 @@
 
 - 현재 브리프: **R03** · 브랜치 `remaster/r03-mizu-pilot`
 - 마지막 갱신: 2026-11-08 23:40 (America/Denver)
-- 상태: 진행 중 — 3D 비교 끝(Tripo 채택), Blender 파이프라인 작성 중. **CDN 허용 대기**
+- 상태: 진행 중 — 요괴·인간 3D 생성 완료, 파이프라인 v1 완성(대역 메시로 validator PASS). **CDN 허용 대기 → 받는 즉시 build.py**
 
 ## 시작 점검
 - [x] 저장소 클론, `npm ci`, `npm run check`, `npm test` 112개 통과
@@ -18,9 +18,17 @@
 ## 막힌 것
 - Higgsfield 결과 GLB/PNG를 작업 공간으로 받을 수 없음(CDN 차단). 허용 도메인 추가 전까지는 생성·평가는 Higgsfield 쪽에서, Blender 스크립트 작성은 로컬에서 진행.
 
+## 끝난 것(파이프라인)
+- [x] `source/v2/pipeline/`: charkit, clean_character, rig_contract, motion_lib, animate_contract, export_contract, reveal_prop, preview, build_character
+- [x] 대역(기존 mizu_yokai.glb)으로 전 단계 실행 → validator PASS(player), `npm run build` 압축 후 rig-v2에서 14클립·소켓·모프·높이 2.85 확인
+- [x] 버그 수정: 클립 길이 1.25배(Blender 24fps) → 30fps 고정
+- [x] rig-v2: 얼굴 모프(깜빡임·놀람·봉인 시 반쯤 감김) + 테스트
+- [x] human-base(공용 인간 몸: base.json·motion.py·정면 레퍼런스), 미즈 human.json·reveal.json·motion.py·motion_human.py·build.py
+- [x] CHARACTER_PIPELINE.md 초안
+
 ## 다음 단계
-1. (CDN 허용 후) Tripo 원본을 `build/`로 받아 clean → rig → animate → export
-2. 파이프라인은 그동안 기존 `mizu_yokai.glb`(185k 삼각형, 109파츠)를 대역으로 시험
+1. (CDN 허용 후) `.venv-bpy/bin/python source/v2/characters/mizu/build.py` → 미리보기로 관절·재질 조정
+2. defs/mizu.json + index.json, 게임 안 확인, 대표 결과물(게임 카메라 거리/클로즈업/컨셉 비교/걷기 GIF) 승인 요청
 
 ## 진행 중인 job id
 - (없음 — 아래 완료 job들은 결과 URL에서 다시 받을 수 있음)
@@ -42,4 +50,8 @@
 | 11-08 | 턴어라운드 좌·후·우·3/4 | gpt_image_2_6 | 11.0 | 161a0106-c1f7-44d4-a4d4-08b337fa938e, 72305d8c-957c-4371-9595-fce026a49fed, 1aa68b13-1364-41e3-b0eb-ab3b6b16091c, 1c208edc-8732-4b46-ae29-ddb3d55c3c8c |
 | 11-08 | 3D 비교 A | tripo_h3_1_multiview_to_3d (detailed/detailed, pbr) | 18 | 2b14b19a-0df8-4a11-8b8a-c392470a8283 |
 | 11-08 | 3D 비교 B | meshy_v7_image_to_3d (pbr, a-pose, symmetry on, 60k) | 38 | 55fee2dd-12b6-4e29-997f-553f77aa333f |
-| | **R03 누계** | | **69.75** | |
+| 11-08 | 인간 기본 몸(human-base) 정면 | gpt_image_2_6 | 2.75 | d0bc7162-c94e-4eca-b5cb-d67223c8664f |
+| 11-08 | 미즈 인간 변장 정면 | gpt_image_2_6 | 2.75 | 42792cc9-d544-4585-b53f-59ebda81ee23 |
+| 11-08 | 미즈 인간 변장 좌·후·우 | gpt_image_2_6 | 8.25 | a27d3d00-6d7f-456b-925e-7fd698b42bd4, 4f92e300-d588-476f-826c-9ac63c3aacd1, 2ff50525-20bb-42c2-9c25-ef86a101490c |
+| 11-08 | 미즈 인간 변장 3D | tripo_h3_1_multiview_to_3d (face_limit 400k) | 18 | b62f8d03-c414-4dfd-865e-80d6836211dd |
+| | **R03 누계** | | **101.5** | |

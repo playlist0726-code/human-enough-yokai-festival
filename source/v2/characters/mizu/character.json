@@ -8,48 +8,253 @@
   "yaw_deg": -90,
   "target_tris": 22000,
   "min_island": 0.02,
-  "texture": {"base": 2048, "orm": 1024, "normal": 1024},
+  "texture": {
+    "base": 2048,
+    "orm": 1024,
+    "normal": 1024
+  },
   "ao_samples": 48,
   "materials": [
-    {"name": "eyes", "region": [-0.2, -0.6, 0.6, 0.2, -0.15, 0.88], "rules": [{"s_max": 0.28, "v_min": 0.8}, {"v_max": 0.16}]},
-    {"name": "cloth", "region": [-0.5, -0.6, 0.06, 0.5, 0.6, 0.5], "rules": [{"h_min": 0.02, "h_max": 0.13, "s_min": 0.3}, {"h_min": 0.08, "h_max": 0.16, "s_max": 0.45, "v_min": 0.75}, {"h_min": 0.55, "h_max": 0.72, "s_min": 0.25, "v_max": 0.55}]}
+    {
+      "name": "eyes",
+      "region": [
+        -0.2,
+        -0.6,
+        0.6,
+        0.2,
+        -0.15,
+        0.88
+      ],
+      "rules": [
+        {
+          "s_max": 0.28,
+          "v_min": 0.8
+        },
+        {
+          "v_max": 0.16
+        }
+      ]
+    },
+    {
+      "name": "cloth",
+      "region": [
+        -0.5,
+        -0.6,
+        0.06,
+        0.5,
+        0.6,
+        0.5
+      ],
+      "rules": [
+        {
+          "h_min": 0.02,
+          "h_max": 0.13,
+          "s_min": 0.3
+        },
+        {
+          "h_min": 0.08,
+          "h_max": 0.16,
+          "s_max": 0.45,
+          "v_min": 0.75
+        },
+        {
+          "h_min": 0.55,
+          "h_max": 0.72,
+          "s_min": 0.25,
+          "v_max": 0.55
+        }
+      ]
+    }
   ],
-  "roughness": {"body": [0.55, 0.75]},
+  "roughness": {
+    "body": [
+      0.55,
+      0.75
+    ]
+  },
   "cloth_sheen": 0.35,
   "skeleton": {
-    "Hips": [0, 0, 0.2],
-    "Spine": [0, 0, 0.27],
-    "Spine1": [0, 0, 0.36],
-    "Neck": [0, 0, 0.47],
-    "Head": [0, 0, 0.52],
-    "HeadTop": [0, 0, 0.97],
-    "LeftShoulder": [0.03, 0, 0.43],
-    "LeftArm": [0.115, 0, 0.415],
-    "LeftForeArm": [0.225, 0, 0.349],
-    "LeftHand": [0.311, 0, 0.306],
-    "LeftHandTip": [0.363, 0, 0.285],
-    "LeftUpLeg": [0.085, 0, 0.2],
-    "LeftLeg": [0.105, 0, 0.107],
-    "LeftFoot": [0.112, 0, 0.055],
-    "LeftToeBase": [0.112, -0.05, 0.02],
-    "LeftToeTip": [0.112, -0.1, 0.02]
+    "Hips": [
+      0,
+      0,
+      0.2
+    ],
+    "Spine": [
+      0,
+      0,
+      0.27
+    ],
+    "Spine1": [
+      0,
+      0,
+      0.36
+    ],
+    "Neck": [
+      0,
+      0,
+      0.47
+    ],
+    "Head": [
+      0,
+      0,
+      0.52
+    ],
+    "HeadTop": [
+      0,
+      0,
+      0.97
+    ],
+    "LeftShoulder": [
+      0.03,
+      0,
+      0.43
+    ],
+    "LeftArm": [
+      0.115,
+      0,
+      0.415
+    ],
+    "LeftForeArm": [
+      0.225,
+      0,
+      0.349
+    ],
+    "LeftHand": [
+      0.311,
+      0,
+      0.306
+    ],
+    "LeftHandTip": [
+      0.363,
+      0,
+      0.285
+    ],
+    "LeftUpLeg": [
+      0.085,
+      0,
+      0.2
+    ],
+    "LeftLeg": [
+      0.105,
+      0,
+      0.107
+    ],
+    "LeftFoot": [
+      0.112,
+      0,
+      0.055
+    ],
+    "LeftToeBase": [
+      0.112,
+      -0.05,
+      0.02
+    ],
+    "LeftToeTip": [
+      0.112,
+      -0.1,
+      0.02
+    ]
   },
   "extra_bones": [
-    {"name": "x_dish", "parent": "Head", "head": [0, 0, 0.88], "tail": [0, 0, 0.99]},
-    {"name": "x_shell", "parent": "Spine1", "head": [0, 0.12, 0.33], "tail": [0, 0.22, 0.33]}
+    {
+      "name": "x_dish",
+      "parent": "Head",
+      "head": [
+        0,
+        0,
+        0.88
+      ],
+      "tail": [
+        0,
+        0,
+        0.99
+      ]
+    },
+    {
+      "name": "x_shell",
+      "parent": "Spine1",
+      "head": [
+        0,
+        0.12,
+        0.33
+      ],
+      "tail": [
+        0,
+        0.22,
+        0.33
+      ]
+    }
   ],
   "weight_overrides": [
-    {"bone": "Head", "box": [-0.7, -0.7, 0.54, 0.7, 0.7, 1.2], "falloff": 0.035},
-    {"bone": "x_dish", "box": [-0.2, -0.2, 0.9, 0.2, 0.2, 1.2], "falloff": 0.015},
-    {"bone": "x_shell", "box": [-0.32, 0.1, 0.12, 0.32, 0.6, 0.52], "falloff": 0.02, "strength": 0.9}
+    {
+      "bone": "Head",
+      "box": [
+        -0.7,
+        -0.7,
+        0.54,
+        0.7,
+        0.7,
+        1.2
+      ],
+      "falloff": 0.035
+    },
+    {
+      "bone": "x_dish",
+      "box": [
+        -0.2,
+        -0.2,
+        0.9,
+        0.2,
+        0.2,
+        1.2
+      ],
+      "falloff": 0.015
+    },
+    {
+      "bone": "x_shell",
+      "box": [
+        -0.32,
+        0.1,
+        0.12,
+        0.32,
+        0.6,
+        0.52
+      ],
+      "falloff": 0.02,
+      "strength": 0.9
+    }
   ],
   "sockets": {
-    "socket_hand_R": {"bone": "RightHand", "at": [-0.335, -0.02, 0.296]},
-    "socket_hip_L": {"bone": "Hips", "at": [0.15, -0.09, 0.3]},
-    "socket_head_top": {"bone": "Head", "at": [0, 0, 1.0]}
+    "socket_hand_R": {
+      "bone": "RightHand",
+      "at": [
+        -0.335,
+        -0.02,
+        0.296
+      ]
+    },
+    "socket_hip_L": {
+      "bone": "Hips",
+      "at": [
+        0.15,
+        -0.09,
+        0.3
+      ]
+    },
+    "socket_head_top": {
+      "bone": "Head",
+      "at": [
+        0,
+        0,
+        1.0
+      ]
+    }
   },
-  "morphs": {"eye_material": "eyes", "blink_squash": 0.08},
-  "motion": "mizu",
+  "morphs": {
+    "eye_material": "eyes",
+    "blink_squash": 0.08
+  },
   "export": "source/v2/characters/mizu/export/mizu_yokai.glb",
-  "runtime": "public/assets/models/v2/mizu_yokai.glb"
+  "runtime": "public/assets/models/v2/mizu_yokai.glb",
+  "motion_file": "source/v2/characters/mizu/motion.py"
 }

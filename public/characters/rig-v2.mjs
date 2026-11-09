@@ -179,6 +179,30 @@ export function createClipPlayer(root,animations,{clipNames={},fade=DEFAULTS.cro
   };
 }
 
+/** Meshes carrying the contract face morphs (face_blink, optional face_shock). */
+export function faceMorphs(object){
+  const out=[];
+  object.traverse(n=>{const d=n.morphTargetDictionary;if(n.isMesh&&d&&('face_blink' in d||'face_shock' in d))out.push({mesh:n,blink:d.face_blink,shock:d.face_shock});});
+  return out;
+}
+
+/**
+ * Face weights for this frame. Pure apart from the state object it advances.
+ * Blinks every 2.2-5 s (0.16 s long, double-blink sometimes); eyes widen in reveal_panic/hit, droop when sealed.
+ */
+export function faceWeights(state,dt,clip){
+  state.t=(state.t||0)+dt;
+  if(state.next==null)state.next=state.t+1.5+((state.seed||0)%1)*2;
+  if(state.t>=state.next){state.blinkAt=state.t;const r=Math.abs(Math.sin(state.t*12.9898+(state.seed||0))*43758.5453)%1;state.next=state.t+2.2+r*2.8;if(r<.18)state.double=state.t+.28;}
+  const pulse=at=>{if(at==null)return 0;const x=(state.t-at)/.16;return x<0||x>1?0:Math.sin(Math.PI*x);};
+  const shockTarget=clip==='reveal_panic'||clip==='hit'?1:0;
+  state.shock=THREE.MathUtils.lerp(state.shock||0,shockTarget,1-Math.exp(-dt*(shockTarget?30:8)));
+  const blink=clip==='sealed'?.7:Math.max(pulse(state.blinkAt),pulse(state.double))*(1-state.shock);
+  return {blink,shock:state.shock};
+}
+
+function applyFace(morphs,w){for(const m of morphs){const inf=m.mesh.morphTargetInfluences;if(m.blink!=null)inf[m.blink]=w.blink;if(m.shock!=null)inf[m.shock]=w.shock;}}
+
 function normalizeForm(object,height){
   object.updateMatrixWorld(true);
   const box=new THREE.Box3().setFromObject(object),size=box.getSize(new THREE.Vector3());
@@ -200,7 +224,7 @@ export function createV2Rig(def,assets){
   for(const form of ['yokai','human']){
     const asset=assets[form];if(!asset)continue;
     const holder=normalizeForm(asset.scene,def.height[form]);holder.name=`v2-${def.id}-${form}`;root.add(holder);
-    forms[form]={holder,model:asset.scene,player:createClipPlayer(asset.scene,asset.animations||[],{clipNames:def.clips,fade:def.crossfade}),asset:def.forms[form]};
+    forms[form]={holder,model:asset.scene,player:createClipPlayer(asset.scene,asset.animations||[],{clipNames:def.clips,fade:def.crossfade}),asset:def.forms[form],face:faceMorphs(asset.scene),faceState:{seed:form==='human'?.37:.71}};
   }
   const formNames=Object.keys(forms);
   if(!formNames.length)throw Error(`v2 rig ${def.id} has no forms`);
@@ -259,6 +283,7 @@ function updateV2Rig(r,p,dt,time,tick,position,options){
   player.update(dt);
   if(!player.has('sealed'))root.rotation.z=THREE.MathUtils.lerp(root.rotation.z,p.health===0?.65:0,1-Math.exp(-dt*8));
   r.gaitPhase=player.state.base==='walk'||player.state.base==='run'?(r.gaitPhase+dt*r.speed)%(Math.PI*2):r.gaitPhase;
+  if(f.face.length){const w=faceWeights(f.faceState,dt,player.state.base);applyFace(f.face,w);r.face=w;}
   r.clip.base=player.state.base;r.clip.upper=player.state.upper;
   if(r.forms.human){
     r.revealBlend=THREE.MathUtils.lerp(r.revealBlend,revealed?1:0,1-Math.exp(-dt*22));

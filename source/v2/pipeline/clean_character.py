@@ -351,7 +351,7 @@ def run(cfg_path):
     orm[..., 2] = 0.0
     set_pixels(imgs['orm'], orm)
     # optional hand-paint pass: source/v2/characters/<id>/paint.py defines paint(cfg, lo, imgs, np)
-    paint = os.path.join(cfg['_dir'], 'paint.py')
+    paint = K.repo_path(cfg['paint_file']) if cfg.get('paint_file') else os.path.join(cfg['_dir'], 'paint.py')
     if os.path.exists(paint):
         ns = {}
         exec(compile(open(paint).read(), paint, 'exec'), ns)

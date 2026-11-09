@@ -26,7 +26,8 @@ class Ctx:
 
 
 def load_character_motion(cfg):
-    path = os.path.join(cfg['_dir'], 'motion.py')
+    # `motion_file` in the config (repo-relative), else motion.py beside the config
+    path = K.repo_path(cfg['motion_file']) if cfg.get('motion_file') else os.path.join(cfg['_dir'], 'motion.py')
     style, clips, secondary = copy.deepcopy(ML.DEFAULT_STYLE), dict(ML.CLIPS), {}
     if os.path.exists(path):
         spec = importlib.util.spec_from_file_location(f"motion_{cfg['id']}", path)
@@ -221,6 +222,8 @@ def run(cfg_path):
     cfg = K.load_config(cfg_path)
     K.open_blend(K.build_path(cfg, 'rigged.blend'))
     arm = bpy.data.objects['Armature']
+    bpy.context.scene.render.fps = ML.FPS  # contract: 30 fps (Blender defaults to 24)
+    bpy.context.scene.render.fps_base = 1.0
     for a in list(bpy.data.actions):
         bpy.data.actions.remove(a)
     solver = Solver(arm)
