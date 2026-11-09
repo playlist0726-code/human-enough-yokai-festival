@@ -51,15 +51,21 @@ async def main(a):
                                    " return h && !h.classList.contains('hidden') && (!t || t.classList.contains('hidden')); })()")
         async def settle():
             # software WebGL can starve the socket; the client auto-reconnects within 30 s
-            await pg.wait_for_function("document.getElementById('connection-status')?.classList.contains('hidden')", timeout=60000)
+            try:
+                await pg.wait_for_function("document.getElementById('connection-status')?.classList.contains('hidden')", timeout=60000)
+            except Exception:
+                return False
             await pg.wait_for_timeout(2500)
-            in_game = await pg.evaluate("!document.getElementById('hud').classList.contains('hidden') && document.getElementById('menu').classList.contains('hidden') && document.getElementById('connection-status').classList.contains('hidden')")
-            if not in_game:
-                raise SystemExit('Session dropped under software WebGL (slow sandbox). Rerun, use --size 960x540, or take in-game shots on a real GPU.')
-        await settle()
+            return await pg.evaluate("!document.getElementById('hud').classList.contains('hidden') && document.getElementById('menu').classList.contains('hidden') && document.getElementById('connection-status').classList.contains('hidden')")
+        if not await settle():
+            raise SystemExit('Session dropped under software WebGL (slow sandbox). Rerun, use --size 960x540, or take in-game shots on a real GPU.')
         await pg.screenshot(path=f'{a.out}/03_ingame_start.png')
-        await pg.keyboard.down('w'); await pg.wait_for_timeout(1800); await pg.keyboard.up('w'); await settle()
-        await pg.screenshot(path=f'{a.out}/04_ingame_walk.png')
+        await pg.keyboard.down('w'); await pg.wait_for_timeout(1800); await pg.keyboard.up('w')
+        if await settle():
+            await pg.screenshot(path=f'{a.out}/04_ingame_walk.png')
+        else:
+            # keep going so the model renders (05/06) are still captured
+            print('warning: session dropped after walking under software WebGL; 04_ingame_walk skipped (use a real GPU)')
         await pg.close()
         for kind, idx in (('yokai', '05'), ('human', '06')):
             vp = await b.new_page(viewport={'width': 1400, 'height': 560}); vp.set_default_timeout(180000)
