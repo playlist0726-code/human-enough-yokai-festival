@@ -1,0 +1,510 @@
+# validator v1 against current runtime models (2026-11-08)
+
+akari_human.glb  ·  profile: disguise
+  ✓ file size                  1.37 MB (max 2.0 MB, before meshopt/KTX2)
+  ✗ triangles                  56,404 (max 15,000)
+  ✗ materials                  14 (max 4)
+  ✗ draw calls                 54 primitives (target ≤ 6; merge separate parts into one skinned mesh)
+  ✓ texture size               256x256 png
+  ✓ texture count              1 images (max 4)
+  ✓ textured (not flat colour) has texture maps
+  ✓ power-of-two textures      ok
+  ✓ skinned                    1 skin(s), 15 joints
+  ✓ bone count                 15 (max 64)
+  ✗ humanoid bones             missing: Hips, Spine, Neck, Head, LeftArm, LeftForeArm, LeftHand, RightArm, RightForeArm, RightHand, LeftUpLeg, LeftLeg, LeftFoot, RightUpLeg, RightLeg, RightFoot
+  ! extra bone naming          rename with x_ prefix: root, body, arm_L, arm_R, extra_head, head, hem_L, hem_R, lantern_mid, neck, tail, mask
+  ✗ socket socket_hand_R       missing empty/bone node
+  ✗ socket socket_hip_L        missing empty/bone node
+  ✗ socket socket_head_top     missing empty/bone node
+  ✗ socket socket_reveal       missing empty/bone node
+  ✗ animation clips            missing 14/14: idle, walk, run, jump_start, jump_air, land, drink_potion, charm_cast, charm_hold, cover_ward, reveal_panic, hit, sealed, victory
+  ! morph face_blink           missing (or provide eye texture-swap instead)
+  ✓ grounded origin            min Y -1.000 (feet should sit at 0)
+  ✓ clip naming                no clips
+
+FAIL: 9 error(s), 2 warning(s)
+
+akari_yokai.glb  ·  profile: player
+  ✓ file size                  1.74 MB (max 3.0 MB, before meshopt/KTX2)
+  ✗ triangles                  73,548 (max 25,000)
+  ✗ materials                  21 (max 4)
+  ✗ draw calls                 87 primitives (target ≤ 6; merge separate parts into one skinned mesh)
+  ✓ texture size               256x256 png
+  ✓ texture count              1 images (max 4)
+  ✓ textured (not flat colour) has texture maps
+  ✓ power-of-two textures      ok
+  ✓ skinned                    1 skin(s), 15 joints
+  ✓ bone count                 15 (max 64)
+  ✗ humanoid bones             missing: Hips, Spine, Neck, Head, LeftArm, LeftForeArm, LeftHand, RightArm, RightForeArm, RightHand, LeftUpLeg, LeftLeg, LeftFoot, RightUpLeg, RightLeg, RightFoot
+  ! extra bone naming          rename with x_ prefix: root, body, arm_L, arm_R, extra_head, head, hem_L, hem_R, lantern_mid, neck, tail, mask
+  ✗ socket socket_hand_R       missing empty/bone node
+  ✗ socket socket_hip_L        missing empty/bone node
+  ✗ socket socket_head_top     missing empty/bone node
+  ✗ animation clips            missing 14/14: idle, walk, run, jump_start, jump_air, land, drink_potion, charm_cast, charm_hold, cover_ward, reveal_panic, hit, sealed, victory
+  ! morph face_blink           missing (or provide eye texture-swap instead)
+  ✓ grounded origin            min Y -1.000 (feet should sit at 0)
+  ✓ clip naming                no clips
+
+FAIL: 8 error(s), 2 warning(s)
+
+guest-0_guest.glb  ·  profile: guest
+  ✗ file size                  1.33 MB (max 1.0 MB, before meshopt/KTX2)
+  ✗ triangles                  53,820 (max 8,000)
+  ✗ materials                  13 (max 3)
+  ✗ draw calls                 50 primitives (target ≤ 5; merge separate parts into one skinned mesh)
+  ✓ texture size               256x256 png
+  ✓ texture count              1 images (max 3)
+  ✓ textured (not flat colour) has texture maps
+  ✓ power-of-two textures      ok
+  ✓ skinned                    1 skin(s), 15 joints
+  ✓ bone count                 15 (max 64)
+  ✗ humanoid bones             missing: Hips, Spine, Neck, Head, LeftArm, LeftForeArm, LeftHand, RightArm, RightForeArm, RightHand, LeftUpLeg, LeftLeg, LeftFoot, RightUpLeg, RightLeg, RightFoot
+  ! extra bone naming          rename with x_ prefix: root, body, arm_L, arm_R, extra_head, head, hem_L, hem_R, lantern_mid, neck, tail, mask
+  ✗ socket socket_head_top     missing empty/bone node
+  ✗ animation clips            missing 6/6: idle, walk, charmed_walk, wait, cheer, talk
+  ✓ grounded origin            min Y -1.000 (feet should sit at 0)
+  ✓ clip naming                no clips
+
+FAIL: 7 error(s), 1 warning(s)
+
+guest-1_guest.glb  ·  profile: guest
+  ✗ file size                  1.29 MB (max 1.0 MB, before meshopt/KTX2)
+  ✗ triangles                  51,388 (max 8,000)
+  ✗ materials                  13 (max 3)
+  ✗ draw calls                 48 primitives (target ≤ 5; merge separate parts into one skinned mesh)
+  ✓ texture size               256x256 png
+  ✓ texture count              1 images (max 3)
+  ✓ textured (not flat colour) has texture maps
+  ✓ power-of-two textures      ok
+  ✓ skinned                    1 skin(s), 15 joints
+  ✓ bone count                 15 (max 64)
+  ✗ humanoid bones             missing: Hips, Spine, Neck, Head, LeftArm, LeftForeArm, LeftHand, RightArm, RightForeArm, RightHand, LeftUpLeg, LeftLeg, LeftFoot, RightUpLeg, RightLeg, RightFoot
+  ! extra bone naming          rename with x_ prefix: root, body, arm_L, arm_R, extra_head, head, hem_L, hem_R, lantern_mid, neck, tail, mask
+  ✗ socket socket_head_top     missing empty/bone node
+  ✗ animation clips            missing 6/6: idle, walk, charmed_walk, wait, cheer, talk
+  ✓ grounded origin            min Y -1.000 (feet should sit at 0)
+  ✓ clip naming                no clips
+
+FAIL: 7 error(s), 1 warning(s)
+
+guest-2_guest.glb  ·  profile: guest
+  ✗ file size                  1.32 MB (max 1.0 MB, before meshopt/KTX2)
+  ✗ triangles                  52,988 (max 8,000)
+  ✗ materials                  14 (max 3)
+  ✗ draw calls                 51 primitives (target ≤ 5; merge separate parts into one skinned mesh)
+  ✓ texture size               256x256 png
+  ✓ texture count              1 images (max 3)
+  ✓ textured (not flat colour) has texture maps
+  ✓ power-of-two textures      ok
+  ✓ skinned                    1 skin(s), 15 joints
+  ✓ bone count                 15 (max 64)
+  ✗ humanoid bones             missing: Hips, Spine, Neck, Head, LeftArm, LeftForeArm, LeftHand, RightArm, RightForeArm, RightHand, LeftUpLeg, LeftLeg, LeftFoot, RightUpLeg, RightLeg, RightFoot
+  ! extra bone naming          rename with x_ prefix: root, body, arm_L, arm_R, extra_head, head, hem_L, hem_R, lantern_mid, neck, tail, mask
+  ✗ socket socket_head_top     missing empty/bone node
+  ✗ animation clips            missing 6/6: idle, walk, charmed_walk, wait, cheer, talk
+  ✓ grounded origin            min Y -1.000 (feet should sit at 0)
+  ✓ clip naming                no clips
+
+FAIL: 7 error(s), 1 warning(s)
+
+guest-3_guest.glb  ·  profile: guest
+  ✗ file size                  1.30 MB (max 1.0 MB, before meshopt/KTX2)
+  ✗ triangles                  51,388 (max 8,000)
+  ✗ materials                  13 (max 3)
+  ✗ draw calls                 48 primitives (target ≤ 5; merge separate parts into one skinned mesh)
+  ✓ texture size               256x256 png
+  ✓ texture count              1 images (max 3)
+  ✓ textured (not flat colour) has texture maps
+  ✓ power-of-two textures      ok
+  ✓ skinned                    1 skin(s), 15 joints
+  ✓ bone count                 15 (max 64)
+  ✗ humanoid bones             missing: Hips, Spine, Neck, Head, LeftArm, LeftForeArm, LeftHand, RightArm, RightForeArm, RightHand, LeftUpLeg, LeftLeg, LeftFoot, RightUpLeg, RightLeg, RightFoot
+  ! extra bone naming          rename with x_ prefix: root, body, arm_L, arm_R, extra_head, head, hem_L, hem_R, lantern_mid, neck, tail, mask
+  ✗ socket socket_head_top     missing empty/bone node
+  ✗ animation clips            missing 6/6: idle, walk, charmed_walk, wait, cheer, talk
+  ✓ grounded origin            min Y -1.000 (feet should sit at 0)
+  ✓ clip naming                no clips
+
+FAIL: 7 error(s), 1 warning(s)
+
+guest-4_guest.glb  ·  profile: guest
+  ✗ file size                  1.42 MB (max 1.0 MB, before meshopt/KTX2)
+  ✗ triangles                  56,404 (max 8,000)
+  ✗ materials                  14 (max 3)
+  ✗ draw calls                 54 primitives (target ≤ 5; merge separate parts into one skinned mesh)
+  ✓ texture size               256x256 png
+  ✓ texture count              1 images (max 3)
+  ✓ textured (not flat colour) has texture maps
+  ✓ power-of-two textures      ok
+  ✓ skinned                    1 skin(s), 15 joints
+  ✓ bone count                 15 (max 64)
+  ✗ humanoid bones             missing: Hips, Spine, Neck, Head, LeftArm, LeftForeArm, LeftHand, RightArm, RightForeArm, RightHand, LeftUpLeg, LeftLeg, LeftFoot, RightUpLeg, RightLeg, RightFoot
+  ! extra bone naming          rename with x_ prefix: root, body, arm_L, arm_R, extra_head, head, hem_L, hem_R, lantern_mid, neck, tail, mask
+  ✗ socket socket_head_top     missing empty/bone node
+  ✗ animation clips            missing 6/6: idle, walk, charmed_walk, wait, cheer, talk
+  ✓ grounded origin            min Y -1.000 (feet should sit at 0)
+  ✓ clip naming                no clips
+
+FAIL: 7 error(s), 1 warning(s)
+
+guest-5_guest.glb  ·  profile: guest
+  ✗ file size                  1.31 MB (max 1.0 MB, before meshopt/KTX2)
+  ✗ triangles                  53,820 (max 8,000)
+  ✗ materials                  13 (max 3)
+  ✗ draw calls                 50 primitives (target ≤ 5; merge separate parts into one skinned mesh)
+  ✓ texture size               256x256 png
+  ✓ texture count              1 images (max 3)
+  ✓ textured (not flat colour) has texture maps
+  ✓ power-of-two textures      ok
+  ✓ skinned                    1 skin(s), 15 joints
+  ✓ bone count                 15 (max 64)
+  ✗ humanoid bones             missing: Hips, Spine, Neck, Head, LeftArm, LeftForeArm, LeftHand, RightArm, RightForeArm, RightHand, LeftUpLeg, LeftLeg, LeftFoot, RightUpLeg, RightLeg, RightFoot
+  ! extra bone naming          rename with x_ prefix: root, body, arm_L, arm_R, extra_head, head, hem_L, hem_R, lantern_mid, neck, tail, mask
+  ✗ socket socket_head_top     missing empty/bone node
+  ✗ animation clips            missing 6/6: idle, walk, charmed_walk, wait, cheer, talk
+  ✓ grounded origin            min Y -1.000 (feet should sit at 0)
+  ✓ clip naming                no clips
+
+FAIL: 7 error(s), 1 warning(s)
+
+guest-6_guest.glb  ·  profile: guest
+  ✗ file size                  1.29 MB (max 1.0 MB, before meshopt/KTX2)
+  ✗ triangles                  51,388 (max 8,000)
+  ✗ materials                  13 (max 3)
+  ✗ draw calls                 48 primitives (target ≤ 5; merge separate parts into one skinned mesh)
+  ✓ texture size               256x256 png
+  ✓ texture count              1 images (max 3)
+  ✓ textured (not flat colour) has texture maps
+  ✓ power-of-two textures      ok
+  ✓ skinned                    1 skin(s), 15 joints
+  ✓ bone count                 15 (max 64)
+  ✗ humanoid bones             missing: Hips, Spine, Neck, Head, LeftArm, LeftForeArm, LeftHand, RightArm, RightForeArm, RightHand, LeftUpLeg, LeftLeg, LeftFoot, RightUpLeg, RightLeg, RightFoot
+  ! extra bone naming          rename with x_ prefix: root, body, arm_L, arm_R, extra_head, head, hem_L, hem_R, lantern_mid, neck, tail, mask
+  ✗ socket socket_head_top     missing empty/bone node
+  ✗ animation clips            missing 6/6: idle, walk, charmed_walk, wait, cheer, talk
+  ✓ grounded origin            min Y -1.000 (feet should sit at 0)
+  ✓ clip naming                no clips
+
+FAIL: 7 error(s), 1 warning(s)
+
+guest-7_guest.glb  ·  profile: guest
+  ✗ file size                  1.40 MB (max 1.0 MB, before meshopt/KTX2)
+  ✗ triangles                  56,404 (max 8,000)
+  ✗ materials                  14 (max 3)
+  ✗ draw calls                 54 primitives (target ≤ 5; merge separate parts into one skinned mesh)
+  ✓ texture size               256x256 png
+  ✓ texture count              1 images (max 3)
+  ✓ textured (not flat colour) has texture maps
+  ✓ power-of-two textures      ok
+  ✓ skinned                    1 skin(s), 15 joints
+  ✓ bone count                 15 (max 64)
+  ✗ humanoid bones             missing: Hips, Spine, Neck, Head, LeftArm, LeftForeArm, LeftHand, RightArm, RightForeArm, RightHand, LeftUpLeg, LeftLeg, LeftFoot, RightUpLeg, RightLeg, RightFoot
+  ! extra bone naming          rename with x_ prefix: root, body, arm_L, arm_R, extra_head, head, hem_L, hem_R, lantern_mid, neck, tail, mask
+  ✗ socket socket_head_top     missing empty/bone node
+  ✗ animation clips            missing 6/6: idle, walk, charmed_walk, wait, cheer, talk
+  ✓ grounded origin            min Y -1.000 (feet should sit at 0)
+  ✓ clip naming                no clips
+
+FAIL: 7 error(s), 1 warning(s)
+
+guest-8_guest.glb  ·  profile: guest
+  ✗ file size                  1.30 MB (max 1.0 MB, before meshopt/KTX2)
+  ✗ triangles                  53,820 (max 8,000)
+  ✗ materials                  13 (max 3)
+  ✗ draw calls                 50 primitives (target ≤ 5; merge separate parts into one skinned mesh)
+  ✓ texture size               256x256 png
+  ✓ texture count              1 images (max 3)
+  ✓ textured (not flat colour) has texture maps
+  ✓ power-of-two textures      ok
+  ✓ skinned                    1 skin(s), 15 joints
+  ✓ bone count                 15 (max 64)
+  ✗ humanoid bones             missing: Hips, Spine, Neck, Head, LeftArm, LeftForeArm, LeftHand, RightArm, RightForeArm, RightHand, LeftUpLeg, LeftLeg, LeftFoot, RightUpLeg, RightLeg, RightFoot
+  ! extra bone naming          rename with x_ prefix: root, body, arm_L, arm_R, extra_head, head, hem_L, hem_R, lantern_mid, neck, tail, mask
+  ✗ socket socket_head_top     missing empty/bone node
+  ✗ animation clips            missing 6/6: idle, walk, charmed_walk, wait, cheer, talk
+  ✓ grounded origin            min Y -1.000 (feet should sit at 0)
+  ✓ clip naming                no clips
+
+FAIL: 7 error(s), 1 warning(s)
+
+kasa_human.glb  ·  profile: disguise
+  ✓ file size                  1.33 MB (max 2.0 MB, before meshopt/KTX2)
+  ✗ triangles                  53,820 (max 15,000)
+  ✗ materials                  13 (max 4)
+  ✗ draw calls                 50 primitives (target ≤ 6; merge separate parts into one skinned mesh)
+  ✓ texture size               256x256 png
+  ✓ texture count              1 images (max 4)
+  ✓ textured (not flat colour) has texture maps
+  ✓ power-of-two textures      ok
+  ✓ skinned                    1 skin(s), 15 joints
+  ✓ bone count                 15 (max 64)
+  ✗ humanoid bones             missing: Hips, Spine, Neck, Head, LeftArm, LeftForeArm, LeftHand, RightArm, RightForeArm, RightHand, LeftUpLeg, LeftLeg, LeftFoot, RightUpLeg, RightLeg, RightFoot
+  ! extra bone naming          rename with x_ prefix: root, body, arm_L, arm_R, extra_head, head, hem_L, hem_R, lantern_mid, neck, tail, mask
+  ✗ socket socket_hand_R       missing empty/bone node
+  ✗ socket socket_hip_L        missing empty/bone node
+  ✗ socket socket_head_top     missing empty/bone node
+  ✗ socket socket_reveal       missing empty/bone node
+  ✗ animation clips            missing 14/14: idle, walk, run, jump_start, jump_air, land, drink_potion, charm_cast, charm_hold, cover_ward, reveal_panic, hit, sealed, victory
+  ! morph face_blink           missing (or provide eye texture-swap instead)
+  ✓ grounded origin            min Y -1.000 (feet should sit at 0)
+  ✓ clip naming                no clips
+
+FAIL: 9 error(s), 2 warning(s)
+
+kasa_yokai.glb  ·  profile: player
+  ✓ file size                  1.09 MB (max 3.0 MB, before meshopt/KTX2)
+  ✗ triangles                  41,888 (max 25,000)
+  ✗ materials                  18 (max 4)
+  ✗ draw calls                 48 primitives (target ≤ 6; merge separate parts into one skinned mesh)
+  ✓ texture size               256x256 png
+  ✓ texture count              1 images (max 4)
+  ✓ textured (not flat colour) has texture maps
+  ✓ power-of-two textures      ok
+  ✓ skinned                    1 skin(s), 15 joints
+  ✓ bone count                 15 (max 64)
+  ✗ humanoid bones             missing: Hips, Spine, Neck, Head, LeftArm, LeftForeArm, LeftHand, RightArm, RightForeArm, RightHand, LeftUpLeg, LeftLeg, LeftFoot, RightUpLeg, RightLeg, RightFoot
+  ! extra bone naming          rename with x_ prefix: root, body, arm_L, arm_R, extra_head, head, hem_L, hem_R, lantern_mid, neck, tail, mask
+  ✗ socket socket_hand_R       missing empty/bone node
+  ✗ socket socket_hip_L        missing empty/bone node
+  ✗ socket socket_head_top     missing empty/bone node
+  ✗ animation clips            missing 14/14: idle, walk, run, jump_start, jump_air, land, drink_potion, charm_cast, charm_hold, cover_ward, reveal_panic, hit, sealed, victory
+  ! morph face_blink           missing (or provide eye texture-swap instead)
+  ✓ grounded origin            min Y -1.000 (feet should sit at 0)
+  ✓ clip naming                no clips
+
+FAIL: 8 error(s), 2 warning(s)
+
+kon_human.glb  ·  profile: disguise
+  ✓ file size                  1.33 MB (max 2.0 MB, before meshopt/KTX2)
+  ✗ triangles                  53,820 (max 15,000)
+  ✗ materials                  13 (max 4)
+  ✗ draw calls                 50 primitives (target ≤ 6; merge separate parts into one skinned mesh)
+  ✓ texture size               256x256 png
+  ✓ texture count              1 images (max 4)
+  ✓ textured (not flat colour) has texture maps
+  ✓ power-of-two textures      ok
+  ✓ skinned                    1 skin(s), 15 joints
+  ✓ bone count                 15 (max 64)
+  ✗ humanoid bones             missing: Hips, Spine, Neck, Head, LeftArm, LeftForeArm, LeftHand, RightArm, RightForeArm, RightHand, LeftUpLeg, LeftLeg, LeftFoot, RightUpLeg, RightLeg, RightFoot
+  ! extra bone naming          rename with x_ prefix: root, body, arm_L, arm_R, extra_head, head, hem_L, hem_R, lantern_mid, neck, tail, mask
+  ✗ socket socket_hand_R       missing empty/bone node
+  ✗ socket socket_hip_L        missing empty/bone node
+  ✗ socket socket_head_top     missing empty/bone node
+  ✗ socket socket_reveal       missing empty/bone node
+  ✗ animation clips            missing 14/14: idle, walk, run, jump_start, jump_air, land, drink_potion, charm_cast, charm_hold, cover_ward, reveal_panic, hit, sealed, victory
+  ! morph face_blink           missing (or provide eye texture-swap instead)
+  ✓ grounded origin            min Y -1.000 (feet should sit at 0)
+  ✓ clip naming                no clips
+
+FAIL: 9 error(s), 2 warning(s)
+
+kon_yokai.glb  ·  profile: player
+  ✓ file size                  1.29 MB (max 3.0 MB, before meshopt/KTX2)
+  ✗ triangles                  50,318 (max 25,000)
+  ✗ materials                  19 (max 4)
+  ✗ draw calls                 53 primitives (target ≤ 6; merge separate parts into one skinned mesh)
+  ✓ texture size               256x256 png
+  ✓ texture count              1 images (max 4)
+  ✓ textured (not flat colour) has texture maps
+  ✓ power-of-two textures      ok
+  ✓ skinned                    1 skin(s), 17 joints
+  ✓ bone count                 17 (max 64)
+  ✗ humanoid bones             missing: Hips, Spine, Neck, Head, LeftArm, LeftForeArm, LeftHand, RightArm, RightForeArm, RightHand, LeftUpLeg, LeftLeg, LeftFoot, RightUpLeg, RightLeg, RightFoot
+  ! extra bone naming          rename with x_ prefix: root, body, arm_L, arm_R, extra_head, hem_L, hem_R, lantern_mid, neck, neck_mid, neck_tip, head
+  ✗ socket socket_hand_R       missing empty/bone node
+  ✗ socket socket_hip_L        missing empty/bone node
+  ✗ socket socket_head_top     missing empty/bone node
+  ✗ animation clips            missing 14/14: idle, walk, run, jump_start, jump_air, land, drink_potion, charm_cast, charm_hold, cover_ward, reveal_panic, hit, sealed, victory
+  ! morph face_blink           missing (or provide eye texture-swap instead)
+  ✓ grounded origin            min Y -1.000 (feet should sit at 0)
+  ✓ clip naming                no clips
+
+FAIL: 8 error(s), 2 warning(s)
+
+mizu_human.glb  ·  profile: disguise
+  ✓ file size                  1.28 MB (max 2.0 MB, before meshopt/KTX2)
+  ✗ triangles                  51,388 (max 15,000)
+  ✗ materials                  13 (max 4)
+  ✗ draw calls                 48 primitives (target ≤ 6; merge separate parts into one skinned mesh)
+  ✓ texture size               256x256 png
+  ✓ texture count              1 images (max 4)
+  ✓ textured (not flat colour) has texture maps
+  ✓ power-of-two textures      ok
+  ✓ skinned                    1 skin(s), 15 joints
+  ✓ bone count                 15 (max 64)
+  ✗ humanoid bones             missing: Hips, Spine, Neck, Head, LeftArm, LeftForeArm, LeftHand, RightArm, RightForeArm, RightHand, LeftUpLeg, LeftLeg, LeftFoot, RightUpLeg, RightLeg, RightFoot
+  ! extra bone naming          rename with x_ prefix: root, body, arm_L, arm_R, extra_head, head, hem_L, hem_R, lantern_mid, neck, tail, mask
+  ✗ socket socket_hand_R       missing empty/bone node
+  ✗ socket socket_hip_L        missing empty/bone node
+  ✗ socket socket_head_top     missing empty/bone node
+  ✗ socket socket_reveal       missing empty/bone node
+  ✗ animation clips            missing 14/14: idle, walk, run, jump_start, jump_air, land, drink_potion, charm_cast, charm_hold, cover_ward, reveal_panic, hit, sealed, victory
+  ! morph face_blink           missing (or provide eye texture-swap instead)
+  ✓ grounded origin            min Y -1.000 (feet should sit at 0)
+  ✓ clip naming                no clips
+
+FAIL: 9 error(s), 2 warning(s)
+
+mizu_yokai.glb  ·  profile: player
+  ✗ file size                  4.27 MB (max 3.0 MB, before meshopt/KTX2)
+  ✗ triangles                  185,590 (max 25,000)
+  ✗ materials                  23 (max 4)
+  ✗ draw calls                 110 primitives (target ≤ 6; merge separate parts into one skinned mesh)
+  ✓ texture size               512x512 png
+  ✓ texture count              1 images (max 4)
+  ✓ textured (not flat colour) has texture maps
+  ✓ power-of-two textures      ok
+  ✓ skinned                    1 skin(s), 9 joints
+  ✓ bone count                 9 (max 64)
+  ✗ humanoid bones             missing: Hips, Spine, Neck, Head, LeftArm, LeftForeArm, LeftHand, RightArm, RightForeArm, RightHand, LeftUpLeg, LeftLeg, LeftFoot, RightUpLeg, RightLeg, RightFoot
+  ! extra bone naming          rename with x_ prefix: root, body, arm_L, arm_R, head, hem_L, hem_R, leg_L, leg_R
+  ✗ socket socket_hand_R       missing empty/bone node
+  ✗ socket socket_hip_L        missing empty/bone node
+  ✗ socket socket_head_top     missing empty/bone node
+  ✗ animation clips            missing 14/14: idle, walk, run, jump_start, jump_air, land, drink_potion, charm_cast, charm_hold, cover_ward, reveal_panic, hit, sealed, victory
+  ! morph face_blink           missing (or provide eye texture-swap instead)
+  ✓ grounded origin            min Y -1.000 (feet should sit at 0)
+  ✓ clip naming                no clips
+
+FAIL: 9 error(s), 2 warning(s)
+
+nemu_human.glb  ·  profile: disguise
+  ✓ file size                  1.33 MB (max 2.0 MB, before meshopt/KTX2)
+  ✗ triangles                  53,820 (max 15,000)
+  ✗ materials                  13 (max 4)
+  ✗ draw calls                 50 primitives (target ≤ 6; merge separate parts into one skinned mesh)
+  ✓ texture size               256x256 png
+  ✓ texture count              1 images (max 4)
+  ✓ textured (not flat colour) has texture maps
+  ✓ power-of-two textures      ok
+  ✓ skinned                    1 skin(s), 15 joints
+  ✓ bone count                 15 (max 64)
+  ✗ humanoid bones             missing: Hips, Spine, Neck, Head, LeftArm, LeftForeArm, LeftHand, RightArm, RightForeArm, RightHand, LeftUpLeg, LeftLeg, LeftFoot, RightUpLeg, RightLeg, RightFoot
+  ! extra bone naming          rename with x_ prefix: root, body, arm_L, arm_R, extra_head, head, hem_L, hem_R, lantern_mid, neck, tail, mask
+  ✗ socket socket_hand_R       missing empty/bone node
+  ✗ socket socket_hip_L        missing empty/bone node
+  ✗ socket socket_head_top     missing empty/bone node
+  ✗ socket socket_reveal       missing empty/bone node
+  ✗ animation clips            missing 14/14: idle, walk, run, jump_start, jump_air, land, drink_potion, charm_cast, charm_hold, cover_ward, reveal_panic, hit, sealed, victory
+  ! morph face_blink           missing (or provide eye texture-swap instead)
+  ✓ grounded origin            min Y -1.000 (feet should sit at 0)
+  ✓ clip naming                no clips
+
+FAIL: 9 error(s), 2 warning(s)
+
+nemu_yokai.glb  ·  profile: player
+  ✓ file size                  1.18 MB (max 3.0 MB, before meshopt/KTX2)
+  ✗ triangles                  46,480 (max 25,000)
+  ✗ materials                  19 (max 4)
+  ✗ draw calls                 53 primitives (target ≤ 6; merge separate parts into one skinned mesh)
+  ✓ texture size               256x256 png
+  ✓ texture count              1 images (max 4)
+  ✓ textured (not flat colour) has texture maps
+  ✓ power-of-two textures      ok
+  ✓ skinned                    1 skin(s), 17 joints
+  ✓ bone count                 17 (max 64)
+  ✗ humanoid bones             missing: Hips, Spine, Neck, Head, LeftArm, LeftForeArm, LeftHand, RightArm, RightForeArm, RightHand, LeftUpLeg, LeftLeg, LeftFoot, RightUpLeg, RightLeg, RightFoot
+  ! extra bone naming          rename with x_ prefix: root, body, arm_L, arm_R, extra_head, head, hem_L, hem_R, lantern_mid, neck, tail, tail_mid
+  ✗ socket socket_hand_R       missing empty/bone node
+  ✗ socket socket_hip_L        missing empty/bone node
+  ✗ socket socket_head_top     missing empty/bone node
+  ✗ animation clips            missing 14/14: idle, walk, run, jump_start, jump_air, land, drink_potion, charm_cast, charm_hold, cover_ward, reveal_panic, hit, sealed, victory
+  ! morph face_blink           missing (or provide eye texture-swap instead)
+  ✓ grounded origin            min Y -1.000 (feet should sit at 0)
+  ✓ clip naming                no clips
+
+FAIL: 8 error(s), 2 warning(s)
+
+pon_human.glb  ·  profile: disguise
+  ✓ file size                  1.30 MB (max 2.0 MB, before meshopt/KTX2)
+  ✗ triangles                  51,388 (max 15,000)
+  ✗ materials                  13 (max 4)
+  ✗ draw calls                 48 primitives (target ≤ 6; merge separate parts into one skinned mesh)
+  ✓ texture size               256x256 png
+  ✓ texture count              1 images (max 4)
+  ✓ textured (not flat colour) has texture maps
+  ✓ power-of-two textures      ok
+  ✓ skinned                    1 skin(s), 15 joints
+  ✓ bone count                 15 (max 64)
+  ✗ humanoid bones             missing: Hips, Spine, Neck, Head, LeftArm, LeftForeArm, LeftHand, RightArm, RightForeArm, RightHand, LeftUpLeg, LeftLeg, LeftFoot, RightUpLeg, RightLeg, RightFoot
+  ! extra bone naming          rename with x_ prefix: root, body, arm_L, arm_R, extra_head, head, hem_L, hem_R, lantern_mid, neck, tail, mask
+  ✗ socket socket_hand_R       missing empty/bone node
+  ✗ socket socket_hip_L        missing empty/bone node
+  ✗ socket socket_head_top     missing empty/bone node
+  ✗ socket socket_reveal       missing empty/bone node
+  ✗ animation clips            missing 14/14: idle, walk, run, jump_start, jump_air, land, drink_potion, charm_cast, charm_hold, cover_ward, reveal_panic, hit, sealed, victory
+  ! morph face_blink           missing (or provide eye texture-swap instead)
+  ✓ grounded origin            min Y -1.000 (feet should sit at 0)
+  ✓ clip naming                no clips
+
+FAIL: 9 error(s), 2 warning(s)
+
+pon_yokai.glb  ·  profile: player
+  ✓ file size                  1.25 MB (max 3.0 MB, before meshopt/KTX2)
+  ✗ triangles                  49,780 (max 25,000)
+  ✗ materials                  18 (max 4)
+  ✗ draw calls                 48 primitives (target ≤ 6; merge separate parts into one skinned mesh)
+  ✓ texture size               256x256 png
+  ✓ texture count              1 images (max 4)
+  ✓ textured (not flat colour) has texture maps
+  ✓ power-of-two textures      ok
+  ✓ skinned                    1 skin(s), 15 joints
+  ✓ bone count                 15 (max 64)
+  ✗ humanoid bones             missing: Hips, Spine, Neck, Head, LeftArm, LeftForeArm, LeftHand, RightArm, RightForeArm, RightHand, LeftUpLeg, LeftLeg, LeftFoot, RightUpLeg, RightLeg, RightFoot
+  ! extra bone naming          rename with x_ prefix: root, body, arm_L, arm_R, extra_head, head, hem_L, hem_R, lantern_mid, neck, tail, mask
+  ✗ socket socket_hand_R       missing empty/bone node
+  ✗ socket socket_hip_L        missing empty/bone node
+  ✗ socket socket_head_top     missing empty/bone node
+  ✗ animation clips            missing 14/14: idle, walk, run, jump_start, jump_air, land, drink_potion, charm_cast, charm_hold, cover_ward, reveal_panic, hit, sealed, victory
+  ! morph face_blink           missing (or provide eye texture-swap instead)
+  ✓ grounded origin            min Y -1.000 (feet should sit at 0)
+  ✓ clip naming                no clips
+
+FAIL: 8 error(s), 2 warning(s)
+
+sumi_human.glb  ·  profile: disguise
+  ✓ file size                  1.27 MB (max 2.0 MB, before meshopt/KTX2)
+  ✗ triangles                  51,388 (max 15,000)
+  ✗ materials                  13 (max 4)
+  ✗ draw calls                 48 primitives (target ≤ 6; merge separate parts into one skinned mesh)
+  ✓ texture size               256x256 png
+  ✓ texture count              1 images (max 4)
+  ✓ textured (not flat colour) has texture maps
+  ✓ power-of-two textures      ok
+  ✓ skinned                    1 skin(s), 15 joints
+  ✓ bone count                 15 (max 64)
+  ✗ humanoid bones             missing: Hips, Spine, Neck, Head, LeftArm, LeftForeArm, LeftHand, RightArm, RightForeArm, RightHand, LeftUpLeg, LeftLeg, LeftFoot, RightUpLeg, RightLeg, RightFoot
+  ! extra bone naming          rename with x_ prefix: root, body, arm_L, arm_R, extra_head, head, hem_L, hem_R, lantern_mid, neck, tail, mask
+  ✗ socket socket_hand_R       missing empty/bone node
+  ✗ socket socket_hip_L        missing empty/bone node
+  ✗ socket socket_head_top     missing empty/bone node
+  ✗ socket socket_reveal       missing empty/bone node
+  ✗ animation clips            missing 14/14: idle, walk, run, jump_start, jump_air, land, drink_potion, charm_cast, charm_hold, cover_ward, reveal_panic, hit, sealed, victory
+  ! morph face_blink           missing (or provide eye texture-swap instead)
+  ✓ grounded origin            min Y -1.000 (feet should sit at 0)
+  ✓ clip naming                no clips
+
+FAIL: 9 error(s), 2 warning(s)
+
+sumi_yokai.glb  ·  profile: player
+  ✓ file size                  1.70 MB (max 3.0 MB, before meshopt/KTX2)
+  ✗ triangles                  71,484 (max 25,000)
+  ✗ materials                  17 (max 4)
+  ✗ draw calls                 76 primitives (target ≤ 6; merge separate parts into one skinned mesh)
+  ✓ texture size               256x256 png
+  ✓ texture count              1 images (max 4)
+  ✓ textured (not flat colour) has texture maps
+  ✓ power-of-two textures      ok
+  ✓ skinned                    1 skin(s), 15 joints
+  ✓ bone count                 15 (max 64)
+  ✗ humanoid bones             missing: Hips, Spine, Neck, Head, LeftArm, LeftForeArm, LeftHand, RightArm, RightForeArm, RightHand, LeftUpLeg, LeftLeg, LeftFoot, RightUpLeg, RightLeg, RightFoot
+  ! extra bone naming          rename with x_ prefix: root, body, arm_L, arm_R, extra_head, head, hem_L, hem_R, lantern_mid, neck, tail, mask
+  ✗ socket socket_hand_R       missing empty/bone node
+  ✗ socket socket_hip_L        missing empty/bone node
+  ✗ socket socket_head_top     missing empty/bone node
+  ✗ animation clips            missing 14/14: idle, walk, run, jump_start, jump_air, land, drink_potion, charm_cast, charm_hold, cover_ward, reveal_panic, hit, sealed, victory
+  ! morph face_blink           missing (or provide eye texture-swap instead)
+  ✓ grounded origin            min Y -1.000 (feet should sit at 0)
+  ✓ clip naming                no clips
+
+FAIL: 8 error(s), 2 warning(s)
