@@ -89,7 +89,7 @@
 - `public/assets/models/v2/`와 `public/assets/env/v2/`의 GLB를 **그 자리에서** 압축한다: dedup → prune(빈 소켓 노드 유지) → resample → Meshopt. 텍스처는 `toktx`(KTX-Software)가 있으면 KTX2 UASTC, 없으면 WebP. flatten·join·simplify는 하지 않아 스킨과 소켓이 그대로 남는다.
 - 이미 `EXT_meshopt_compression`을 쓰는 파일은 건너뛴다(다시 돌려도 안전). `node scripts/build-production.mjs --v2-only`로 이 단계만 돌릴 수 있다.
 - Docker·Render 빌드는 `npm ci --omit=dev`라 압축 도구가 없다. 그래서 **방에서 로컬로 압축한 GLB를 커밋한다.** 도구가 없을 때 압축 안 된 파일이 있으면 목록만 출력한다.
-- 원본 내보내기 GLB는 `art/<category>/v2/<id>/`(LFS)에 두고, `tools/validate-glb.mjs` 검사는 원본에 돌린다(계약의 파일 크기 기준이 압축 전 기준).
+- 원본 내보내기 GLB는 `source/v2/<category>/<id>/`(일반 git 파일, LFS 아님)에 두고, `tools/validate-glb.mjs` 검사는 원본에 돌린다(계약의 파일 크기 기준이 압축 전 기준). 빌드는 `source/`를 읽지도 고치지도 않는다.
 
 ### 성능 기준치(2026-11-08, 시작 지점, R01 전후 동일)
 소프트웨어 WebGL에서 잰 값이라 FPS는 의미가 없다. draw calls·삼각형은 하드웨어와 무관하다.
@@ -103,11 +103,11 @@
 모든 프로필이 예산을 크게 넘는다. 원인은 기존 모델(캐릭터당 50~186k 삼각형, 50~110개 파츠)과 high의 SSAO·그림자 패스다. R03 이후 캐릭터 교체와 R14가 해결한다.
 
 ### 알아야 할 것
-- **이 클라우드 세션에서는 Git LFS 업로드가 거부된다.** `artifacts/`·`art/`의 png·glb는 LFS 대상이라 푸시가 실패한다. R01은 캡처를 `docs/production/captures/r01/`에 일반 파일로 넣었다. 에셋을 만드는 방은 본부와 방법을 정해야 한다.
+- **클라우드 세션에서는 Git LFS 푸시가 막혀 있다.** 본부 결정(LFS 대체 규칙, ASSET_CONTRACT 9장): v2 제작 원본은 `source/v2/<category>/<id>/`에 일반 파일로(파일당 20 MB 이하, 권장 10 MB, 이미지 2048 px 이하 PNG/WebP, `.blend` 대신 `build.py`, 생성물은 `provenance.json`에 Higgsfield job id). 캡처는 `docs/production/captures/<rNN>/`. 기존 `art/` LFS 파일은 건드리지 않는다.
 - 소프트웨어 WebGL 샌드박스에서는 인게임 화면이 2초에 1프레임 정도라 `tools/capture.py`의 03·04 인게임 샷이 "Reconnecting" 화면이 되거나 실패한다. 인게임 비교와 FPS는 실제 GPU 브라우저에서 잰다.
 - 하위 폴더 모듈은 공유 코드를 `../../shared/...`로 불러온다(브라우저에서는 `/shared/`, Node 테스트에서는 저장소의 `shared/`로 해석됨).
 
 ### 다음 할 일
-- 본부: PR 검토·병합 → Phase 1 방(B·C·F) 열기. LFS 업로드 방법 결정.
+- 본부: PR 검토·병합 → Phase 1 방(B·C·F) 열기.
 - R03: 미즈 v2 GLB + `defs/mizu.json` + `index.json` 등록. 실제 GLB로 걸음 보정값(`gait.walkSpeed`)을 맞춘다.
 - R14: 위 성능 기준치를 실제 GPU에서 다시 잰다.

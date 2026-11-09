@@ -11,7 +11,7 @@ const zip=promisify(gzip),run=promisify(execFile),root=process.cwd();let files=0
 // A file that already uses EXT_meshopt_compression is skipped, so the step is safe to rerun.
 // The compressor is a devDependency: production installs (`npm ci --omit=dev`) only report
 // files that still need compressing. Raw exports stay in art/<category>/v2/<id>/ (LFS).
-const V2_DIRS=['public/assets/models/v2','public/assets/env/v2'];
+export const V2_DIRS=['public/assets/models/v2','public/assets/env/v2'];
 async function glbFiles(dir){
   let out=[];
   try{for(const item of await readdir(dir,{withFileTypes:true})){const file=path.join(dir,item.name);if(item.isDirectory())out=out.concat(await glbFiles(file));else if(item.name.endsWith('.glb'))out.push(file);}}catch{}

@@ -2,7 +2,7 @@
 """Human Enough! remaster — fixed-camera screenshot capture for before/after review.
 
 Usage (game server must already be running: `npm run dev`):
-    python3 -I tools/capture.py --out artifacts/remaster/<room>/<label> [--url http://127.0.0.1:4173] [--size 1280x720]
+    python3 -I tools/capture.py --out docs/production/captures/<rNN>/<label> [--url http://127.0.0.1:4173] [--size 1280x720]
 
 Shots: 01_title, 02_select, 03_ingame_start, 04_ingame_walk, 05_models_yokai, 06_models_human
 Quality defaults to auto (2-core sandboxes resolve to the light profile; heavier profiles can stall

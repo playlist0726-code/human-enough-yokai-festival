@@ -10,7 +10,7 @@
 | 포맷 | glTF 2.0 바이너리 `.glb` |
 | 좌표 | Y-up, 정면 +Z, 1 unit = 1 m, 원점은 두 발 사이 바닥(y=0) |
 | 크기 | 실제 비율로 제작한다(요괴 1.0~1.6 m, 인간 1.5~1.7 m). 런타임이 화면 높이를 정규화한다 |
-| 소스 | `art/<category>/v2/<id>/`에 `.blend`, 턴어라운드 PNG, `prompt.txt`, `provenance.json`(사용한 모델·job id·시드·날짜·수정 내역)을 둔다. 바이너리는 Git LFS |
+| 소스 | `source/v2/<category>/<id>/`에 **일반 git 파일**로 둔다(LFS 아님, 9장 참조): `build.py`(Blender 원본을 다시 만드는 스크립트), 턴어라운드 PNG, 내보내기 원본 GLB, `prompt.txt`, `provenance.json`(사용한 모델·Higgsfield job id·시드·날짜·수정 내역). `.blend`는 커밋하지 않는다. 기존 `art/` 아래 LFS 파일은 그대로 둔다 |
 | 런타임 | `public/assets/models/v2/<id>_<form>.glb`. 빌드 단계에서 meshopt 압축과 KTX2(UASTC 또는 ETC1S) 텍스처로 변환한다 |
 | 이름 | 소문자 snake case. `<id>_<form>`: `mizu_yokai`, `mizu_human`, `guest_03`, `keeper_takoyaki`, `demon_king` |
 
@@ -87,6 +87,15 @@ Meshy·Mixamo 계열 자동 리그 이름(`mixamorig:Hips` 등)은 `tools/` 스�
 - 반복되는 소품은 인스턴싱한다. 같은 재질을 쓰는 정적 메시는 텍스처 아틀라스로 묶는다.
 - 서버 충돌 박스(`shared/world.mjs`)는 바꾸지 않는다. 비주얼이 충돌 박스보다 크게 튀어나오지 않게 한다. 바꿔야 하면 본부에 요청한다.
 
-## 9. 라이선스와 출처
+## 9. 제작 원본 저장(LFS 대체 규칙)과 라이선스·출처
+클라우드 작업 세션에서는 Git LFS 푸시가 막혀 있다. 그래서 v2 제작 원본은 LFS를 쓰지 않는다.
+- 위치: `source/v2/<category>/<id>/`(예: `source/v2/characters/mizu/`, `source/v2/environment/stall_takoyaki/`, `source/v2/pipeline/`). `.gitattributes`의 LFS 규칙에 걸리지 않는 경로다.
+- 크기: 파일당 **20 MB 이하**(권장 10 MB 이하). 이미지는 **2048 px 이하** PNG 또는 고품질 WebP.
+- `.blend`는 커밋하지 않는다. 같은 폴더의 `build.py`(헤드리스 bpy)로 언제든 다시 만들 수 있어야 한다. 더 큰 중간 파일이 필요하면 `build.py`가 다시 만들거나 다시 받는다.
+- 생성 결과물(이미지·3D·오디오)은 `provenance.json`에 Higgsfield job id(와 모델·시드)를 남겨 언제든 다시 받을 수 있게 한다.
+- 기존 `art/` 아래 LFS 파일은 건드리지 않는다(읽기 전용 참고 자료).
+- 런타임 GLB(`public/assets/...`)와 `source/`는 서로 다른 폴더다. 빌드(`npm run build`)는 `public/assets/{models,env}/v2/`만 압축하고 `source/`는 읽지도 고치지도 않는다.
+
+라이선스와 출처:
 - 생성 도구(Higgsfield의 Meshy·Tripo·Hunyuan, GPT/Grok 이미지)로 만든 결과물은 해당 서비스의 상업 이용 약관을 R15가 확인한다. 각 에셋의 `provenance.json`에 도구와 job id를 남긴다.
 - 외부 무료 에셋(CC0 텍스처·HDRI·효과음 등)은 `CREDITS.md`에 출처와 라이선스를 적는다. CC-BY-NC 같은 비상업 라이선스는 쓰지 않는다.

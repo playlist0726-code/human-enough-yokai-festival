@@ -40,6 +40,14 @@ test('v2 build step compresses in place, keeps the contract, and is idempotent',
   const second=await build.compressV2({dirs:[dir],log:m=>log.push(m)});assert.equal(second.compressed,0);
 });
 
+test('build only compresses runtime GLBs, never production sources in source/',async()=>{
+  const {V2_DIRS}=await import('../scripts/build-production.mjs');
+  assert.deepEqual(V2_DIRS,['public/assets/models/v2','public/assets/env/v2']);
+  assert.ok(V2_DIRS.every(d=>d.startsWith('public/')));
+  const lfs=readFileSync(path.join(root,'.gitattributes'),'utf8');
+  assert.ok(!/^source\//m.test(lfs),'source/ must stay outside Git LFS (cloud sessions cannot push LFS)');
+});
+
 test('perf overlay maths: average FPS, 1% low, GPU memory estimate',()=>{
   const times=[...Array(99).fill(1/60),1/10];const s=frameStats(times);
   assert.ok(Math.abs(s.fps-100/(99/60+.1))<1e-9);assert.equal(Math.round(s.low1),10);assert.deepEqual(frameStats([]),{fps:0,low1:0,frames:0});

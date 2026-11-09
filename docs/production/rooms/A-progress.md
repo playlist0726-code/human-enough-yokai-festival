@@ -1,7 +1,7 @@
 # A방 진행 상황 — R01 기반 공사
 
 - 브랜치: `remaster/r01-foundation` (main 직접 커밋 없음)
-- 마지막 갱신: 2026-11-08 22:30 (America/Denver)
+- 마지막 갱신: 2026-11-08 22:55 (America/Denver)
 - 상태: **PR 제출, 본부 병합 대기** — 병합은 본부가 한다
 
 ## 끝난 것
@@ -11,7 +11,7 @@
 - [x] 동등성 확인: 렌더 상태 지문(high·light) 동일, 타이틀·선택·모델 렌더 캡처 픽셀 동일(`docs/production/captures/r01/before|after`)
 - [x] 이벤트 버스(22종 + 추가 5종), rig-v2(로더·클립 선택·폴백·크로스페이드·걸음 동기화·상체 레이어·소켓·defs), `?rig=legacy`, `?perf=1` 오버레이
 - [x] `build-production.mjs` v2 GLB 압축(Meshopt + KTX2, toktx 없으면 WebP), `server.mjs` MIME
-- [x] 테스트 111개 통과(+18), integration 5개 통과, `npm run build` 정상
+- [x] 테스트 112개 통과(+19), integration 5개 통과, `npm run build` 정상
 - [x] `HANDOFF.md`에 인터페이스 문서화
 - [x] 성능 기준치 기록(high·mobile·light)
 
@@ -25,8 +25,10 @@
 - 압축은 로컬에서 하고 결과 GLB를 커밋(배포 빌드는 개발 의존성이 없음)
 - 이벤트 버스는 첫 스냅샷에서는 이벤트를 내보내지 않음
 
-## 막힌 점(본부 확인 필요)
-- 이 클라우드 세션에서는 **Git LFS 업로드가 거부된다**(LFS 저장소 S3 주소가 프록시에서 막힘). `artifacts/`·`art/`의 png/glb는 LFS 대상이라 푸시할 수 없다. R01은 캡처를 `docs/production/captures/r01/`(LFS 아님)에 둔다. 에셋을 만드는 방(C·D·E 등)은 같은 문제를 겪으므로, 본부가 허용 도메인을 추가하거나 로컬에서 푸시하는 방법을 정해야 한다.
+## 본부 결정 반영(PR #1 추가 커밋)
+- LFS 대체 규칙: v2 제작 원본은 `source/v2/<category>/<id>/`에 일반 파일(파일당 20 MB 이하·권장 10 MB, 이미지 2048 px 이하 PNG/WebP, `.blend` 대신 `build.py`, 생성물은 `provenance.json`에 Higgsfield job id). 기존 `art/` LFS는 그대로.
+- 반영: ASSET_CONTRACT 1·9장, ROOM_PROTOCOL 0·1·2·3장, briefs 전체(`art/ui`·`art/audio`·`art/fx`·`art/pipeline`도 LFS 대상이라 `source/v2/<category>/`로 함께 옮김), HANDOFF, capture.py 예시
+- 확인: 빌드와 테스트는 `source/`를 건드리지 않음(감시 파일로 확인 + 회귀 테스트 추가, 112개 통과)
 
 ## 진행 중인 job id
 - 없음 (R01 Higgsfield 예산 0)
