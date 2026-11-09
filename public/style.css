@@ -197,3 +197,114 @@ h1,h2,.room-code,.night-badge small,#score,.ui-display{font-family:var(--font-di
 #toast{padding:2px 10px;font:700 14px var(--font-body);color:var(--ink);border-radius:0}
 .dialog{border-radius:0;padding:12px 20px}.dialog p{color:var(--ink)}.dialog-name{background:var(--vermilion-ink);color:#fff6e6;border-radius:4px;box-shadow:0 2px 0 #5b1f12;top:-22px;left:14px;font:600 14px var(--font-display);letter-spacing:.04em}
 html[lang=en] h1,h1{letter-spacing:-.5px;font-weight:600}
+
+/* ===== R05 screens: buttons, title, select, paper modals, loading, reconnect, journal, touch ===== */
+.primary{background:linear-gradient(#b8432a,#8f311e);color:#fff6e6;border:1px solid #e9b76599;border-radius:12px;box-shadow:inset 0 1px 0 #ffffff40,0 4px 0 #5b1f12,0 8px 18px #0005;font:800 15px var(--font-body);letter-spacing:.01em}
+.primary:hover{background:linear-gradient(#c84d32,#9c3621);transform:translateY(-2px)}
+.primary:active{box-shadow:inset 0 1px 0 #ffffff40,0 1px 0 #5b1f12;transform:translateY(3px)}
+.secondary{background:var(--wood-panel);color:var(--paper);border:1px solid #1c120d;border-radius:12px;box-shadow:inset 0 1px 0 #ffffff26,0 3px 0 #1c120d;font:700 14px var(--font-body)}
+.secondary:hover{filter:brightness(1.15)}
+.text-button{color:#e6c993;font-weight:700}
+button:focus-visible,input:focus-visible,select:focus-visible,summary:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
+input{background:#191a29d9;border:1px solid #e9b76566;border-radius:10px;color:var(--paper);font-family:var(--font-body);font-weight:700}
+input::placeholder{color:#d9cbb2b3}
+/* Title */
+#title-enter{background:linear-gradient(#b8432a,#8f311e);color:#fff6e6;border:2px solid var(--gold);border-radius:14px;box-shadow:inset 0 1px 0 #ffffff40,0 5px 0 #5b1f12,0 14px 36px #04102199;font:600 19px var(--font-display);letter-spacing:.02em}
+#title-enter:hover:not(:disabled){box-shadow:inset 0 1px 0 #ffffff40,0 7px 0 #5b1f12,0 0 32px #ffb06666}
+#title-enter:active:not(:disabled){box-shadow:inset 0 1px 0 #ffffff40,0 2px 0 #5b1f12}
+.title-actions p{font-family:var(--font-body);font-weight:700}
+/* Character select */
+.brand{font:600 18px var(--font-display);letter-spacing:.12em;color:var(--paper)}.brand span{font:700 11px var(--font-body);letter-spacing:.2em;text-transform:uppercase;color:var(--gold)}
+#menu .eyebrow{color:var(--gold);font:800 12px var(--font-body);letter-spacing:.24em;text-transform:uppercase}
+.menu-logo{margin:0;line-height:0}.menu-logo img{width:min(440px,78vw);height:auto;filter:drop-shadow(0 6px 18px #0009)}
+.subtitle{font-weight:600}
+.character{background:linear-gradient(#25355ecc,#191a29eb);border:1px solid #e9b76540;border-radius:16px;padding-bottom:6px;box-shadow:0 6px 16px #0006}
+.character span{margin-top:2px;padding:2px 10px;border-radius:5px;background:var(--paper);color:var(--ink);font:800 12px var(--font-body);box-shadow:0 2px 0 #9a7b55}
+.character:hover{background:linear-gradient(#2c3f6ecc,#1d2744eb)}
+.character.selected{border:2px solid var(--gold);background:radial-gradient(circle at 50% 40%,#ffb06640,transparent 70%),linear-gradient(#2c3f6eee,#1d2744f2);box-shadow:0 0 26px #ffb06655,0 6px 16px #0006}
+.character.selected span{background:var(--vermilion-ink);color:#fff6e6;box-shadow:0 2px 0 #5b1f12}
+.character-name{color:var(--gold);font-weight:800}
+.character-story{background:#191a29e0;border-color:#e9b76533;border-radius:10px}.character-story #character-quote{font-family:var(--font-display);font-weight:600}
+.title-back{background:var(--wood-panel);border:1px solid #1c120d;box-shadow:inset 0 1px 0 #ffffff26,0 3px 0 #1c120d;border-radius:10px;font-weight:700}
+#menu-error{color:#ffb4a0;font-weight:700}
+/* Paper modals: lobby, how to play, results, festival menu */
+.lobby-card{background:var(--paper-panel);background-clip:padding-box;border:14px solid transparent;border-image:url('/assets/ui/panel-paper.png') 30 / 14px round;border-radius:0;box-shadow:none;color:var(--ink)}
+.lobby-card .eyebrow{color:var(--vermilion-ink);font:800 11px var(--font-body);letter-spacing:.2em;text-transform:uppercase}
+.lobby-card h2{font:600 30px var(--font-display);color:var(--ink);letter-spacing:0}
+.lobby-card p{color:var(--ink-2)}.lobby-card b{color:var(--ink)}
+.room-label{color:var(--ink-3);font-weight:800;letter-spacing:.12em;text-transform:uppercase;font-size:10px}
+.room-code{background:var(--wood-panel);color:var(--paper);border:1px solid #1c120d;border-radius:10px;box-shadow:inset 0 1px 0 #ffffff26,0 3px 0 #1c120d;font:600 34px var(--font-display);letter-spacing:.28em}
+.party-member{border-bottom:1px dashed var(--paper-3)}.party-member canvas{border-radius:50%;background:radial-gradient(circle at 50% 35%,var(--night-3),var(--night));border:2px solid var(--gold);object-fit:cover;object-position:50% 12%;width:44px;height:44px}
+.party-member b,.party-member span:first-of-type{color:var(--ink);font-weight:800}
+.party-member .member-state{background:var(--paper-2);color:var(--ink-2);font-weight:800}.party-member .member-state.ready{background:#d7e4c8;color:#2f4a22}
+.rules{border-top:1px dashed var(--paper-3)}.rules p{color:var(--ink-2)}
+#ready{background:var(--paper-2);color:var(--ink);border-color:var(--paper-3)}#ready[aria-pressed=true]{background:#d7e4c8}
+.lobby-card .text-button,.lobby-phone,#copy-invite{color:var(--vermilion-ink)}
+.lobby-card .text-button:hover{color:var(--ink)}
+.game-menu-card details{border-top:1px dashed var(--paper-3)}.game-menu-card summary{color:var(--ink);font-weight:800}
+.settings-grid label{color:var(--ink);font-weight:700}
+.settings-grid select,#assist-target{background:#fffaf0;color:var(--ink);border:1px solid var(--paper-3);font-weight:700}
+.settings-grid input[type=checkbox]{accent-color:var(--vermilion-ink)}
+.journey-checklist span,.crew-member span,#crew-status,.summary-row span,.personal-record,.round-time,.crew-target-label{color:var(--ink-3)!important}
+.journey-checklist .complete b{color:#3f6a2c}
+#crew-ping{background:var(--paper-2);color:var(--ink);border-color:var(--paper-3)}
+.leave-confirm{background:var(--paper-2);border-radius:8px}
+.modal,#lobby{background:#0e1424cc}
+/* Stall journal with stamps */
+.journal-stall{flex-direction:row;align-items:center;gap:12px;background:#fffaf0;border:1px solid var(--paper-3);border-radius:8px;color:var(--ink)}
+.journal-stall>div{display:flex;flex-direction:column;gap:3px}.journal-stall b{color:var(--ink)}.journal-stall span{color:var(--ink-3)}
+.journal-stamp{width:40px;height:40px;flex:none;filter:grayscale(1) opacity(.45);transition:filter .2s,transform .2s}
+.journal-stall.stamped{background:#fff3ec}.journal-stall.stamped .journal-stamp{filter:none;transform:rotate(-8deg)}
+.journal-stall:hover{outline:2px solid var(--gold)}
+/* Reconnect veil */
+.connection-status{background:radial-gradient(ellipse at 50% 40%,#25355e,#0e1424 70%)}
+.connection-status b{font:600 26px var(--font-display);color:var(--paper)}.connection-status span{color:#d9cbb2}
+.connection-status b:before{content:'';display:block;width:56px;height:56px;margin:0 auto 14px;background:url('/assets/ui/icons/help.svg') center/contain no-repeat;animation:lantern-sway 2.4s ease-in-out infinite}
+/* Loading */
+.loading{position:fixed;inset:0;z-index:70;display:grid;place-items:center;padding:24px;border-radius:0;background:radial-gradient(ellipse at 50% 30%,#25355e 0%,#1d2744 40%,#0e1424 100%);color:var(--paper);font:700 14px var(--font-body);text-align:center}
+.loading-card{width:min(520px,92vw)}
+.loading-logo{width:min(420px,80vw);height:auto;filter:drop-shadow(0 8px 24px #000a)}
+.loading-lanterns{display:flex;justify-content:center;gap:18px;margin:18px 0 14px}
+.loading-lanterns i{width:16px;height:22px;border-radius:45%;background:radial-gradient(circle at 50% 40%,#ffe0a8,var(--vermilion) 70%);box-shadow:0 0 16px #ffb066aa;animation:lantern-sway 2.2s ease-in-out infinite}
+.loading-lanterns i:nth-child(2){animation-delay:.2s}.loading-lanterns i:nth-child(3){animation-delay:.4s}.loading-lanterns i:nth-child(4){animation-delay:.6s}.loading-lanterns i:nth-child(5){animation-delay:.8s}
+.loading-track{height:10px;border-radius:6px;background:#0b0f1ecc;box-shadow:inset 0 2px 3px #000a,0 0 0 1px #e9b76544;overflow:hidden}
+.loading-track i{display:block;height:100%;width:0;border-radius:6px;background:linear-gradient(90deg,var(--vermilion),var(--lantern),#ffe0a8);box-shadow:0 0 12px #ffb066aa;transition:width .25s}
+#loading-text{margin:14px 0 6px;font-size:14px;color:var(--paper)}.loading-tip{margin:0;font-size:13px;font-weight:600;color:#d9cbb2;min-height:2.6em}
+@keyframes lantern-sway{0%,100%{transform:translateY(0) rotate(-4deg)}50%{transform:translateY(-4px) rotate(4deg)}}
+@media(prefers-reduced-motion:reduce){.loading-lanterns i,.connection-status b:before{animation:none}.journal-stamp{transition:none}}
+/* Key-bar and touch icons */
+#hud .keyboard .command .ui-icon{display:inline-block}
+#hud .touch-actions button{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;padding:2px;background:var(--paper-panel);border:1px solid #9a7b55;box-shadow:inset 0 0 0 2px #fff8,0 3px 0 #6b5236,0 6px 12px #0006;color:var(--ink);font:800 9.5px/1.05 var(--font-body);border-radius:12px}
+#hud .touch-actions button .ui-icon{width:24px;height:24px;flex:none}
+#hud .touch-actions .touch-charm{background:linear-gradient(#efe0ff,#dcc6f7)}
+#hud .touch-actions [data-action="interact"]{background:linear-gradient(#fff4dc,#f4d498)}
+#hud .touch-actions .strike-button{background:linear-gradient(#b8432a,#8f311e)!important;color:#fff6e6!important;border-color:#5b1f12!important}
+#hud .touch-actions button.pressed{background:var(--gold);transform:translateY(2px);box-shadow:inset 0 0 0 2px #fff8,0 1px 0 #6b5236}
+#hud .touch-actions button:disabled{opacity:.4}
+body.touch-mode #joystick{background:radial-gradient(circle,#191a2966 55%,transparent 56%),var(--wood-panel);border:3px solid #1c120d;box-shadow:inset 0 0 0 3px #e9b76555,0 6px 14px #0007;backdrop-filter:none}
+body.touch-mode #stick{background:radial-gradient(circle at 40% 35%,#fff6e6,var(--paper) 60%,#d9c8a6);border:2px solid var(--ink);box-shadow:0 3px 0 #6b5236,0 4px 10px #0006}
+/* Followers row gets the guest icon */
+#hud #followers:before{content:'';display:inline-block;width:16px;height:16px;margin:-3px 6px -3px 0;vertical-align:middle;background:url('/assets/ui/icons/guest.svg') center/contain no-repeat}
+#hud #followers:empty{display:none}
+.menu-logo img{width:min(330px,70vw)}#menu .subtitle{margin:12px 0 18px}
+@media(max-height:620px){.menu-logo img{width:240px}}
+body.touch-mode .menu-logo img{width:min(260px,70vw)}
+/* R05 touch HUD fit: paper borders take 22px, so panels get room; room row clears the view chips. */
+body.touch-mode #hud .night-badge{padding:2px 10px 2px 6px;gap:7px}body.touch-mode #hud .moon{font-size:22px}
+body.touch-mode #hud .night-badge b{font-size:8px}body.touch-mode #hud .night-badge small{font-size:22px}
+body.touch-mode #hud .room-small{margin:6px 0 0}
+body.touch-mode #hud .view-controls{top:calc(122px + env(safe-area-inset-top))}
+body.touch-mode #toast{top:calc(184px + env(safe-area-inset-top))}
+body.touch-mode #hud .encounter-card{top:calc(176px + env(safe-area-inset-top))}
+body.touch-mode #hud .objective{width:176px;max-width:calc(100vw - 172px);padding:3px 6px 5px}
+body.touch-mode #hud .objective>small:first-child{font-size:8px;letter-spacing:.12em}
+body.touch-mode #hud .objective>b span{font-size:20px}
+body.touch-mode #hud .status{width:218px;padding:2px 8px 4px 4px;gap:8px}
+body.touch-mode #hud .status>canvas{width:44px;height:44px}
+body.touch-mode #hud .meter{width:132px}
+body.touch-mode #hud .inventory span{display:none}
+body.touch-mode #hud .inventory b{font-size:11px}
+body.touch-mode #hud .map-card{padding:0 0 2px}
+@media(max-height:540px){body.touch-mode #hud .view-controls{top:calc(12px + env(safe-area-inset-top))}body.touch-mode #hud .status{width:190px}body.touch-mode #hud .meter{width:108px}}
+body.touch-mode #hud .festival-perks{display:none}
+@media(max-height:540px){body.touch-mode #hud #followers,body.touch-mode #hud .disguise-status{display:none}body.touch-mode #hud .touch-actions button{font-size:8px}body.touch-mode #hud .touch-actions button .ui-icon{width:20px;height:20px}}

@@ -111,3 +111,30 @@
 - 본부: PR 검토·병합 → Phase 1 방(B·C·F) 열기.
 - R03: 미즈 v2 GLB + `defs/mizu.json` + `index.json` 등록. 실제 GLB로 걸음 보정값(`gait.walkSpeed`)을 맞춘다.
 - R14: 위 성능 기준치를 실제 GPU에서 다시 잰다.
+
+---
+
+## 2026-11-09 · F방 · R05 UI · HUD · 2D 아트 (`remaster/r05-ui`)
+
+### 바뀐 것
+- "웹 카드" → **축제 종이 + 나무패** UI 키트 v1(`docs/production/UI_KIT.md`, 사용자 승인). HUD·선택·로비·도움말·결과·메뉴·대화·토스트·재연결·로딩 전부 같은 표면.
+- 로컬 OFL 폰트 Fredoka + Nunito(`public/assets/ui/fonts/`, 외부 요청 0). 키아트 로고를 투명 워드마크로 분리(`logo-wordmark*.webp`).
+- 아이콘 패밀리 17종 SVG(`public/assets/ui/icons/`): 행동 9 + 하트 + 손님 + 스탬프 6. 키 바·터치 버튼·인벤토리·스톨 일지에 적용.
+- 휴대폰: 터치 버튼 아이콘+라벨 종이 태그, 나무 조이스틱, 세로 방 코드 가림 해결, 가로 레이아웃 회귀 방지.
+- 로딩 화면: 전체 화면, 실제 리소스 수 기반 진행률, 팁 순환.
+- UX 감사 20항목(`docs/production/UI_UX_AUDIT.md`), 테스트 `tests/ui-kit.test.mjs`(+4, 총 116).
+
+### 다른 방이 알아야 할 인터페이스
+- **토큰**: `style.css` 맨 위 `:root`의 `--paper --ink --vermilion(-ink) --gold --wood --night --lantern --spirit --danger --font-display --font-body`. 새 UI는 이 변수를 쓴다.
+- **표면 클래스**: `.ui-paper`(종이 9-slice), `.ui-wood`(나무패). R11 보스 카드를 바꿀 때 사용.
+- **아이콘 추가**는 `source/v2/ui/build_icons.py`에서만(규칙 고정). 런타임 경로 `/assets/ui/icons/<name>.svg`.
+- **초상화 슬롯**(R03/R07/R09): `public/assets/ui/portraits/<id>.webp`(512², 투명, 머리·어깨) 넣고 `index.json`의 `portraits`에 id 추가 → 선택·로비·HUD 메달 자동 교체. `public/characters/portraits.mjs`에 `REMASTER-HOOK r05`.
+- `hud.mjs`: 영력 색은 `.meter.low` 클래스, 팀 표시는 `.team-pill`(인라인 색 제거).
+- `foundation-ui.mjs` 스톨 일지 버튼 구조: `button.journal-stall > img.journal-stamp + div > (b, span)`.
+- `server.mjs`: `.woff2` MIME 한 줄(`REMASTER-HOOK r05`). 게임 규칙 변경 없음.
+- `#loading`은 이제 전체 화면 컨테이너. game.js의 기존 동작(`hidden` 추가, WebGL 실패 시 `textContent` 교체) 그대로 동작.
+
+### 다음 할 일
+- R02: 밤 룩이 들어오면 HUD 캡처를 다시 찍어 종이 밝기 확인(지금은 오프라인 밤 시뮬레이션으로 검증).
+- R15: 무료 서버 50초 깨우기는 HTML도 같은 서버라 페이지 안에서 보여줄 수 없음 → 정적 셸 + `/health` 폴링 제안(감사 15번).
+- R03 이후: v2 초상화 렌더를 슬롯에 넣기.

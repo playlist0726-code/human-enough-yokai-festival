@@ -1,0 +1,4 @@
+{
+  "note": "Add a character id here once /assets/ui/portraits/<id>.webp exists (512x512, transparent, head and shoulders, lit like the key art). Used by the select screen, lobby and HUD medallion.",
+  "portraits": []
+}

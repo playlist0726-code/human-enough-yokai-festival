@@ -36,9 +36,20 @@ async def main(a):
         await pg.add_init_script("localStorage.setItem('eve-human-enough-settings-v1', JSON.stringify({sound:false,quality:'light',camera:'close',name:'Mizu',character:'%s'}))" % a.character)
         # Review aid: give the socket breathing room under software WebGL by spacing animation frames.
         await pg.add_init_script("(()=>{const raf=requestAnimationFrame.bind(window);let last=0;window.requestAnimationFrame=cb=>{const wait=Math.max(0,%d-(performance.now()-last));return setTimeout(()=>raf(t=>{last=performance.now();cb(t);}),wait);};})()" % a.frame_gap)
-        await pg.goto(a.url + ('/?touch=1' if a.touch else '/'), wait_until='load'); await pg.wait_for_timeout(3000)
+        await pg.goto(a.url + ('/?touch=1' if a.touch else '/'), wait_until='commit')
+        if a.screens:
+            try:
+                await pg.wait_for_selector('#loading-fill', timeout=20000); await pg.wait_for_timeout(700)
+                await pg.screenshot(path=f'{a.out}/loading.png')
+            except Exception: pass
+        await pg.wait_for_load_state('load'); await pg.wait_for_function("!document.getElementById('title-enter').disabled"); await pg.wait_for_timeout(1500)
+        if a.screens: await pg.screenshot(path=f'{a.out}/title.png')
         await pg.click('#title-enter'); await pg.wait_for_timeout(2000)
-        if a.select: await pg.screenshot(path=f'{a.out}/select.png')
+        if a.select or a.screens: await pg.screenshot(path=f'{a.out}/select.png')
+        if a.screens:
+            await pg.click('#create'); await pg.wait_for_selector('#lobby:not(.hidden)'); await pg.wait_for_timeout(1500)
+            await pg.screenshot(path=f'{a.out}/lobby.png')
+            await pg.click('#leave'); await pg.wait_for_selector('#menu:not(.hidden)'); await pg.wait_for_timeout(800)
         await pg.click('#practice')
         await pg.wait_for_function("(() => { const h=document.getElementById('hud'), t=document.getElementById('transformation');"
                                    " return h && !h.classList.contains('hidden') && (!t || t.classList.contains('hidden')); })()")
@@ -57,8 +68,10 @@ async def main(a):
             night_composite(a.out)
         else:
             await pg.screenshot(path=f'{a.out}/hud.png')
-        if a.menu:
-            await pg.click('#open-menu'); await pg.wait_for_timeout(1500)
+        if a.menu or a.screens:
+            await pg.evaluate("document.getElementById('open-menu').click()"); await pg.wait_for_timeout(1500)
+            await pg.evaluate("document.querySelectorAll('#game-menu details').forEach((d,i)=>d.open=i===3)")
+            await pg.wait_for_timeout(500)
             await pg.screenshot(path=f'{a.out}/menu.png')
         await b.close()
     print('saved', a.out)
@@ -68,7 +81,7 @@ if __name__ == '__main__':
     ap = argparse.ArgumentParser()
     ap.add_argument('--out', required=True); ap.add_argument('--url', default='http://127.0.0.1:4173')
     ap.add_argument('--size', default='1280x720'); ap.add_argument('--character', default='mizu')
-    ap.add_argument('--touch', action='store_true'); ap.add_argument('--menu', action='store_true'); ap.add_argument('--select', action='store_true'); ap.add_argument('--night-sim', action='store_true')
+    ap.add_argument('--touch', action='store_true'); ap.add_argument('--menu', action='store_true'); ap.add_argument('--select', action='store_true'); ap.add_argument('--night-sim', action='store_true'); ap.add_argument('--screens', action='store_true')
     ap.add_argument('--settle', type=int, default=6000); ap.add_argument('--frame-gap', type=int, default=2500)
     ap.add_argument('--chrome', default='/usr/bin/google-chrome')
     asyncio.run(main(ap.parse_args()))

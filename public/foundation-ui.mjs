@@ -61,13 +61,13 @@ export function createFoundationUI({send,stop,focusWorld,leave,toast,storage,set
     const journal=$('stall-journal');
     if(!journal.children.length)for(const stall of STALLS){
       const b=document.createElement('button');b.type='button';b.className='journal-stall';b.dataset.stall=stall.id;
-      b.append(document.createElement('b'),document.createElement('span'));
+      const stampIcon=new Image(40,40);stampIcon.className='journal-stamp';stampIcon.alt='';stampIcon.src=`/assets/ui/icons/stamp-${stall.game}.svg`;const text=document.createElement('div');text.append(document.createElement('b'),document.createElement('span'));b.append(stampIcon,text);
       b.onclick=()=>{close();navigate(stallEntrance(stall));toast(`On your way to ${stall.name}. Use movement keys to cancel.`);};journal.append(b);
     }
     for(const stall of STALLS){
       const won=p.stamps?.includes(stall.id),wait=Math.max(0,(p.stallCooldowns?.[stall.id]||0)-(state.tick||0)),b=journal.querySelector(`[data-stall="${stall.id}"]`);
-      b.classList.toggle('stamped',won);b.firstElementChild.textContent=`${won?'✓':GAMES[stall.game].icon} ${stall.name}`;
-      b.lastElementChild.textContent=`${GAMES[stall.game].reward}${wait>0?` · ${Math.ceil(wait)}s cooldown`:''}`;
+      b.classList.toggle('stamped',won);b.querySelector('b').textContent=`${won?'✓ ':''}${stall.name}`;
+      b.querySelector('span').textContent=`${GAMES[stall.game].reward}${wait>0?` · ${Math.ceil(wait)}s cooldown`:''}`;
     }
     const r=loadRecord(storage);$('personal-record').textContent=`Your device: ${r.wins} wins / ${r.rounds} night${r.rounds===1?'':'s'} · ${r.stamps.length}/6 stamps${r.bestTime===null?'':` · Best ${clock(r.bestTime)}`}`;
   }
