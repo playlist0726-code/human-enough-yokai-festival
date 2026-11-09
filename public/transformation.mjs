@@ -20,11 +20,11 @@ const hopArc=(t,d=.42)=>t<0||t>d?0:4*(t/d)*(1-t/d);
 /**
  * Pose the legacy rig for the opening so nobody stands frozen: magic-hands 'charm' pose while
  * gathering, a 'ta-da' cover pose after the pop, and idle breathing otherwise. The rig's own
- * damped blends (character-motion.mjs) keep every change smooth.
+ * damped blends (character-motion.mjs) keep every change smooth. Everyone faces the camera.
  */
 export function transformationPose(progress,i=0){
   const charm=progress>.16+i*.03&&progress<POP-.02,tada=progress>POP+.07+i*.025&&progress<.82+i*.02;
-  return {action:charm?'charm':'idle',cover:tada?1:0};
+  return {action:charm?'charm':'idle',cover:tada?1:0,facing:0,height:0};   // face the opening camera (+z)
 }
 
 function warmPoolTexture(){
@@ -33,7 +33,10 @@ function warmPoolTexture(){
   g.fillStyle=gr;g.fillRect(0,0,128,128);const t=new THREE.CanvasTexture(c);t.colorSpace=THREE.SRGBColorSpace;return t;
 }
 
-export function createTransformation(renderer,{budget=1}={}){
+const PROFILE_BUDGET={high:1,balanced:.8,mobile:.5,light:.5};
+export function createTransformation(renderer,{budget:fixed}={}){
+  // mobile/light profiles emit half the particles (profile is set on the canvas by render/quality.mjs)
+  let budget=fixed??1;
   const scene=new THREE.Scene();scene.background=new THREE.Color('#121a30');scene.fog=new THREE.FogExp2('#18213d',.04);
   const camera=new THREE.PerspectiveCamera(36,1,.1,90);
   scene.add(new THREE.HemisphereLight('#8fa8ff','#3a2618',.4));
@@ -54,8 +57,8 @@ export function createTransformation(renderer,{budget=1}={}){
     if(haloMat){const h=new THREE.Sprite(haloMat);h.scale.setScalar(2.1);l.add(h);}}
   const wire=new THREE.Line(new THREE.BufferGeometry().setFromPoints(lanterns.map(l=>l.position.clone().add(new THREE.Vector3(0,.45,0)))),new THREE.LineBasicMaterial({color:'#3a2a20'}));scene.add(wire);
   // particle pools live in this scene only
-  const smoke=createPool({scene,kind:'smoke',capacity:Math.round(140*budget),map:fxTexture('/assets/fx/smoke-atlas.png'),grid:[4,4],renderOrder:12});
-  const glow=createPool({scene,kind:'glow',capacity:Math.round(520*budget),map:fxTexture('/assets/fx/glow-atlas.png'),grid:[4,1],renderOrder:13});
+  const smoke=createPool({scene,kind:'smoke',capacity:140,map:fxTexture('/assets/fx/smoke-atlas.png'),grid:[4,4],renderOrder:12});
+  const glow=createPool({scene,kind:'glow',capacity:520,map:fxTexture('/assets/fx/glow-atlas.png'),grid:[4,1],renderOrder:13});
   const shockMat=new THREE.MeshBasicMaterial({color:new THREE.Color('#ffd79a').multiplyScalar(2),transparent:true,opacity:0,depthWrite:false,blending:THREE.AdditiveBlending,side:THREE.DoubleSide});
   const ringGeo=new THREE.RingGeometry(.86,1,64);
   const dais=[],crew=[];let originals=new Map(),last=-1,lastTime=0,emitAcc=0;
@@ -67,7 +70,7 @@ export function createTransformation(renderer,{budget=1}={}){
     smoke.clear();glow.clear();last=-1;emitAcc=0;overlay?.classList.add('hidden');
   }
   function start(nodes){
-    clear();nodes.forEach((n,i)=>{
+    clear();budget=fixed??PROFILE_BUDGET[renderer?.domElement?.dataset?.quality]??1;nodes.forEach((n,i)=>{
       originals.set(n.p.id,{node:n.group,parent:n.group.parent});scene.add(n.group);crew.push(n);const x=(i-(nodes.length-1)/2)*2.6;
       const top=new THREE.Mesh(new THREE.CylinderGeometry(1.05,1.15,.16,40),new THREE.MeshStandardMaterial({color:'#8a5230',roughness:.8,emissive:'#4a240e',emissiveIntensity:.45}));top.position.set(x,-.06,0);
       const trim=new THREE.Mesh(new THREE.TorusGeometry(1.08,.035,8,64),new THREE.MeshStandardMaterial({color:'#e9b765',metalness:.6,roughness:.35,emissive:'#7a5420',emissiveIntensity:.4}));trim.rotation.x=-Math.PI/2;trim.position.set(x,.03,0);

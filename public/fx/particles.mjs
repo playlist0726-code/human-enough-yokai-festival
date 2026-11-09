@@ -60,7 +60,7 @@ export function createPool({scene,kind,capacity,map,grid,renderOrder=10}){
   geo.instanceCount=0;
   const material=new THREE.ShaderMaterial({vertexShader,fragmentShader:kind==='smoke'?smokeFragment:glowFragment,transparent:true,depthWrite:false,
     blending:kind==='glow'?THREE.AdditiveBlending:THREE.NormalBlending,uniforms:{uMap:{value:map},uGrid:{value:new THREE.Vector2(...grid)}}});
-  const mesh=new THREE.Mesh(geo,material);mesh.frustumCulled=false;mesh.renderOrder=renderOrder;mesh.name=`fx-${kind}`;scene.add(mesh);
+  const mesh=new THREE.Mesh(geo,material);mesh.frustumCulled=false;mesh.visible=false;mesh.renderOrder=renderOrder;mesh.name=`fx-${kind}`;scene.add(mesh);
   // simulation state (structure of arrays)
   const N=capacity,F=Float32Array;
   const s={x:new F(N),y:new F(N),z:new F(N),vx:new F(N),vy:new F(N),vz:new F(N),age:new F(N),life:new F(N),s0:new F(N),s1:new F(N),
@@ -98,10 +98,10 @@ export function createPool({scene,kind,capacity,map,grid,renderOrder=10}){
       shade[i*3]=s.sr[i];shade[i*3+1]=s.sg[i];shade[i*3+2]=s.sb[i];
       params[i*4]=live?s.s0[i]+(s.s1[i]-s.s0[i])*e:0;params[i*4+1]=s.rot[i];params[i*4+2]=s.anim[i]?Math.min(frames-1,t*frames):s.frame[i];
     }
-    geo.instanceCount=count;
+    geo.instanceCount=count;mesh.visible=count>0;
     if(count){aOffset.needsUpdate=aColor.needsUpdate=aShade.needsUpdate=aParams.needsUpdate=true;}
   }
-  function clear(){count=0;geo.instanceCount=0;}
+  function clear(){count=0;geo.instanceCount=0;mesh.visible=false;}
   function dispose(){scene.remove(mesh);geo.dispose();material.dispose();quad.dispose();}
   return {mesh,emit,update,clear,dispose,get count(){return count;},capacity,kind};
 }

@@ -31,7 +31,7 @@ async def main(a):
         for i in range(total):
             info = await pg.evaluate(f'window.labFrame({i},{a.fps})')
             path = f'{a.out}/f{i:03d}.png'
-            await pg.locator('canvas').screenshot(path=path)
+            await pg.screenshot(path=path)
             frames.append(Image.open(path).convert('RGB'))
             if i % 12 == 0: print(i, info, flush=True)
         await b.close()
