@@ -1,0 +1,184 @@
+{
+ "version": 1,
+ "formats": [
+  "ogg",
+  "m4a"
+ ],
+ "music": {
+  "festival": {
+   "bpm": 112,
+   "bars": 24,
+   "loop": true,
+   "file": "music/festival",
+   "duration": 51.429
+  },
+  "boss": {
+   "bpm": 132,
+   "bars": 16,
+   "loop": true,
+   "file": "music/boss",
+   "duration": 29.091
+  },
+  "title": {
+   "bpm": 84,
+   "bars": 16,
+   "loop": true,
+   "file": "music/title",
+   "duration": 45.714
+  },
+  "victory": {
+   "loop": false,
+   "file": "music/victory",
+   "duration": 5.0
+  },
+  "defeat": {
+   "loop": false,
+   "file": "music/defeat",
+   "duration": 5.0
+  }
+ },
+ "ambience": {
+  "crowd": {
+   "file": "amb/crowd",
+   "duration": 24.0,
+   "loop": true
+  },
+  "insects": {
+   "file": "amb/insects",
+   "duration": 20.0,
+   "loop": true
+  },
+  "wind": {
+   "file": "amb/wind",
+   "duration": 24.0,
+   "loop": true
+  }
+ },
+ "sfx": {
+  "potion_pickup": [
+   "sfx/potion_pickup_0",
+   "sfx/potion_pickup_1",
+   "sfx/potion_pickup_2"
+  ],
+  "potion_drink": [
+   "sfx/potion_drink_0",
+   "sfx/potion_drink_1"
+  ],
+  "charm_cast": [
+   "sfx/charm_cast_0",
+   "sfx/charm_cast_1"
+  ],
+  "charm_end": [
+   "sfx/charm_end_0"
+  ],
+  "cover_ward": [
+   "sfx/cover_ward_0"
+  ],
+  "reveal_pop": [
+   "sfx/reveal_pop_0",
+   "sfx/reveal_pop_1",
+   "sfx/reveal_pop_2"
+  ],
+  "reveal_hide": [
+   "sfx/reveal_hide_0"
+  ],
+  "guest_delivered": [
+   "sfx/guest_delivered_0"
+  ],
+  "stall_win": [
+   "sfx/stall_win_0"
+  ],
+  "stall_fail": [
+   "sfx/stall_fail_0"
+  ],
+  "stall_reward": [
+   "sfx/stall_reward_0"
+  ],
+  "stall_enter": [
+   "sfx/stall_enter_0"
+  ],
+  "hit": [
+   "sfx/hit_0",
+   "sfx/hit_1"
+  ],
+  "sealed": [
+   "sfx/sealed_0"
+  ],
+  "rescued": [
+   "sfx/rescued_0"
+  ],
+  "boss_omen": [
+   "sfx/boss_omen_0"
+  ],
+  "spirit_bolt": [
+   "sfx/spirit_bolt_0",
+   "sfx/spirit_bolt_1",
+   "sfx/spirit_bolt_2"
+  ],
+  "ward_block": [
+   "sfx/ward_block_0"
+  ],
+  "seal_break": [
+   "sfx/seal_break_0"
+  ],
+  "boss_banished": [
+   "sfx/boss_banished_0"
+  ],
+  "ping": [
+   "sfx/ping_0"
+  ],
+  "footstep": [
+   "sfx/footstep_0",
+   "sfx/footstep_1",
+   "sfx/footstep_2",
+   "sfx/footstep_3",
+   "sfx/footstep_4"
+  ],
+  "jump": [
+   "sfx/jump_0"
+  ],
+  "land": [
+   "sfx/land_0",
+   "sfx/land_1"
+  ],
+  "round_start": [
+   "sfx/round_start_0"
+  ],
+  "firework": [
+   "sfx/firework_0",
+   "sfx/firework_1",
+   "sfx/firework_2"
+  ],
+  "transform_gather": [
+   "sfx/transform_gather_0"
+  ],
+  "transform_pop": [
+   "sfx/transform_pop_0"
+  ],
+  "transform_reveal": [
+   "sfx/transform_reveal_0"
+  ],
+  "ui_click": [
+   "sfx/ui_click_0"
+  ],
+  "ui_open": [
+   "sfx/ui_open_0"
+  ]
+ },
+ "voice": {
+  "mizu_laugh": "voice/mizu_laugh",
+  "mizu_surprise": "voice/mizu_surprise",
+  "pon_laugh": "voice/pon_laugh",
+  "pon_surprise": "voice/pon_surprise",
+  "kon_laugh": "voice/kon_laugh",
+  "kon_surprise": "voice/kon_surprise",
+  "sumi_laugh": "voice/sumi_laugh",
+  "sumi_surprise": "voice/sumi_surprise",
+  "nemu_laugh": "voice/nemu_laugh",
+  "nemu_surprise": "voice/nemu_surprise",
+  "akari_laugh": "voice/akari_laugh",
+  "akari_surprise": "voice/akari_surprise",
+  "kasa_laugh": "voice/kasa_laugh",
+  "kasa_surprise": "voice/kasa_surprise"
+ }
+}
