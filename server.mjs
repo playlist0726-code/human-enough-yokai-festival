@@ -8,7 +8,7 @@ import {playtestInfo,inviteURL} from './playtest-network.mjs';
 import {WebSocketServer,WebSocket} from 'ws';
 import {createRoom,addPlayer,removePlayer,setInput,doAction,stepRoom,snapshot,stallInput,setReady,beginCountdown,returnToLobby,setConnected,setPaused} from './shared/simulation.mjs';
 const root=path.dirname(fileURLToPath(import.meta.url));
-const types={'.html':'text/html; charset=utf-8','.css':'text/css; charset=utf-8','.js':'text/javascript; charset=utf-8','.mjs':'text/javascript; charset=utf-8','.png':'image/png','.webp':'image/webp','.jpg':'image/jpeg','.svg':'image/svg+xml','.json':'application/json','.glb':'model/gltf-binary'};
+const types={'.html':'text/html; charset=utf-8','.css':'text/css; charset=utf-8','.js':'text/javascript; charset=utf-8','.mjs':'text/javascript; charset=utf-8','.png':'image/png','.webp':'image/webp','.jpg':'image/jpeg','.svg':'image/svg+xml','.json':'application/json','.glb':'model/gltf-binary','.wasm':'application/wasm','.ktx2':'image/ktx2','.ogg':'audio/ogg','.m4a':'audio/mp4','.mp3':'audio/mpeg'};
 const ACTIONS=new Set(['interact','drink','charm','cover','jump','share','handoff','ping','strike']);
 export function createGameServer({reconnectMs=30000,publicBaseURL=process.env.PUBLIC_BASE_URL||process.env.RENDER_EXTERNAL_URL,maxRooms=64}={}){
   const publicOrigin=publicBaseURL?new URL(publicBaseURL).origin:null;

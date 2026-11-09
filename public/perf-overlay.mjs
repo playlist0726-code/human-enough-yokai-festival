@@ -47,7 +47,7 @@ export function installPerfOverlay({renderer,scene,getProfile,enabled=new URLSea
   return {
     enabled:true,
     frame(realDt){
-      if(!(realDt>0)||realDt>=1)return;
+      if(!(realDt>0)||realDt>=5)return; // longer gaps mean the tab was suspended
       times.push(realDt);span+=realDt;while(span>seconds&&times.length>1)span-=times.shift();
       sinceText+=realDt;sinceMemory+=realDt;
       if(sinceMemory>2){memory=estimateGpuMemory(scene);sinceMemory=0;}
