@@ -111,3 +111,23 @@
 - 본부: PR 검토·병합 → Phase 1 방(B·C·F) 열기.
 - R03: 미즈 v2 GLB + `defs/mizu.json` + `index.json` 등록. 실제 GLB로 걸음 보정값(`gait.walkSpeed`)을 맞춘다.
 - R14: 위 성능 기준치를 실제 GPU에서 다시 잰다.
+
+---
+
+## 2026-11-09 · F방 · R13 사운드 · 음악 (`remaster/r13-audio`)
+
+### 바뀐 것
+- 오리지널 음악 5곡(타이틀·축제·보스 루프, 승리·패배 스팅어), 앰비언스 3, 효과음 31큐, 캐릭터 목소리 14. 전부 코드 합성(`source/v2/audio/`), ogg + m4a 4.94 MB.
+- `public/audio/engine.mjs`: 버스 믹서(음악·앰비언스·효과·목소리·UI), 덕킹, 거리 감쇠·패닝, 피치 변주, 모바일 잠금 해제, 화면 기반 음악 전환. 이벤트 → 큐 규칙은 `public/audio/cues.mjs`. 표: `docs/production/AUDIO_LIST.md`.
+- 설정 메뉴에 볼륨 슬라이더 5개(주입식, `public/audio/settings-ui.mjs`).
+
+### 다른 방이 알아야 할 인터페이스
+- **본부(game.js)**: API 그대로(`createAudioEngine({isEnabled})`, `attach(bus)`). `audio.tone()`은 이제 무음이라 game.js의 tone 호출은 지워도 된다. 콘솔: `__YOKAI_AUDIO__`(`.music`, `.volumes`, `.play(cue)`).
+- **본부(events.mjs)**: 이벤트 payload에 `character`를 넣어 주면 다른 플레이어의 목소리가 정확해진다(`characterFor(playerId, known)`가 이미 받음).
+- **본부·사용자 결정**: `public/profile.mjs` 기본값 `sound:false` → 처음 온 플레이어는 소리를 못 듣는다. 기본 켜기를 권장(브라우저 정책상 첫 클릭 전에는 어차피 무음).
+- **R05 UI**: 설정 그리드 `.settings-grid`에 `[data-audio-slider]` 입력 5개가 "Sound effects" 뒤에 붙는다. 그리드를 바꾸면 이 위치를 유지해 달라.
+- **R10 VFX**: 큐 이름이 `FX_MAP[type].cue`와 같다. 오프닝 큐는 `#transformation`이 보이는 순간부터 0 / 0.51 / 0.6 × 4.2초.
+
+### 다음 할 일
+- 실제 기기에서 소리 켜고 한 판 녹화·승인(완료 기준).
+- R14: 오디오는 첫 클릭 후 지연 로드(약 2.5 MB)라 첫 화면 예산에는 들어가지 않음. 필요하면 음악만 스트리밍(`<audio>` + MediaElementSource)으로 바꿀 수 있음.
