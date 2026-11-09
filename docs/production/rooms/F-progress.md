@@ -2,7 +2,7 @@
 
 - 마지막 갱신: 2026-11-08 (America/Denver)
 - 현재 브리프: **R10 VFX · 게임필** — 브랜치 `remaster/r10-vfx` (R05는 PR #2)
-- 상태: **R10 PR 제출(본부 병합 대기)** → 다음 R13
+- 상태: **R10 PR #3 제출(본부 병합 대기)** → 다음 R13
 
 ## R05 끝난 것
 - [x] 시작 점검: `npm ci`, check, test 112, integration 5 모두 초록
