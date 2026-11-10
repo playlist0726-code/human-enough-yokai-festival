@@ -8,6 +8,10 @@ import {buildFestivalScenery} from './festival-scenery.mjs';
 import {timber,stoneSurface,groundMaterial,pavingMaterial} from './art-materials.mjs';
 // REMASTER-HOOK r02: lanterns register light anchors so the render pipeline can paint light pools and place real lights.
 import {registerLantern} from './render/lanterns.mjs';
+import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';
+/** Stall kinds (STALLS[].game) that load a festival-kit GLB instead of the procedural booth. */
+export const KIT_STALLS={fish:'env_stall_fish'};
+const kitLoader=new GLTFLoader();
 const lanternAt=(parent,x,y,z,kind,extra)=>{parent.updateWorldMatrix(true,false);const p=parent.localToWorld(new THREE.Vector3(x,y,z));registerLantern({x:p.x,y:p.y,z:p.z,kind:kind||(p.y-groundHeight(p.x,p.z)>4?'string':'paper'),...extra});};
 
 const wood=timber('#886048'),gold=surface('#d5a758',{metalness:.4,roughness:.45}),red=surface('#b94942'),stone=stoneSurface('#9a9ca3');
@@ -44,6 +48,19 @@ function batch(root){
 }
 export function buildFestival(scene,potionNodes){
   const world=group(scene),wind=[],keepers=[],waterUniforms=[],steamOrigins=[];let lastTime=0;
+  // Festival kit GLBs share materials by name (kit_wood, kit_cloth, kit_paint, ...) so every stall reuses one material each.
+  const kitMaterials=new Map();
+  function kitMaterial(m){
+    if(m.name==='kit_water'){if(!kitMaterials.has('kit_water')){const w=makeWater('#245f78');waterUniforms.push(w.uniforms);kitMaterials.set('kit_water',w);}return kitMaterials.get('kit_water');}
+    if(!kitMaterials.has(m.name)){m.vertexColors=true;if(m.map)m.map.anisotropy=8;kitMaterials.set(m.name,m);}
+    return kitMaterials.get(m.name);
+  }
+  function loadKit(parent,id,fallback){
+    kitLoader.load(`/assets/env/v2/${id}.glb`,gltf=>{
+      gltf.scene.traverse(o=>{if(!o.isMesh)return;o.castShadow=o.receiveShadow=true;o.material=Array.isArray(o.material)?o.material.map(kitMaterial):kitMaterial(o.material);});
+      gltf.scene.name=id;parent.add(gltf.scene);
+    },undefined,error=>{console.warn(`festival kit: ${id} failed, using the procedural stall`,error);fallback();});
+  }
   const geo=new THREE.PlaneGeometry(52,75,88,118);geo.rotateX(-Math.PI/2);
   const pos=geo.attributes.position;for(let i=0;i<pos.count;i++){const z=pos.getZ(i)-7.5;pos.setZ(i,z);pos.setY(i,groundHeight(pos.getX(i),z));}geo.computeVertexNormals();
   const ground=part(world,geo,groundMaterial());ground.castShadow=false;
@@ -65,6 +82,8 @@ export function buildFestival(scene,potionNodes){
   for(let z=-35;z<21;z+=1.05)for(const side of [-1,1]){const x=side*2.58+Math.sin(z*.14)*.35;const slab=softBox(world,stone,x,groundHeight(x,z)+.075,z,.3,.16,.99,.04);slab.rotation.y=Math.sin(z)*.025;}
   for(const s of STALLS){
     const g=group(world,s.x,groundHeight(s.x,s.z),s.z),cloth=fabric(s.color,'waves','#f6d9a9');
+    // R04: stalls with a festival-kit GLB (public/assets/env/v2) skip the procedural body; it stays as the load-failure fallback.
+    const bodyA=()=>{
     softBox(g,wood,0,.55,0,s.w,1.1,s.d,.07);softBox(g,timber('#b5865b'),0,1.16,0,s.w+.2,.15,s.d+.3,.035);
     for(let i=0;i<12;i++)cube(g,wood,-s.w/2+(i+.5)*s.w/12,.55,s.d/2+.03,s.w/12-.016,.96,.055);
     for(const x of [-s.w/2,s.w/2])for(const z of [-s.d/2,s.d/2])tube(g,wood,.085,.1,3.15,x,1.55,z);
@@ -73,9 +92,12 @@ export function buildFestival(scene,potionNodes){
     const roof=part(g,roofGeo,cloth,0,3.13,0);roof.material=cloth.clone();roof.material.side=THREE.DoubleSide;
     for(const side of [-1,1])curve(g,gold,[[side*(s.w/2+.4),3.1,-s.d/2-.25],[side*s.w/2,3.35,0],[side*(s.w/2+.4),3.15,s.d/2+.5]],.065);
     for(let i=0;i<8;i++){const x=-s.w/2+(i+.5)*s.w/8;const flap=softBox(g,cloth,x,2.96,s.d/2+.58,s.w/8-.015,.55,.07,.025);flap.rotation.z=Math.sin(i*4)*.02;}
+    };
     sign(g,s.name,0,2.38,s.d/2+.62,2.35);lantern(g,-s.w/2+.1,2.04,s.d/2+.57);lantern(g,s.w/2-.1,2.04,s.d/2+.57);
     sign(g,'E · Play',0,.65,s.d/2+.2,1.3);
     const shopkeeper=createVisitor(STALLS.indexOf(s)+1);shopkeeper.root.position.set(s.x+.75,groundHeight(s.x,s.z)+.07,s.z-.5);shopkeeper.root.scale.setScalar(.94);shopkeeper.arms.forEach(a=>a.rotation.x=-.5);scene.add(shopkeeper.root);keepers.push({rig:shopkeeper,kind:s.game});
+    if(s.game==='cook')steamOrigins.push({x:s.x-.4,y:groundHeight(s.x,s.z)+1.7,z:s.z+.5});
+    const bodyB=()=>{
     if(s.game==='shoot'){
       for(let row=0;row<2;row++){cube(g,wood,-.75,1.65+row*.58,-.55,1.9,.09,.6);for(let i=0;i<3;i++){const x=-1.4+i*.62,y=1.91+row*.58;orb(g,['#ce6354','#e6c384','#ad869e'][i],x,y,-.55,.2,.23,.16);for(const side of [-1,1]){orb(g,'#d8a570',x+side*.16,y+.18,-.55,.065);orb(g,'#342c31',x+side*.065,y+.04,-.4,.023);}orb(g,'#f6dfa9',x,y-.05,-.39,.065);}}
       const rifle=cube(g,wood,-.5,1.33,.85,1.4,.12,.16);rifle.rotation.y=.2;tube(g,gold,.04,.04,.6,.3,1.33,.7).rotation.z=Math.PI/2;
@@ -86,7 +108,6 @@ export function buildFestival(scene,potionNodes){
     }else if(s.game==='ring'){
       cube(g,'#dfb87c',-.3,1.28,.5,2.8,.13,1.55);for(let i=0;i<6;i++){const x=-1.15+(i%3)*.8,z=.15+Math.floor(i/3)*.7;const base=ring(g,['#c7594c','#6c9d82','#c7a542'][i%3],.24,.03,x,1.36,z);base.rotation.x=Math.PI/2;tube(g,wood,.055,.07,.36,x,1.52,z);if(i%2===0)ring(g,'#e6cf9a',.18,.025,x,1.4,z).rotation.x=Math.PI/2;}
     }else if(s.game==='cook'){
-      steamOrigins.push({x:s.x-.4,y:groundHeight(s.x,s.z)+1.7,z:s.z+.5});
       cube(g,'#303337',-.4,1.3,.5,2.7,.18,1.4);for(let i=0;i<12;i++){const x=-1.45+(i%6)*.4,z=.25+Math.floor(i/6)*.5;tube(g,'#161d24',.17,.17,.035,x,1.41,z);orb(g,'#d7974a',x,1.48,z,.14,.1,.14);orb(g,'#e7d7a8',x+.04,1.56,z,.07,.012,.025);}for(let i=0;i<2;i++)tube(g,['#cc6847','#eadcae'][i],.075,.09,.35,1.1+i*.22,1.45,.65);
     }else if(s.game==='fortune'){
       cube(g,wood,-.55,1.43,.4,.9,.5,.7);cube(g,'#352b30',-.55,1.7,.4,.3,.02,.26);for(let i=0;i<5;i++){const x=-1.55+i*.61;orb(g,['#ce8c88','#b195ba','#84b2a4'][i%3],x,1.36,.98,.2,.2,.16);tube(g,gold,.09,.055,.09,x,1.57,.98);ring(g,'#f2dda9',.09,.02,x,1.64,.98);}
@@ -98,6 +119,8 @@ export function buildFestival(scene,potionNodes){
     for(let k=0;k<7;k++)cube(g,timber('#986e4e'),-s.w/2+(k+.5)*s.w/7,1.55,-s.d/2+.06,s.w/7-.025,.7,.06);
     cube(g,wood,0,2,-s.d/2,s.w+.15,.12,.12);
     for(let k=0;k<4;k++)cube(g,wood,(k-1.5)*.8,.42,s.d/2+.085,.035,.78,.045);
+    };
+    if(KIT_STALLS[s.game])loadKit(g,KIT_STALLS[s.game],()=>{bodyA();bodyB();});else{bodyA();bodyB();}
     // Small stepping stones connect every booth to the festival lane.
     for(let k=0;k<5;k++){const t=(k+.5)/5,x=THREE.MathUtils.lerp(Math.sign(s.x)*2.8,s.x,t),z=s.z+s.d/2+1;for(const side of [-1,1]){const pz=z+side*.34,slab=softBox(world,stone,x,groundHeight(x,pz)+.04,pz,.82,.09,.64,.11);slab.rotation.y=Math.sin(k*4+s.x)*.15;}}
 

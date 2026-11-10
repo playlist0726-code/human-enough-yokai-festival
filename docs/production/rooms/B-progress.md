@@ -1,8 +1,8 @@
 # B방 진행 상황 — 월드 룩(R02 밤 조명 → R04 환경)
 
 - 마지막 갱신: 2026-11-09 (America/Denver)
-- 현재 브리프: **R02** · 브랜치 `remaster/r02-night-look`
-- 상태: **R02 완료 — PR #5** https://github.com/playlist0726-code/human-enough-yokai-festival/pull/5 · 다음: R04
+- 현재 브리프: **R04** · 브랜치 `remaster/r04-festival-kit`(R02 브랜치 위에 쌓음)
+- 상태: R02 완료(PR #5). **R04 히어로 에셋(금붕어 노점) 사용자 승인 대기**
 
 ## R02 끝난 것
 - [x] 클론, `npm ci`, check·test(112)·integration(5) 초록, 브랜치 생성
@@ -29,6 +29,19 @@
 - 등불 빛은 환경 코드가 `registerLantern()`으로 앵커만 등록하고, 실제 PointLight 개수는 파이프라인이 프로필별로 정함. 노점 6개가 각각 만들던 PointLight(강도 16)는 제거(`REMASTER-HOOK r02`)
 - 자동 품질 하향을 high → balanced → mobile → light로 한 단계씩(이전: balanced·mobile → light 바로)
 - 길 돌의 차가운 색(라벤더 회색)은 R04 소관(`festival.mjs`의 paving 색). R04에서 따뜻한 돌 텍스처로 바꾼다
+
+## R04 끝난 것
+- [x] `.venv-bpy`에 Blender 5.2.3(bpy) 설치(`.git/info/exclude`로 커밋 제외)
+- [x] 에셋 목록 `source/v2/environment/manifest.json`
+- [x] 키트 텍스처 `kit/textures.py`(나무·천 세이가이하·페인트·돌·이끼 땅, 1024, 타일링, 고정 시드)
+- [x] 키트 라이브러리 `kit/kitlib.py`(게임 좌표 → Blender, 공유 재질 이름, 박스 UV, 정점 색), `kit/stallkit.py`(공용 노점 골격)
+- [x] 히어로 `env_stall_fish`(8,286 삼각형, 재질 4, validator PASS) + 런타임 로더(`KIT_STALLS`, 재질 이름별 공유, kit_water → 물 셰이더, 실패 시 절차 노점)
+- [x] 비교 `captures/r04/compare_fish_hero.jpg`, 근접 `fish_hero_closeup.png`
+
+## R04 결정 사항
+- Higgsfield 이미지는 결과 CDN(cloudfront)이 샌드박스에서 막혀(프록시 403) 저장소로 가져올 수 없음 → 텍스처를 절차적으로 생성(재실행 가능). 0.25 크레딧 1건 사용, `provenance.json`에 기록
+- R02 수치 조정(R04에서 실제 에셋을 넣고 보니 과노출): 석등 실제 빛 0(빛 웅덩이만), 종이 등불 빛 5→3, 노점 빛 10→6, 빛 웅덩이 1.6→1.4
+- R04 PR은 R02 브랜치를 base로 쌓는다(R02 조명이 전제)
 
 ## 다음 단계
 1. 승인 받으면 나머지 2장면 비교 보드 → 품질 게이트 → PR

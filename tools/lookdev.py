@@ -30,7 +30,7 @@ import * as THREE from 'three';
 import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';
 import {createRenderPipeline} from '/render/pipeline.mjs';
 import {PROFILES} from '/visual-quality.mjs';
-import {buildFestival} from '/festival.mjs';
+import {buildFestival,KIT_STALLS} from '/festival.mjs';
 import {FestivalCamera} from '/free-camera.mjs';
 import {groundHeight} from '/shared/world.mjs';
 import {createVisitor} from '/visitors.mjs';
@@ -51,7 +51,7 @@ const SHOTS={
   street:{p:[0,3.2],yaw:-.18,pitch:.40,dist:9.5,cast:[[0,3.2,Math.PI],[-1.5,4.2,Math.PI*.9],[1.5,4.4,-Math.PI*.9]],guests:[[-3.6,1.2],[3.2,-1.5],[-1,-3.5]]},
   shrine:{p:[0,-22.5],yaw:0,pitch:.36,dist:9.5,cast:[[0,-22.5,Math.PI],[-1.6,-21.4,Math.PI*.9],[1.6,-21.6,-Math.PI*.9]],guests:[[-2.4,-26],[2.5,-25.5],[3.4,-19.5]]},
   wide:{p:[0,16.5],yaw:.2,pitch:.62,dist:17,cast:[[0,16.5,Math.PI],[-1.7,17.6,Math.PI*.9],[1.8,17.4,-Math.PI*.9]],guests:[[-2,10.5],[2.6,8],[0.5,6]]},
-  fish:{p:[6.2,13.6],yaw:.42,pitch:.36,dist:8.2,cast:[[6.2,13.6,Math.PI*.95],[4.6,14.2,Math.PI*.8],[7.8,14.6,-Math.PI*.9]],guests:[[9.6,12.2],[3.4,10.6],[5,6.5]]},
+  fish:{p:[7.6,12.0],yaw:-.12,pitch:.42,dist:7.4,cast:[[5.1,12.4,Math.PI*.8],[4.0,13.4,Math.PI*.85],[10.9,12.8,-Math.PI*.85]],guests:[[12.4,11.4],[3.2,10.6],[5.4,6]]},
 };
 window.shoot=async(name,t)=>{
   const s=SHOTS[name];s.cast.forEach((c,i)=>place(models[i],...c));
@@ -66,6 +66,8 @@ window.shoot=async(name,t)=>{
   const i=pipeline.renderer.info,png=document.getElementById('c').toDataURL('image/png');  // same task as the draw: no partial frames
   return {png,calls:i.render.calls,triangles:i.render.triangles,geometries:i.memory.geometries,textures:i.memory.textures,lights:(()=>{let n=0;scene.traverse(o=>{if(o.isLight&&o.visible&&o.intensity>0)n++;});return n;})()};
 };
+// wait for festival-kit GLBs (R04) so shots never catch a half-loaded street
+{const ids=Object.values(KIT_STALLS||{}),t0=performance.now();while(ids.some(id=>!scene.getObjectByName(id))&&performance.now()-t0<20000)await new Promise(r=>setTimeout(r,100));}
 document.title='READY';
 </script></body></html>"""
 
