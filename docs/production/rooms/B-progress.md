@@ -2,7 +2,7 @@
 
 - 마지막 갱신: 2026-11-09 (America/Denver)
 - 현재 브리프: **R02** · 브랜치 `remaster/r02-night-look`
-- 상태: **대표 장면(시작 지점) 사용자 승인 대기**
+- 상태: R02 대표 장면 승인됨(2026-11-09) → 품질 게이트·PR
 
 ## R02 끝난 것
 - [x] 클론, `npm ci`, check·test(112)·integration(5) 초록, 브랜치 생성
@@ -17,8 +17,11 @@
 - [x] 지면 톤(`art-materials.mjs`): 어두운 이끼·흙색 잔디, 따뜻한 회색 돌길 텍스처
 
 ## 남은 것(R02)
-- [ ] 사용자 승인: 시작 지점 비교(`captures/r02/compare_start.jpg`)
-- [ ] 승인 후 노점 거리·신사 비교 보드, mobile/light 수치 표, `capture.py` after, HANDOFF, PR
+- [x] 사용자 승인: 시작 지점 비교(`captures/r02/compare_start.jpg`) — 2026-11-09 승인
+- [x] 노점 거리·신사 비교 보드, mobile/light 수치 표(LIGHTING.md 7장), 불꽃 플래시 샷
+- [x] `capture.py` after: 01·02·05·06 저장, 03·04 인게임은 샌드박스에서 세션이 끊김(R01과 같은 제약) → 룩뎁 샷으로 대체
+- [x] 테스트 `tests/night-look.test.mjs` 추가(116 통과), integration 5 통과, 페이지 로드 JS 오류 0
+- [x] HANDOFF 항목
 
 ## 결정 사항
 - 기존 `main`의 high/balanced 프로필에서 시작 지점 화면 일부가 검은 사각형으로 뭉개지는 버그를 찾음: 병합된 장식 메시의 퇴화 노멀이 NaN 픽셀 2개를 만들고 블룸이 이를 사각형으로 번지게 함. 월드 라이트 패치에서 비유한 색을 버려 해결(R04에서 원인 메시도 정리 예정)
