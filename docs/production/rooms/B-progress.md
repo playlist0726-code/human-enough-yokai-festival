@@ -2,7 +2,7 @@
 
 - 마지막 갱신: 2026-11-09 (America/Denver)
 - 현재 브리프: **R02** · 브랜치 `remaster/r02-night-look`
-- 상태: R02 대표 장면 승인됨(2026-11-09) → 품질 게이트·PR
+- 상태: **R02 완료 — PR #5** https://github.com/playlist0726-code/human-enough-yokai-festival/pull/5 · 다음: R04
 
 ## R02 끝난 것
 - [x] 클론, `npm ci`, check·test(112)·integration(5) 초록, 브랜치 생성
