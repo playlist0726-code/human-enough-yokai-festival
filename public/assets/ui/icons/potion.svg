@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <!-- Human Enough! icon family: 64 grid, 3px ink line, cream die-cut rim, light from top-left. -->
+  <defs>
+    <radialGradient id="liq" cx="40%" cy="38%" r="70%">
+      <stop offset="0" stop-color="#ffd0f4"/>
+      <stop offset=".45" stop-color="#d77cf0"/>
+      <stop offset="1" stop-color="#7a4cc9"/>
+    </radialGradient>
+    <linearGradient id="cork" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#c88a52"/>
+      <stop offset="1" stop-color="#8a5a34"/>
+    </linearGradient>
+  </defs>
+  <g stroke-linejoin="round" stroke-linecap="round">
+    <!-- die-cut rim -->
+    <path d="M25 10h14v4h-2v9.5c7.6 2.4 13 9.4 13 17.7C50 51.4 41.9 58 32 58S14 51.4 14 41.2c0-8.3 5.4-15.3 13-17.7V14h-2z" fill="#f4efe6" stroke="#f4efe6" stroke-width="9"/>
+    <!-- glass body -->
+    <path d="M27 14h10v9.5c7.6 2.4 13 9.4 13 17.7C50 51.4 41.9 58 32 58S14 51.4 14 41.2c0-8.3 5.4-15.3 13-17.7z" fill="#dfe8f4"/>
+    <!-- glowing liquid -->
+    <path d="M15.6 38.5c5.2-2.6 10.6-2.6 16.4 0s11.2 2.6 16.4 0c.4 1 .6 1.8.6 2.7C49 50.3 41.4 56 32 56S15 50.3 15 41.2c0-1 .2-1.8.6-2.7z" fill="url(#liq)"/>
+    <path d="M38 52c4.4-1.6 7.6-5 8.6-9.2" fill="none" stroke="#5d3aa3" stroke-opacity=".55" stroke-width="3"/>
+    <!-- bubbles -->
+    <circle cx="27" cy="46" r="2.2" fill="#fff" fill-opacity=".75"/>
+    <circle cx="33.5" cy="50" r="1.4" fill="#fff" fill-opacity=".7"/>
+    <!-- glass highlight -->
+    <path d="M21.5 34.5c1.8-3 4.3-5 7.2-6.1" fill="none" stroke="#fff" stroke-width="3.2" stroke-opacity=".95"/>
+    <!-- outline -->
+    <path d="M27 14h10v9.5c7.6 2.4 13 9.4 13 17.7C50 51.4 41.9 58 32 58S14 51.4 14 41.2c0-8.3 5.4-15.3 13-17.7z" fill="none" stroke="#2b2622" stroke-width="3"/>
+    <!-- cork -->
+    <rect x="25" y="7" width="14" height="8" rx="2.5" fill="url(#cork)" stroke="#2b2622" stroke-width="3"/>
+    <path d="M28 10h4" stroke="#f0c48e" stroke-width="2"/>
+    <!-- sparkle -->
+    <path d="M52 13l1.6 4.4L58 19l-4.4 1.6L52 25l-1.6-4.4L46 19l4.4-1.6z" fill="#f4efe6" stroke="#f4efe6" stroke-width="7"/>
+    <path d="M52 13l1.6 4.4L58 19l-4.4 1.6L52 25l-1.6-4.4L46 19l4.4-1.6z" fill="#e9b765" stroke="#2b2622" stroke-width="2"/>
+  </g>
+</svg>
