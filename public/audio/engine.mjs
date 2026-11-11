@@ -156,7 +156,7 @@ export function createAudioEngine({isEnabled=()=>true,storage=globalThis.localSt
     if(rule.duck)duck(rule.duck);
     if(rule.voice&&Math.random()<(rule.voiceChance??1)){
       const level=e.local||!listener||!e.position?1:distanceGain(Math.hypot(e.position.x-listener.x,e.position.z-listener.z),20);
-      voice(characterFor(e.playerId,e.local?localCharacter():null),rule.voice,{delay:rule.voice==='surprise'?.04:.18,level});
+      voice(characterFor(e.playerId,e.character||(e.local?localCharacter():null)),rule.voice,{delay:rule.voice==='surprise'?.04:.18,level});
     }
   }
 

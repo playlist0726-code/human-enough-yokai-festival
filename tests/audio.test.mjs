@@ -34,6 +34,7 @@ test('mixer rules: squared sliders, distance falloff with a floor, pan, format, 
   assert.equal(characterFor('abc'),characterFor('abc'));assert.equal(characterFor('x','kon'),'kon');assert.ok(CHARACTERS.includes(characterFor('zzz')));
   assert.equal(musicFor({hud:true}),'festival');assert.equal(musicFor({hud:true,boss:true}),'boss');assert.equal(musicFor({title:true}),'title');assert.equal(musicFor({hud:true,ending:true}),null);
   for(const b of BUSES)assert.ok(DEFAULT_VOLUMES[b]>0&&DEFAULT_VOLUMES[b]<=1);
+  assert.equal(DEFAULT_VOLUMES.music,.6);assert.equal(DEFAULT_VOLUMES.sfx,.8);   // REMASTER-HOOK hq defaults
 });
 
 test('engine is safe without WebAudio (tests, old browsers) and the legacy tone is silent',()=>{
@@ -41,6 +42,14 @@ test('engine is safe without WebAudio (tests, old browsers) and the legacy tone 
   const off=engine.attach(bus);
   for(const type of Object.keys(CUES))bus.emit(type,{type,playerId:'a',position:{x:0,y:0,z:0},local:true,result:'won'});
   assert.equal(engine.tone(440),undefined);assert.equal(engine.context,null);
+  assert.equal(engine.volumes.music,.6);
   engine.setVolume('music',.3);assert.equal(engine.volumes.music,.3);engine.setVolume('music',5);assert.equal(engine.volumes.music,1);
   off();
+});
+
+test('volume changes persist and override the defaults on the next load',()=>{
+  const data=new Map(),storage={getItem:k=>data.get(k)??null,setItem:(k,v)=>data.set(k,v)};
+  const first=createAudioEngine({storage});assert.equal(first.volumes.music,.6);assert.equal(first.volumes.sfx,.8);
+  first.setVolume('music',.25);
+  const second=createAudioEngine({storage});assert.equal(second.volumes.music,.25);assert.equal(second.volumes.sfx,.8);
 });

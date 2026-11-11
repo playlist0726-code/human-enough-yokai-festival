@@ -22,6 +22,7 @@ import {drawMinimap} from '/render/minimap.mjs';
 import {createAudioEngine} from '/audio/engine.mjs';
 import {createEventBus,createGameEvents} from '/events.mjs';
 import {createFx} from '/fx/index.mjs';
+import {createTimeScale} from '/time-scale.mjs';
 import {createActors} from '/characters/actors.mjs';
 import {loadPortraits} from '/characters/portraits.mjs';
 import {createRigFactory,createV2Loader,loadDefs} from '/characters/rig-v2.mjs';
@@ -61,7 +62,9 @@ quality.button.onclick=()=>{quality.cycle();save();shell?.refreshSettings();};qu
 const festival=buildFestival(scene,potionNodes);
 const encounterView=createEncounterView(scene,{hud:$('hud'),onAction:action=>act(action)});
 const transformation=createTransformation(renderer);
-const fx=createFx({scene,bus,pipeline});
+// REMASTER-HOOK hq: hit-stop time scale. Visual only: scales animation/interpolation dt, never server or network time.
+const timeScale=createTimeScale();
+const fx=createFx({scene,bus,pipeline,timeScale});
 
 const [referenceImages,rigDefs]=await Promise.all([loadPortraits(CHARACTERS),loadDefs()]);
 const rigs=createRigFactory({defs:rigDefs,loader:rigDefs.size?createV2Loader(renderer):null,createLegacy:createPlayerAvatar,animateLegacy:animatePlayerAvatar});
@@ -230,7 +233,7 @@ function resize(){pipeline.resize(innerWidth,innerHeight);}resize();window.addEv
 const perf=installPerfOverlay({renderer,scene,getProfile:()=>quality.profile});
 const clock=new THREE.Clock();let elapsed=0,frames=0;
 function animate(){
-  requestAnimationFrame(animate);if(document.hidden){clock.getDelta();return;}const realDt=clock.getDelta(),dt=Math.min(realDt,.1);elapsed+=dt;frames++;
+  requestAnimationFrame(animate);if(document.hidden){clock.getDelta();return;}const realDt=clock.getDelta(),frameDt=Math.min(realDt,.1),dt=timeScale.step(frameDt);elapsed+=dt;frames++; // REMASTER-HOOK hq: dt = animation time (hit-stop scaled); frameDt/realDt = real time
   const alpha=1-Math.exp(-dt*13);
   const disguising=state?.phase==='disguising';
   const introProgress=disguising?THREE.MathUtils.clamp(1-((state.introRemaining||0)-(performance.now()-stateReceivedAt)/1000)/DISGUISE.intro,0,1):1;
@@ -241,7 +244,7 @@ function animate(){
   pipeline.update({dt,elapsed,focus:local?.group.position||null,threat:threatFocus});
   stallUI.frame();
   freeCamera.focusLift=THREE.MathUtils.lerp(freeCamera.focusLift,threatFocus?1.6:0,1-Math.exp(-dt*2.5));
-  if(local){const probe=freeCamera.update(local.group.position,dt);if(frames%6===0){canvas.dataset.camera=JSON.stringify({...probe,position:camera.position.toArray(),locked:document.pointerLockElement===canvas,mouseLook:view.mouseLook});canvas.dataset.models=JSON.stringify({loaded:[...modelReport.loaded],failed:[...modelReport.failed],players:[...actors.players.values()].map(n=>({character:n.p.character,asset:n.rig.root.userData.modelAsset,status:n.rig.root.userData.modelStatus}))});}}
+  if(local){const probe=freeCamera.update(local.group.position,frameDt);if(frames%6===0){canvas.dataset.camera=JSON.stringify({...probe,position:camera.position.toArray(),locked:document.pointerLockElement===canvas,mouseLook:view.mouseLook});canvas.dataset.models=JSON.stringify({loaded:[...modelReport.loaded],failed:[...modelReport.failed],players:[...actors.players.values()].map(n=>({character:n.p.character,asset:n.rig.root.userData.modelAsset,status:n.rig.root.userData.modelStatus}))});}}
   encounterView.update(state,myId,elapsed,(state?.tick||0)+(state?.paused?0:Math.min(.2,(performance.now()-stateReceivedAt)/1000)));
   if(local&&encounterView.shake>0&&!matchMedia('(prefers-reduced-motion: reduce)').matches){camera.position.x+=Math.sin(elapsed*49)*encounterView.shake*.065;camera.position.y+=Math.cos(elapsed*41)*encounterView.shake*.04;}
   if(state?.phase==='playing'){
@@ -251,12 +254,12 @@ function animate(){
   if(state?.phase==='playing'){
     const p=state.players[myId],d=disguiseState(p,state.tick);$('disguise-status').textContent=d.revealed?`${d.part} showing · ${Math.ceil(d.remaining)}s · Ask for Cover`:d.concealed?(p.ward>0?`Disguise ward · ${Math.ceil(p.ward)}s`:'Features hidden · Teammate Cover'):`Human disguise · Slip in ${Math.ceil(d.next)}s`;$('disguise-status').classList.toggle('revealed',d.revealed);
   }
-  fx.update(dt,elapsed,state);
+  fx.update(dt,elapsed,state,frameDt);
   if(frames%6===0)canvas.dataset.visuals=JSON.stringify({...actors.probe(),graphics:{bloom:true,drawCalls:renderer.info.render.calls},effects:fx.actions.list.map(f=>({kind:f.kind,age:f.age}))});
   if(!document.hidden&&realDt<1){sampleTime+=realDt;sampleFrames++;}if(sampleTime>2){measuredFps=sampleFrames/sampleTime;transport.ping();canvas.dataset.performance=JSON.stringify({fps:Math.round(measuredFps),profile:quality.profile,drawCalls:renderer.info.render.calls,triangles:renderer.info.render.triangles,geometries:renderer.info.memory.geometries,textures:renderer.info.memory.textures,cachedActors:actors.playerCache.size+actors.humanCache.size});quality.observe(measuredFps,sampleTime,!!local&&!document.hidden);sampleTime=0;sampleFrames=0;}
   if(!stallUI.visible&&state&&!['lobby','countdown'].includes(state.phase)&&!document.hidden){renderer.info.reset();if(disguising)transformation.render(introProgress,elapsed);else pipeline.render(quality.settings.post);}
   perf.frame(realDt);
 }
-window.__YOKAI_GAME__={getState:()=>state,getPlayer:()=>state?.players[myId],getMetrics:()=>({frames,objects:scene.children.length,players:actors.players.size,humans:actors.humans.size,drawCalls:renderer.info.render.calls}),events:bus};
+window.__YOKAI_GAME__={getState:()=>state,getPlayer:()=>state?.players[myId],getMetrics:()=>({frames,objects:scene.children.length,players:actors.players.size,humans:actors.humans.size,drawCalls:renderer.info.render.calls}),events:bus,timeScale};
 installPlaytest({canvas,onStop:stopInput,getMetrics:()=>({fps:state?.phase==='playing'?Math.round(measuredFps):null,profile:quality.profile,connection:connectionState,rtt:transport.rtt,phase:state?.phase||'title',encounter:state?.encounter?{phase:state.encounter.phase,hp:state.encounter.hp,wave:state.encounter.wave,banished:state.encounter.banished}:null,room:state?.code||null,player:state?.players[myId]?{x:state.players[myId].x,z:state.players[myId].z,energy:state.players[myId].energy,bottles:state.players[myId].bottles,action:state.players[myId].action,health:state.players[myId].health,combat:state.players[myId].combatStats,jumps:jumpProbe.count}:null,drawCalls:renderer.info.render.calls,triangles:renderer.info.render.triangles,modelsLoaded:modelReport.loaded.size,modelsFailed:modelReport.failed.size})});
 animate();

@@ -47,7 +47,11 @@ test('drinking cannot be spammed or replaced by a new charm while casting',()=>{
 function storage(){const m=new Map();return {getItem:k=>m.get(k)||null,setItem:(k,v)=>m.set(k,v)};}
 test('settings and personal records tolerate blocked or corrupt storage; results are counted once',()=>{
   const st=storage();saveSettings(st,{sound:true,quality:'light',camera:'wide',character:'kon',name:'Test'});assert.equal(loadSettings(st).quality,'light');
-  assert.equal(loadSettings({getItem:()=>'{broken'}).sound,false);assert.equal(loadRecord({getItem:()=>'{broken'}).rounds,0);
+  // REMASTER-HOOK hq: sound defaults on; a pre-v2 saved `sound:false` was the old default, not a choice; v2 choices persist.
+  assert.equal(loadSettings({getItem:()=>'{broken'}).sound,true);assert.equal(loadSettings(storage()).sound,true);assert.equal(loadSettings(st).sound,true);
+  assert.equal(loadSettings({getItem:()=>'{"sound":false,"quality":"light"}'}).sound,true);
+  const off=storage();saveSettings(off,{...loadSettings(off),sound:false});assert.equal(loadSettings(off).sound,false);
+  saveSettings(off,{...loadSettings(off),sound:true});assert.equal(loadSettings(off).sound,true);assert.equal(loadRecord({getItem:()=>'{broken'}).rounds,0);
   const blocked={getItem(){throw Error('Blocked');},setItem(){throw Error('Blocked');}};assert.doesNotThrow(()=>saveSettings(blocked,{}));
   const r=playing();r.phase='won';r.tick=112;r.players.a.stamps=['fish'];recordResult(st,r,'a');recordResult(st,r,'a');assert.equal(loadRecord(st).rounds,1);assert.equal(loadRecord(st).bestTime,112);
   r.round++;r.phase='lost';r.players.a.stamps=['fish','apple'];recordResult(st,r,'a');assert.equal(loadRecord(st).wins,1);assert.equal(loadRecord(st).rounds,2);assert.equal(loadRecord(st).stamps.length,2);

@@ -198,3 +198,22 @@
 - R04(B방): 길 돌을 따뜻한 텍스처로, 줄 등불을 진짜 종이 등불 모델로(지금은 납작한 노란 공처럼 보임), NaN을 만드는 병합 장식 메시의 퇴화 노멀 정리.
 - R10: 새 불꽃 파티클에서 `pipeline.flash`를 계속 부른다.
 - R14: 실제 GPU에서 FPS와 위 draw calls를 다시 잰다.
+
+---
+
+## 2026-11-11 · 통합 · Phase 1 (`remaster/integration-phase1`) — PR #2 #3 #4 #5
+
+### 무엇을 했나
+- 최신 main에서 r05-ui → r10-vfx → r13-audio → r02-night-look 순서로 **merge commit** 병합(squash·rebase 없음). 이 PR을 "Create a merge commit"으로 병합하면 원래 PR 네 개가 자동으로 merged 처리된다.
+- 충돌 해결: `HANDOFF.md`는 양쪽 모두 유지, `CREDITS.md`·`rooms/F-progress.md`는 뒤 브랜치가 앞 내용을 모두 담은 상위 집합, `package.json` check는 합집합(이후 스크립트로 교체), `public/fx/index.mjs`는 R10 버전 + 불꽃놀이 `onBurst`에 `pipeline?.flash?.(burst.color,.8)`(`REMASTER-HOOK r02`).
+
+### 재발 방지: `npm run check`
+- `scripts/check-syntax.mjs`가 `public/`·`shared/`·`tools/`·`scripts/`와 루트의 `.js/.mjs`(server.mjs 등)를 **자동으로 전부** 검사한다. 새 모듈을 추가해도 **package.json을 고칠 필요가 없다.** (`vendor`·`addons`·`assets`·`node_modules` 제외)
+
+### 본부 위임 변경(`REMASTER-HOOK hq`)
+- **히트스톱** `public/time-scale.mjs` + game.js: `dt=timeScale.step(frameDt)`가 화면 애니메이션·보간(actors, festival, pipeline, fx, elapsed)에만 적용된다. 서버 틱·스냅샷 시각·입력·핑·FPS 측정·카메라 조작은 실제 시간 그대로. 사용: `fx.feel.hitstop(초, 배율)` 또는 `__YOKAI_GAME__.timeScale.hitstop()`. 최대 0.25초. 현재 연결: 내 캐릭터 피격 0.07초, 콤보 영탄 명중 0.05초, 보스 퇴치 0.12초(5% 속도). `prefers-reduced-motion`이면 꺼짐.
+- **이벤트 payload `character`**: 모든 버스 이벤트에 그 플레이어의 캐릭터 id(플레이어 없는 이벤트는 `null`). 사운드가 다른 플레이어 목소리에 사용한다.
+- **소리 기본값**: `profile.mjs` `DEFAULTS.sound=true`, `AUDIO_DEFAULTS={music:.6,sfx:.8}`. 저장 형식에 `v:2`를 추가해, 이전 버전이 저장해 둔 `sound:false`(옛 기본값)는 선택으로 보지 않는다. v2부터는 플레이어가 고른 값이 유지된다. 볼륨은 `eve-human-enough-audio-v1`에 저장.
+
+### 검증
+- check 71 files OK · test 134/134 · integration 5/5 · build OK(491 assets, 52.9 → 17.4 MB) · 브라우저(솔로 연습: 타이틀 → 오프닝 → 플레이, 포션·점프·결계·핑) JS 오류·HTTP 오류 0.

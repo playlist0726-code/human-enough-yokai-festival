@@ -17,12 +17,12 @@ export const CAPACITY={glow:1600,smoke:280};
 /**
  * @param {{scene: THREE.Scene, bus: ReturnType<import('../events.mjs').createEventBus>, pipeline: object, profile?: () => string}} ctx
  */
-export function createFx({scene,bus,pipeline,profile}){
+export function createFx({scene,bus,pipeline,profile,timeScale}){
   const getProfile=profile||(()=>pipeline?.renderer?.domElement?.dataset?.quality||'high');
   const budget=()=>BUDGET[getProfile()]??1;
   const glow=createPool({scene,kind:'glow',capacity:CAPACITY.glow,map:fxTexture('/assets/fx/glow-atlas.png'),grid:[4,1],renderOrder:11});
   const smoke=createPool({scene,kind:'smoke',capacity:CAPACITY.smoke,map:fxTexture('/assets/fx/smoke-atlas.png'),grid:[4,4],renderOrder:10});
-  const meshes=createMeshFx(scene),feel=createFeel({pipeline});
+  const meshes=createMeshFx(scene),feel=createFeel({pipeline,timeScale});
   const actions=createActionEffects(scene);
   // REMASTER-HOOK r02: each burst also tints sky and ground through the render pipeline's flash API.
   const fireworks=createFireworks(glow,{budget,onBurst:burst=>{bus?.emit('firework',{playerId:null,...burst});pipeline?.flash?.(burst.color,.8);}});
@@ -51,10 +51,11 @@ export function createFx({scene,bus,pipeline,profile}){
     /** Fire an effect directly (lab, tests). */
     play:run,
     clear(){actions.clear();glow.clear();smoke.clear();meshes.clear();feel.clear();fireworks.clear();controllers.length=0;},
-    update(dt,time,s){
+    /** dt: animation time (hit-stop scaled). realDt: real frame time, so shake and flash keep playing during a hit-stop. */
+    update(dt,time,s,realDt=dt){
       state=s||state;elapsed=time;
       for(let i=controllers.length-1;i>=0;i--)if(controllers[i](dt)===false)controllers.splice(i,1);
-      fireworks.update(time,dt);actions.update(dt,state);glow.update(dt);smoke.update(dt);meshes.update(dt,time);feel.update(dt);
+      fireworks.update(time,dt);actions.update(dt,state);glow.update(dt);smoke.update(dt);meshes.update(dt,time);feel.update(realDt);
     },
     dispose(){for(const f of off)f?.();this.clear();},
     tiers:TIERS

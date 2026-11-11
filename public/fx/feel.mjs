@@ -5,7 +5,7 @@ import * as THREE from 'three';
 
 const reduced=()=>typeof matchMedia!=='undefined'&&matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-export function createFeel({pipeline}){
+export function createFeel({pipeline,timeScale}){
   let trauma=0,t=0,flashA=0,flashColor='#fff1d6';
   const camera=pipeline?.camera,saved=new THREE.Vector3();let savedRoll=0;
   // screen flash overlay (DOM, pointer-events none, above the canvas and below the HUD)
@@ -40,6 +40,8 @@ export function createFeel({pipeline}){
       if(intensity>flashA){flashA=Math.min(.6,intensity);flashColor=color;if(flashEl)flashEl.style.background=`radial-gradient(ellipse at 50% 45%,${color},transparent 75%)`;}
       pipeline?.flash?.(color,intensity);
     },
+    /** REMASTER-HOOK hq: freeze on-screen animation for a few frames (visual only; server time is untouched). */
+    hitstop(seconds=.06,scale=0){if(!reduced())timeScale?.hitstop(seconds,scale);},
     /** Squash-pop a HUD element (e.g. the spirit meter when a potion is drunk). */
     pulse(selector,color='#ffffff'){
       if(typeof document==='undefined'||reduced())return;const el=document.querySelector(selector);if(!el?.animate)return;

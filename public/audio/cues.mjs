@@ -1,4 +1,6 @@
 // R13 pure audio rules (no WebAudio here, so Node tests can import it).
+import {AUDIO_DEFAULTS} from '../profile.mjs';
+
 // Event-bus type -> sound cue. Cue names match the VFX table (docs/production/VFX_LIST.md, fx/recipes.mjs).
 
 /** bus: which mixer bus; duck: dB to dip music+ambience; local: only when it is the local player's event;
@@ -37,7 +39,7 @@ export const CUES={
 export const OPENING=[{at:0,cue:'transform_gather',gain:-4},{at:.51,cue:'transform_pop',gain:0},{at:.6,cue:'transform_reveal',gain:-6}];
 
 export const BUSES=['music','sfx','ambience','voice','ui'];
-export const DEFAULT_VOLUMES={master:.9,music:.7,sfx:.9,ambience:.65,voice:.8,ui:.6};
+export const DEFAULT_VOLUMES={master:.9,ambience:.65,voice:.8,ui:.6,...AUDIO_DEFAULTS};   // music 60%, effects 80% (profile.mjs)
 export const CHARACTERS=['mizu','pon','kon','sumi','nemu','akari','kasa'];
 
 /** Settings slider (0..1) -> linear gain. Squared so the audible change spreads over the whole slider. */

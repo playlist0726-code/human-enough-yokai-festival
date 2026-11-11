@@ -53,7 +53,7 @@ function spiritBolt(ctx,e){
     t+=dt;const k=Math.min(1,t/dur),x=lerp(from.x,to.x,k),y=lerp(from.y,to.y,k)+Math.sin(k*Math.PI)*.6,z=lerp(from.z,to.z,k);
     ctx.glow.emit({x,y,z,life:.1,size:big?1.1:.8,sizeEnd:.6,color:'#cfdcff',intensity:2.6,alpha:1,alphaEnd:0,frame:GLOW.dot,fadeIn:0});
     for(let i=0,n=ctx.n(7);i<n;i++)ctx.glow.emit({x:x+(R()-.5)*.15,y:y+(R()-.5)*.15,z:z+(R()-.5)*.15,life:.45,size:big?.6:.45,sizeEnd:.06,color:R()<.6?'#8fb0ff':'#e4dbff',intensity:3,alpha:1,alphaEnd:0,frame:GLOW.dot,fadeIn:0});
-    if(k>=1){sparkBurst(ctx,to,{count:big?28:16,color:['#8fb0ff','#e4dbff','#ffffff'],speed:big?5:3.5,size:big?.32:.24,gravity:1.5});dot(ctx,to,{color:'#cfdcff',size:.8,sizeEnd:big?3:2});ctx.feel.shake(big?.3:.12);return false;}
+    if(k>=1){sparkBurst(ctx,to,{count:big?28:16,color:['#8fb0ff','#e4dbff','#ffffff'],speed:big?5:3.5,size:big?.32:.24,gravity:1.5});dot(ctx,to,{color:'#cfdcff',size:.8,sizeEnd:big?3:2});ctx.feel.shake(big?.3:.12);if(big)ctx.feel.hitstop(.05);return false;}
     return true;
   });
 }
@@ -83,14 +83,14 @@ export const FX_MAP={
   stall_fail:{tier:'small',cue:'stall_fail',run(ctx,e){puff(ctx,head(e.position),{count:3,size:.22,sizeEnd:.5,speed:.6,shade:'#7d7480',color:'#d8d2dc'});}},
   stall_reward:{tier:'small',cue:'stall_reward',run(ctx,e){sparkBurst(ctx,chest(e.position),{count:12,color:'#ffd79a',speed:1.8,up:2,size:.2});}},
   stall_enter:{tier:'none',cue:'stall_enter',run(){}},
-  hit:{tier:'medium',cue:'hit',run(ctx,e){const c=chest(e.position);sparkBurst(ctx,c,{count:12,color:['#ff7a8a','#ffd0d6'],speed:4,size:.24,gravity:2});dot(ctx,c,{color:'#ff9aa8',size:.7,sizeEnd:2.2,frame:GLOW.sparkle,life:.22,intensity:2});if(e.local)ctx.feel.shake(.45);}},
+  hit:{tier:'medium',cue:'hit',run(ctx,e){const c=chest(e.position);sparkBurst(ctx,c,{count:12,color:['#ff7a8a','#ffd0d6'],speed:4,size:.24,gravity:2});dot(ctx,c,{color:'#ff9aa8',size:.7,sizeEnd:2.2,frame:GLOW.sparkle,life:.22,intensity:2});if(e.local){ctx.feel.shake(.45);ctx.feel.hitstop(.07);}}},
   sealed:{tier:'medium',cue:'sealed',run(ctx,e){const p=e.position;puff(ctx,{x:p.x,y:p.y+.4,z:p.z},{count:8,color:'#cdb6f2',shade:'#4a2f6e',size:.35,sizeEnd:.9,speed:1.6,life:1.1,up:.3,radius:.5});ctx.meshes.ring(p,{color:'#a46bff',from:.5,to:2,life:.9,intensity:2});if(e.local)ctx.feel.shake(.4);}},
   rescued:{tier:'medium',cue:'rescued',run(ctx,e){const p=e.position;swirl(ctx,p,{count:22,colors:['#ffd79a','#ffffff'],radius:.7,vy:2.4,w:5,life:1,size:.2});ctx.meshes.ring(p,{color:'#ffd79a',from:.3,to:1.8,life:.6,intensity:2});}},
   boss_omen:{tier:'medium',cue:'boss_omen',run(ctx,e){const p=e.position;if(!p)return;ctx.meshes.ring(p,{color:'#a46bff',from:1,to:7,life:.9,width:.08,intensity:2});ctx.meshes.ring(p,{color:'#ff8a3d',from:.8,to:3,life:.7,delay:.12,intensity:2});
     puff(ctx,{x:p.x,y:p.y+.3,z:p.z},{count:6,color:'#6c5a8a',shade:'#1d1430',size:.5,sizeEnd:1.3,speed:2.4,life:1.2,up:.2,radius:.8});ctx.feel.shake(.18);}},
   boss_banished:{tier:'large',cue:'boss_banished',run(ctx,e){const p=e.position||ctx.boss();if(!p)return;const c={x:p.x,y:(p.y||0)+2.4,z:p.z};
     sparkBurst(ctx,c,{count:70,color:['#ffe2a6','#ffffff','#ffb066','#c9b6ff'],speed:7,up:2,size:.34,gravity:2.5,life:1.4});puff(ctx,c,{count:12,size:.6,sizeEnd:1.8,speed:3.5,life:1.4,color:'#efe6ff',shade:'#6c5a8a',radius:.6});
-    ctx.meshes.ring({x:p.x,y:p.y||0,z:p.z},{color:'#ffd79a',from:1,to:9,life:1,intensity:2.2});ctx.meshes.pillar({x:p.x,y:p.y||0,z:p.z},{radius:1.6,height:12,color:'#ffe2a6',life:1.4});ctx.feel.flash('#fff1d6',.35);ctx.feel.shake(.65);}},
+    ctx.meshes.ring({x:p.x,y:p.y||0,z:p.z},{color:'#ffd79a',from:1,to:9,life:1,intensity:2.2});ctx.meshes.pillar({x:p.x,y:p.y||0,z:p.z},{radius:1.6,height:12,color:'#ffe2a6',life:1.4});ctx.feel.flash('#fff1d6',.35);ctx.feel.shake(.65);ctx.feel.hitstop(.12,.05);}},
   spirit_bolt:{tier:'small',cue:'spirit_bolt',run(ctx,e){spiritBolt(ctx,e);}},
   ward_block:{tier:'small',cue:'ward_block',run(ctx,e){const c=chest(e.position);sparkBurst(ctx,c,{count:14,color:['#ffcf6b','#ffffff'],speed:3.5,size:.22});ctx.meshes.ring(e.position,{color:'#ffcf6b',from:1,to:2.6,life:.35,intensity:2.2});}},
   seal_break:{tier:'medium',cue:'seal_break',run(ctx,e){const c=chest(e.position);sparkBurst(ctx,c,{count:18,color:['#a46bff','#e4dbff'],speed:4,size:.26,gravity:5});puff(ctx,c,{count:4,color:'#d8d2dc',shade:'#4a2f6e',size:.3,sizeEnd:.8});if(e.local)ctx.feel.shake(.2);}},
