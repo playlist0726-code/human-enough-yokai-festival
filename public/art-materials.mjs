@@ -35,17 +35,17 @@ export function stoneSurface(color='#a6a696'){
 }
 export function groundMaterial(){
   const map=texture((ctx,n)=>{
-    ctx.fillStyle='#567b5f';ctx.fillRect(0,0,n,n);
-    // Broad, quiet color patches and tiny leaf marks read as a painted meadow.
+    ctx.fillStyle='#4b5f47';ctx.fillRect(0,0,n,n);
+    // R02 night look: dark moss and earth tones. Broad, quiet color patches and tiny leaf marks read as a painted meadow.
     for(let i=0;i<160;i++){
       const x=noise(i,1)*n,y=noise(i,2)*n,r=15+noise(i,3)*45;
-      const g=ctx.createRadialGradient(x,y,0,x,y,r);g.addColorStop(0,i%2?'#c6ce8c18':'#325d5815');g.addColorStop(1,'#68976900');ctx.fillStyle=g;ctx.fillRect(x-r,y-r,r*2,r*2);
+      const g=ctx.createRadialGradient(x,y,0,x,y,r);g.addColorStop(0,i%2?'#8a7a5222':'#24393a20');g.addColorStop(1,'#4b5f4700');ctx.fillStyle=g;ctx.fillRect(x-r,y-r,r*2,r*2);
     }
     for(let i=0;i<550;i++){
-      const x=noise(i,4)*n,y=noise(i,5)*n,r=1.5+noise(i,6)*2.5;ctx.fillStyle=i%3?'#b4c59436':'#386b5b28';ctx.beginPath();ctx.moveTo(x-r,y+r*.5);ctx.quadraticCurveTo(x,y-r*1.5,x+r,y+r*.5);ctx.quadraticCurveTo(x,y+r,x-r,y+r*.5);ctx.fill();
+      const x=noise(i,4)*n,y=noise(i,5)*n,r=1.5+noise(i,6)*2.5;ctx.fillStyle=i%3?'#8c9a6a30':'#2c4a4228';ctx.beginPath();ctx.moveTo(x-r,y+r*.5);ctx.quadraticCurveTo(x,y-r*1.5,x+r,y+r*.5);ctx.quadraticCurveTo(x,y+r,x-r,y+r*.5);ctx.fill();
     }
   },512,true);if(map)map.repeat.set(11,16);
-  return new THREE.MeshStandardMaterial({color:'#f4f1d7',map,roughness:.98,bumpMap:microSurface('clay'),bumpScale:.008});
+  return new THREE.MeshStandardMaterial({color:'#e2dccb',map,roughness:.98,bumpMap:microSurface('clay'),bumpScale:.008});
 }
 export async function pavingMaterial(){
   const draw=(ctx,n,height=false)=>{
@@ -54,10 +54,10 @@ export async function pavingMaterial(){
     for(let j=-1;j<=rows;j++)for(let i=-1;i<=cols;i++){
       const x=i*w+(j%2)*w*.5+noise(i+10,j+10)*9,y=j*h+noise(i+20,j+20)*7;
       const pad=3.5,ww=w-8+noise(i+30,j+30)*5,hh=h-7+noise(i+40,j+40)*3;
-      const colors=['#a6aa9b','#b6b3a0','#a4ada3','#c1bba6','#b0b1a4'];
+      const colors=['#9a948a','#a69d8e','#948f86','#ada392','#9d968b'];
       const g=ctx.createLinearGradient(x,y,x+ww*.4,y+hh);g.addColorStop(0,height?'#e8e8e8':'#d1ccb6');g.addColorStop(.16,height?'#c8c8c8':colors[((i+cols)*3+j+rows)%5]);g.addColorStop(.83,height?'#b8b8b8':colors[((i+cols)*3+j+rows)%5]);g.addColorStop(1,height?'#737373':'#7b887e');
       ctx.fillStyle=g;ctx.beginPath();ctx.roundRect(x+pad,y+pad,ww,hh,[11,17,12,16]);ctx.fill();
-      if(!height){ctx.strokeStyle='#e4ddbd44';ctx.lineWidth=1.5;ctx.stroke();ctx.fillStyle='#4e795c';if((i+j)%3===0){ctx.beginPath();ctx.ellipse(x+ww*.6,y+hh+pad,7,2,.1,0,Math.PI*2);ctx.fill();}}
+      if(!height){ctx.strokeStyle='#e4ddbd44';ctx.lineWidth=1.5;ctx.stroke();ctx.fillStyle='#3f5a46';if((i+j)%3===0){ctx.beginPath();ctx.ellipse(x+ww*.6,y+hh+pad,7,2,.1,0,Math.PI*2);ctx.fill();}}
     }
   };
   const map=texture((ctx,n)=>draw(ctx,n),1024,true),bump=texture((ctx,n)=>draw(ctx,n,true),1024);

@@ -92,3 +92,21 @@ test('createGameEvents emits every tracked event on the bus and reset() re-prime
   const r=setup();game.ingest(clone(snapshot(r)),'a');doAction(r,'a','jump');stepRoom(r,.05);game.ingest(clone(snapshot(r)),'a');
   assert.deepEqual(seen,['jump']);game.reset();game.ingest(clone(snapshot(r)),'a');assert.deepEqual(seen,['jump']);
 });
+
+// REMASTER-HOOK hq: payloads carry the acting player's character id.
+test('every player event carries that player\'s character id; player-less events carry null',()=>{
+  const r=createRoom('EVCHR',{combat:false});addPlayer(r,'a','A','mizu');addPlayer(r,'b','B','pon');
+  const tracker=createSnapshotTracker(),out=[];tracker.ingest(clone(snapshot(r)),'a');startRound(r,'a');
+  for(let i=0;i<60;i++){stepRoom(r,.05);out.push(...tracker.ingest(clone(snapshot(r)),'a'));}
+  assert.equal(r.phase,'playing');doAction(r,'a','jump');doAction(r,'b','jump');
+  for(let i=0;i<40;i++){stepRoom(r,.05);out.push(...tracker.ingest(clone(snapshot(r)),'a'));}
+  for(let i=0;i<60;i++){setInput(r,'b',1,0);stepRoom(r,.05);out.push(...tracker.ingest(clone(snapshot(r)),'a'));}
+  const mine=out.filter(e=>e.playerId==='a'),theirs=out.filter(e=>e.playerId==='b');
+  assert.ok(mine.some(e=>e.type==='jump')&&theirs.some(e=>e.type==='jump'),types(out).join());
+  assert.ok(theirs.some(e=>e.type==='footstep'));
+  for(const e of mine)assert.equal(e.character,'mizu',e.type);
+  for(const e of theirs){assert.equal(e.character,'pon',e.type);assert.equal(e.local,false);}
+  for(const e of out)assert.ok('character' in e,`${e.type} has no character field`);
+  for(const e of out.filter(e=>!e.playerId))assert.equal(e.character,null,e.type);
+  assert.ok(out.some(e=>e.type==='round_start'&&e.character===null));
+});

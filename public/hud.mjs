@@ -22,12 +22,12 @@ export function renderLobby(state,myId,portrait){
 export function renderHud(state,myId,portrait){
   const p=state.players[myId];
   $('hud-code').textContent=state.code;$('lobby-phone').href='/phone-lab.html?room='+encodeURIComponent(state.code);$('player-name').textContent=p.name;
-  $('energy-value').textContent=Math.ceil(p.energy);$('energy-fill').style.width=`${p.energy}%`;$('energy-fill').style.background=p.energy<20?'#c77474':'#a6bd84';
+  $('energy-value').textContent=Math.ceil(p.energy);$('energy-fill').style.width=`${p.energy}%`;$('energy-fill').parentElement.classList.toggle('low',p.energy<20);
   $('bottles').textContent=`Potions: ${p.bottles}`;
   const following=state.humans.filter(h=>h.owner===myId);$('followers').textContent=following.length?`Following: ${following.map(h=>`${h.name} ${Math.ceil(h.charm)}s`).join(' · ')}`:'F: 5-second charm · Guests wait when it ends';
   const best=Math.max(...Object.values(state.players).map(p=>p.delivered));$('score').textContent=`${best} / 3`;
   const seconds=Math.ceil(state.time);$('time').textContent=`${String(Math.floor(seconds/60)).padStart(2,'0')}:${String(seconds%60).padStart(2,'0')}`;
-  $('team').replaceChildren();for(const member of Object.values(state.players)){const span=document.createElement('span');span.textContent=`${member.name} ${member.connected?(disguiseState(member,state.tick).revealed?'! ':''):'↻ '}${member.delivered}/3 · ${Math.ceil(member.energy)}✦`;span.title=`${member.name}: ${member.bottles} potion${member.bottles===1?'':'s'}${member.connected?'':' · Reconnecting'}`;span.style.color='#6e6253';span.style.borderBottom=`2px solid ${CHARACTERS.find(c=>c.id===member.character).color}`;$('team').append(span);}
+  $('team').replaceChildren();for(const member of Object.values(state.players)){const span=document.createElement('span');span.textContent=`${member.name} ${member.connected?(disguiseState(member,state.tick).revealed?'! ':''):'↻ '}${member.delivered}/3 · ${Math.ceil(member.energy)}✦`;span.title=`${member.name}: ${member.bottles} potion${member.bottles===1?'':'s'}${member.connected?'':' · Reconnecting'}`;span.className='team-pill';span.style.borderBottom=`2px solid ${CHARACTERS.find(c=>c.id===member.character).color}`;$('team').append(span);}
   for(const button of document.querySelectorAll('[data-action="cover"]')){button.disabled=p.health<=0||p.coverCooldown>0;const label=button.querySelector('.cover-label')||button;label.textContent=p.coverCooldown>0?`${Math.ceil(p.coverCooldown)}s`:(button.id==='cover-touch'?'Ward':'Ward / hide');}
   for(const button of document.querySelectorAll('[data-action="jump"]'))button.disabled=p.health<=0||p.jumpCooldown>0||p.height>0||['arrive','drink','charm'].includes(p.action);
   $('portrait').getContext('2d').clearRect(0,0,80,100);$('portrait').getContext('2d').drawImage(portrait(p.character),0,0,80,100);

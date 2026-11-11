@@ -111,3 +111,109 @@
 - 본부: PR 검토·병합 → Phase 1 방(B·C·F) 열기.
 - R03: 미즈 v2 GLB + `defs/mizu.json` + `index.json` 등록. 실제 GLB로 걸음 보정값(`gait.walkSpeed`)을 맞춘다.
 - R14: 위 성능 기준치를 실제 GPU에서 다시 잰다.
+
+---
+
+## 2026-11-09 · F방 · R05 UI · HUD · 2D 아트 (`remaster/r05-ui`)
+
+### 바뀐 것
+- "웹 카드" → **축제 종이 + 나무패** UI 키트 v1(`docs/production/UI_KIT.md`, 사용자 승인). HUD·선택·로비·도움말·결과·메뉴·대화·토스트·재연결·로딩 전부 같은 표면.
+- 로컬 OFL 폰트 Fredoka + Nunito(`public/assets/ui/fonts/`, 외부 요청 0). 키아트 로고를 투명 워드마크로 분리(`logo-wordmark*.webp`).
+- 아이콘 패밀리 17종 SVG(`public/assets/ui/icons/`): 행동 9 + 하트 + 손님 + 스탬프 6. 키 바·터치 버튼·인벤토리·스톨 일지에 적용.
+- 휴대폰: 터치 버튼 아이콘+라벨 종이 태그, 나무 조이스틱, 세로 방 코드 가림 해결, 가로 레이아웃 회귀 방지.
+- 로딩 화면: 전체 화면, 실제 리소스 수 기반 진행률, 팁 순환.
+- UX 감사 20항목(`docs/production/UI_UX_AUDIT.md`), 테스트 `tests/ui-kit.test.mjs`(+4, 총 116).
+
+### 다른 방이 알아야 할 인터페이스
+- **토큰**: `style.css` 맨 위 `:root`의 `--paper --ink --vermilion(-ink) --gold --wood --night --lantern --spirit --danger --font-display --font-body`. 새 UI는 이 변수를 쓴다.
+- **표면 클래스**: `.ui-paper`(종이 9-slice), `.ui-wood`(나무패). R11 보스 카드를 바꿀 때 사용.
+- **아이콘 추가**는 `source/v2/ui/build_icons.py`에서만(규칙 고정). 런타임 경로 `/assets/ui/icons/<name>.svg`.
+- **초상화 슬롯**(R03/R07/R09): `public/assets/ui/portraits/<id>.webp`(512², 투명, 머리·어깨) 넣고 `index.json`의 `portraits`에 id 추가 → 선택·로비·HUD 메달 자동 교체. `public/characters/portraits.mjs`에 `REMASTER-HOOK r05`.
+- `hud.mjs`: 영력 색은 `.meter.low` 클래스, 팀 표시는 `.team-pill`(인라인 색 제거).
+- `foundation-ui.mjs` 스톨 일지 버튼 구조: `button.journal-stall > img.journal-stamp + div > (b, span)`.
+- `server.mjs`: `.woff2` MIME 한 줄(`REMASTER-HOOK r05`). 게임 규칙 변경 없음.
+- `#loading`은 이제 전체 화면 컨테이너. game.js의 기존 동작(`hidden` 추가, WebGL 실패 시 `textContent` 교체) 그대로 동작.
+
+### 다음 할 일
+- R02: 밤 룩이 들어오면 HUD 캡처를 다시 찍어 종이 밝기 확인(지금은 오프라인 밤 시뮬레이션으로 검증).
+- R15: 무료 서버 50초 깨우기는 HTML도 같은 서버라 페이지 안에서 보여줄 수 없음 → 정적 셸 + `/health` 폴링 제안(감사 15번).
+- R03 이후: v2 초상화 렌더를 슬롯에 넣기.
+## 2026-11-09 · F방 · R10 VFX · 게임필 (`remaster/r10-vfx`)
+
+### 바뀐 것
+- 모든 효과가 **이벤트 버스**로 동작: `public/fx/recipes.mjs`의 `FX_MAP`(이벤트 30종 → 효과·등급·사운드 큐). 연출표 `docs/production/VFX_LIST.md`.
+- 파티클 풀 2개(만화풍 연기 플립북, 가산 글로우) = 드로우콜 2개, 비면 0. 메시 효과(링·결계 돔·빛 기둥), 트라우마 흔들림·섬광·HUD 펄스.
+- 변신 오프닝 재작성(`public/transformation.mjs`, API 동일): 기운 → 연기 → 펑 → 공개, 캐릭터 포즈·스프링 동작.
+- 불꽃놀이 재작성(모양 4종), 액션 라벨은 라벨만 남기고 효과마다 붙던 PointLight 제거.
+- 모바일·light 프로필은 방출량 절반.
+
+### 다른 방이 알아야 할 인터페이스
+- **R13 사운드**: 큐 이름은 `FX_MAP[type].cue`(예: `reveal_pop`, `cover_ward`, `boss_banished`). 오프닝은 `transform_gather/pop/reveal`(진행도 0 / 0.51 / 0.6).
+- **R02 룩**: `pipeline.flash(color,intensity)`를 불꽃놀이·대형 이벤트에서 호출한다(지금은 no-op). R10은 별도로 DOM 섬광을 쓴다.
+- **R11 보스**: 판정 원은 `encounter-view.mjs` 그대로. 다시 그릴 때 `fx/meshes.mjs`의 `ring()` 사용 가능.
+- **R03 캐릭터**: `actors.mjs`에 `REMASTER-HOOK r10` — 오프닝 동안 `transformationPose(progress,i)`(action/cover/facing)를 리그에 넘김. v2 리그도 같은 필드를 읽으면 오프닝 연기가 그대로 붙는다. 오프닝의 연기는 진행도 0.40~0.51에 몸을 가리고 0.51에 리그가 형태를 바꾼다.
+- **본부**: 히트스톱을 원하면 game.js에 시간 배율 훅 필요. `pipeline.render`는 fx가 감싸서 흔들림을 넣는다(`pipeline.__fxWrapped`).
+- `package.json` check에 새 fx 모듈 5개 추가.
+
+### 다음 할 일
+- 실제 GPU에서 오프닝·불꽃놀이 FPS 확인(R14). 샌드박스 수치는 드로우콜만 유효.
+- R02 밤 룩 병합 후 결계 돔·빛 기둥 밝기 재확인.
+## 2026-11-09 · F방 · R13 사운드 · 음악 (`remaster/r13-audio`)
+
+### 바뀐 것
+- 오리지널 음악 5곡(타이틀·축제·보스 루프, 승리·패배 스팅어), 앰비언스 3, 효과음 31큐, 캐릭터 목소리 14. 전부 코드 합성(`source/v2/audio/`), ogg + m4a 4.94 MB.
+- `public/audio/engine.mjs`: 버스 믹서(음악·앰비언스·효과·목소리·UI), 덕킹, 거리 감쇠·패닝, 피치 변주, 모바일 잠금 해제, 화면 기반 음악 전환. 이벤트 → 큐 규칙은 `public/audio/cues.mjs`. 표: `docs/production/AUDIO_LIST.md`.
+- 설정 메뉴에 볼륨 슬라이더 5개(주입식, `public/audio/settings-ui.mjs`).
+
+### 다른 방이 알아야 할 인터페이스
+- **본부(game.js)**: API 그대로(`createAudioEngine({isEnabled})`, `attach(bus)`). `audio.tone()`은 이제 무음이라 game.js의 tone 호출은 지워도 된다. 콘솔: `__YOKAI_AUDIO__`(`.music`, `.volumes`, `.play(cue)`).
+- **본부(events.mjs)**: 이벤트 payload에 `character`를 넣어 주면 다른 플레이어의 목소리가 정확해진다(`characterFor(playerId, known)`가 이미 받음).
+- **본부·사용자 결정**: `public/profile.mjs` 기본값 `sound:false` → 처음 온 플레이어는 소리를 못 듣는다. 기본 켜기를 권장(브라우저 정책상 첫 클릭 전에는 어차피 무음).
+- **R05 UI**: 설정 그리드 `.settings-grid`에 `[data-audio-slider]` 입력 5개가 "Sound effects" 뒤에 붙는다. 그리드를 바꾸면 이 위치를 유지해 달라.
+- **R10 VFX**: 큐 이름이 `FX_MAP[type].cue`와 같다. 오프닝 큐는 `#transformation`이 보이는 순간부터 0 / 0.51 / 0.6 × 4.2초.
+
+### 다음 할 일
+- 실제 기기에서 소리 켜고 한 판 녹화·승인(완료 기준).
+- R14: 오디오는 첫 클릭 후 지연 로드(약 2.5 MB)라 첫 화면 예산에는 들어가지 않음. 필요하면 음악만 스트리밍(`<audio>` + MediaElementSource)으로 바꿀 수 있음.
+## 2026-11-09 · B방 · R02 밤 조명·후처리 (`remaster/r02-night-look`)
+### 바뀐 것
+- 조명 리그 재설계(`render/lighting.mjs`): 약하고 차가운 달빛(북서쪽 위, 유일한 그림자, 텍셀 스냅) + 남색 반구광 + 낮은 따뜻한 바운스 + 차가운 역광. 회색 RoomEnvironment 대신 밤 환경맵(PMREM).
+- 하늘(`render/sky.mjs`): 그라데이션 돔·셰이더 별·구름·달 원반과 헤일로·원경 능선 2겹·호수 마을 불빛. 드로우콜 4.
+- 등불 빛(`render/lanterns.mjs`): 등불 앵커 → 빛 웅덩이 라이트맵 + 플레이어 근처 실제 PointLight(high 6 · balanced 4 · mobile 2 · light 0).
+- 월드 라이트 패치(`render/world-light.mjs`): 모든 lit 재질에 빛 웅덩이·계곡 안개·발광 ×1.7, 캐릭터 재질에만 림 라이트. 비유한(NaN) 색을 버려 **main의 high/balanced에서 블룸이 NaN 픽셀을 검은 사각형으로 번지게 하던 버그**를 막았다.
+- 후처리(`render/post.mjs`): 블룸(임계 0.8) → Output → 코드로 만든 3D LUT 그레이드 + 비네트 + 불꽃 색광 → SMAA. 프로필별 토글(`visual-quality.mjs`).
+- 자동 품질 하향이 한 단계씩: high → balanced → mobile → light.
+- 지면 톤(`art-materials.mjs`): 어두운 이끼·흙 잔디, 따뜻한 회색 돌.
+- 도구: `tools/lookdev.py`(서버 세션 없이 실제 축제 장면을 게임 카메라로 촬영 — 샌드박스에서 인게임 캡처가 끊길 때 쓴다), `tools/lookdev_compare.py`(컨셉|전|후 비교 보드).
+- 계획·값: `docs/production/LIGHTING.md`. 비교: `docs/production/captures/r02/compare_{start,street,shrine}.jpg`.
+
+### 다른 방이 알아야 할 인터페이스
+- **등불을 만들면** `import {registerLantern} from './render/lanterns.mjs'` → `registerLantern({x,y,z,kind})`(월드 좌표, kind: paper·stall·stone·string·portal·potion). 빛 웅덩이와 실제 빛이 자동으로 생긴다. **환경 코드에서 PointLight를 직접 만들지 않는다.**
+- **`pipeline.flash(color, intensity=1)`**: 하늘·지면·화면을 그 색으로 잠깐 물들인다(0.5초 감쇠). `fx/index.mjs`가 불꽃 터짐마다 0.8로 부른다(R10이 이어받음).
+- 캐릭터 루트에 `userData.motionVersion`/`modelAsset`/`volumetric`이 있으면 림 라이트가 자동으로 붙고, 재질은 림용 사본으로 바뀐다(R03·R06~R09). 캐릭터 재질을 참조로 들고 나중에 바꾸는 코드는 `mesh.material`을 다시 읽어야 한다.
+- emissive는 밤에 ×1.7이 되어 블룸을 받는다. 등불·포션·간판 외의 면에 강한 emissive를 쓰지 않는다.
+- REMASTER-HOOK r02: `festival.mjs`(등불·노점 빛·석등·포션·포털 앵커 등록, 노점 PointLight 제거), `festival-scenery.mjs`(석등 앵커, 옛 하늘 구·별·달 제거), `fx/index.mjs`(불꽃 → flash).
+
+### 다음 할 일
+- R04(B방): 길 돌을 따뜻한 텍스처로, 줄 등불을 진짜 종이 등불 모델로(지금은 납작한 노란 공처럼 보임), NaN을 만드는 병합 장식 메시의 퇴화 노멀 정리.
+- R10: 새 불꽃 파티클에서 `pipeline.flash`를 계속 부른다.
+- R14: 실제 GPU에서 FPS와 위 draw calls를 다시 잰다.
+
+---
+
+## 2026-11-11 · 통합 · Phase 1 (`remaster/integration-phase1`) — PR #2 #3 #4 #5
+
+### 무엇을 했나
+- 최신 main에서 r05-ui → r10-vfx → r13-audio → r02-night-look 순서로 **merge commit** 병합(squash·rebase 없음). 이 PR을 "Create a merge commit"으로 병합하면 원래 PR 네 개가 자동으로 merged 처리된다.
+- 충돌 해결: `HANDOFF.md`는 양쪽 모두 유지, `CREDITS.md`·`rooms/F-progress.md`는 뒤 브랜치가 앞 내용을 모두 담은 상위 집합, `package.json` check는 합집합(이후 스크립트로 교체), `public/fx/index.mjs`는 R10 버전 + 불꽃놀이 `onBurst`에 `pipeline?.flash?.(burst.color,.8)`(`REMASTER-HOOK r02`).
+
+### 재발 방지: `npm run check`
+- `scripts/check-syntax.mjs`가 `public/`·`shared/`·`tools/`·`scripts/`와 루트의 `.js/.mjs`(server.mjs 등)를 **자동으로 전부** 검사한다. 새 모듈을 추가해도 **package.json을 고칠 필요가 없다.** (`vendor`·`addons`·`assets`·`node_modules` 제외)
+
+### 본부 위임 변경(`REMASTER-HOOK hq`)
+- **히트스톱** `public/time-scale.mjs` + game.js: `dt=timeScale.step(frameDt)`가 화면 애니메이션·보간(actors, festival, pipeline, fx, elapsed)에만 적용된다. 서버 틱·스냅샷 시각·입력·핑·FPS 측정·카메라 조작은 실제 시간 그대로. 사용: `fx.feel.hitstop(초, 배율)` 또는 `__YOKAI_GAME__.timeScale.hitstop()`. 최대 0.25초. 현재 연결: 내 캐릭터 피격 0.07초, 콤보 영탄 명중 0.05초, 보스 퇴치 0.12초(5% 속도). `prefers-reduced-motion`이면 꺼짐.
+- **이벤트 payload `character`**: 모든 버스 이벤트에 그 플레이어의 캐릭터 id(플레이어 없는 이벤트는 `null`). 사운드가 다른 플레이어 목소리에 사용한다.
+- **소리 기본값**: `profile.mjs` `DEFAULTS.sound=true`, `AUDIO_DEFAULTS={music:.6,sfx:.8}`. 저장 형식에 `v:2`를 추가해, 이전 버전이 저장해 둔 `sound:false`(옛 기본값)는 선택으로 보지 않는다. v2부터는 플레이어가 고른 값이 유지된다. 볼륨은 `eve-human-enough-audio-v1`에 저장.
+
+### 검증
+- check 71 files OK · test 134/134 · integration 5/5 · build OK(491 assets, 52.9 → 17.4 MB) · 브라우저(솔로 연습: 타이틀 → 오프닝 → 플레이, 포션·점프·결계·핑) JS 오류·HTTP 오류 0.

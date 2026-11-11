@@ -1,7 +1,7 @@
 // Game event bus. Turns server snapshots into named gameplay events so VFX (R10) and
 // sound (R13) can react without reading game state directly.
 //
-// Every payload: {type, playerId (string|null), position ({x,y,z}|null), tick, local (bool), ...extra}.
+// Every payload: {type, playerId (string|null), character (character id|null), position ({x,y,z}|null), tick, local (bool), ...extra}.
 // See HANDOFF.md for the per-event extras.
 import {groundHeight} from '../shared/world.mjs';
 import {disguiseState} from '../shared/disguise.mjs';
@@ -66,7 +66,8 @@ export function createSnapshotTracker({stride=FOOTSTEP_STRIDE}={}){
   return {
     reset(){prev=null;lastEvent=0;steps.clear();},
     ingest(state,myId=null){
-      const out=[],push=e=>out.push({tick:state.tick,...e,local:!!myId&&e.playerId===myId});
+      // REMASTER-HOOK hq: every payload carries the acting player's character id (voices, per-character colours).
+      const out=[],push=e=>out.push({tick:state.tick,character:(e.playerId&&(state.players[e.playerId]??prev?.players[e.playerId])?.character)||null,...e,local:!!myId&&e.playerId===myId});
       if(!prev){prev=state;lastEvent=Math.max(0,...state.events.map(e=>e.id));return out;}
       const was=prev.phase,now=state.phase;
       if(was!=='playing'&&now==='playing')push({type:'round_start',playerId:null,position:null,mode:state.mode,round:state.round});
