@@ -1,0 +1,9 @@
+{
+ "start": {
+  "calls": 2140,
+  "triangles": 6729808,
+  "geometries": 729,
+  "textures": 88,
+  "lights": 10
+ }
+}

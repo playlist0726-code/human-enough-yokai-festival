@@ -1,0 +1,30 @@
+{
+ "start": {
+  "calls": 3655,
+  "triangles": 11603075,
+  "geometries": 792,
+  "textures": 106,
+  "lights": 10
+ },
+ "street": {
+  "calls": 3492,
+  "triangles": 11642123,
+  "geometries": 856,
+  "textures": 115,
+  "lights": 10
+ },
+ "shrine": {
+  "calls": 2333,
+  "triangles": 10110123,
+  "geometries": 856,
+  "textures": 115,
+  "lights": 10
+ },
+ "wide": {
+  "calls": 3584,
+  "triangles": 11809487,
+  "geometries": 856,
+  "textures": 115,
+  "lights": 10
+ }
+}

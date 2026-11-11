@@ -175,3 +175,26 @@
 ### 다음 할 일
 - 실제 기기에서 소리 켜고 한 판 녹화·승인(완료 기준).
 - R14: 오디오는 첫 클릭 후 지연 로드(약 2.5 MB)라 첫 화면 예산에는 들어가지 않음. 필요하면 음악만 스트리밍(`<audio>` + MediaElementSource)으로 바꿀 수 있음.
+## 2026-11-09 · B방 · R02 밤 조명·후처리 (`remaster/r02-night-look`)
+### 바뀐 것
+- 조명 리그 재설계(`render/lighting.mjs`): 약하고 차가운 달빛(북서쪽 위, 유일한 그림자, 텍셀 스냅) + 남색 반구광 + 낮은 따뜻한 바운스 + 차가운 역광. 회색 RoomEnvironment 대신 밤 환경맵(PMREM).
+- 하늘(`render/sky.mjs`): 그라데이션 돔·셰이더 별·구름·달 원반과 헤일로·원경 능선 2겹·호수 마을 불빛. 드로우콜 4.
+- 등불 빛(`render/lanterns.mjs`): 등불 앵커 → 빛 웅덩이 라이트맵 + 플레이어 근처 실제 PointLight(high 6 · balanced 4 · mobile 2 · light 0).
+- 월드 라이트 패치(`render/world-light.mjs`): 모든 lit 재질에 빛 웅덩이·계곡 안개·발광 ×1.7, 캐릭터 재질에만 림 라이트. 비유한(NaN) 색을 버려 **main의 high/balanced에서 블룸이 NaN 픽셀을 검은 사각형으로 번지게 하던 버그**를 막았다.
+- 후처리(`render/post.mjs`): 블룸(임계 0.8) → Output → 코드로 만든 3D LUT 그레이드 + 비네트 + 불꽃 색광 → SMAA. 프로필별 토글(`visual-quality.mjs`).
+- 자동 품질 하향이 한 단계씩: high → balanced → mobile → light.
+- 지면 톤(`art-materials.mjs`): 어두운 이끼·흙 잔디, 따뜻한 회색 돌.
+- 도구: `tools/lookdev.py`(서버 세션 없이 실제 축제 장면을 게임 카메라로 촬영 — 샌드박스에서 인게임 캡처가 끊길 때 쓴다), `tools/lookdev_compare.py`(컨셉|전|후 비교 보드).
+- 계획·값: `docs/production/LIGHTING.md`. 비교: `docs/production/captures/r02/compare_{start,street,shrine}.jpg`.
+
+### 다른 방이 알아야 할 인터페이스
+- **등불을 만들면** `import {registerLantern} from './render/lanterns.mjs'` → `registerLantern({x,y,z,kind})`(월드 좌표, kind: paper·stall·stone·string·portal·potion). 빛 웅덩이와 실제 빛이 자동으로 생긴다. **환경 코드에서 PointLight를 직접 만들지 않는다.**
+- **`pipeline.flash(color, intensity=1)`**: 하늘·지면·화면을 그 색으로 잠깐 물들인다(0.5초 감쇠). `fx/index.mjs`가 불꽃 터짐마다 0.8로 부른다(R10이 이어받음).
+- 캐릭터 루트에 `userData.motionVersion`/`modelAsset`/`volumetric`이 있으면 림 라이트가 자동으로 붙고, 재질은 림용 사본으로 바뀐다(R03·R06~R09). 캐릭터 재질을 참조로 들고 나중에 바꾸는 코드는 `mesh.material`을 다시 읽어야 한다.
+- emissive는 밤에 ×1.7이 되어 블룸을 받는다. 등불·포션·간판 외의 면에 강한 emissive를 쓰지 않는다.
+- REMASTER-HOOK r02: `festival.mjs`(등불·노점 빛·석등·포션·포털 앵커 등록, 노점 PointLight 제거), `festival-scenery.mjs`(석등 앵커, 옛 하늘 구·별·달 제거), `fx/index.mjs`(불꽃 → flash).
+
+### 다음 할 일
+- R04(B방): 길 돌을 따뜻한 텍스처로, 줄 등불을 진짜 종이 등불 모델로(지금은 납작한 노란 공처럼 보임), NaN을 만드는 병합 장식 메시의 퇴화 노멀 정리.
+- R10: 새 불꽃 파티클에서 `pipeline.flash`를 계속 부른다.
+- R14: 실제 GPU에서 FPS와 위 draw calls를 다시 잰다.

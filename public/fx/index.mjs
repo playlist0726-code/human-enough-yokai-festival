@@ -24,7 +24,8 @@ export function createFx({scene,bus,pipeline,profile}){
   const smoke=createPool({scene,kind:'smoke',capacity:CAPACITY.smoke,map:fxTexture('/assets/fx/smoke-atlas.png'),grid:[4,4],renderOrder:10});
   const meshes=createMeshFx(scene),feel=createFeel({pipeline});
   const actions=createActionEffects(scene);
-  const fireworks=createFireworks(glow,{budget,onBurst:burst=>bus?.emit('firework',{playerId:null,...burst})});
+  // REMASTER-HOOK r02: each burst also tints sky and ground through the render pipeline's flash API.
+  const fireworks=createFireworks(glow,{budget,onBurst:burst=>{bus?.emit('firework',{playerId:null,...burst});pipeline?.flash?.(burst.color,.8);}});
   const controllers=[];let state=null,elapsed=0;
   const camera=pipeline?.camera;
   const ctx={glow,smoke,meshes,feel,fireworks,budget,

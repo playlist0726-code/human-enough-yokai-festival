@@ -3,6 +3,8 @@ import {mergeGeometries} from 'three/addons/utils/BufferGeometryUtils.js';
 import {groundHeight} from '../shared/world.mjs';
 import {surface,part,group,orb,tube,curve,softBox} from './renderkit.mjs';
 import {timber,stoneSurface} from './art-materials.mjs';
+// REMASTER-HOOK r02: stone lanterns register light anchors; the night sky moved to public/render/sky.mjs.
+import {registerLantern} from './render/lanterns.mjs';
 const {sin,cos}=Math;
 
 const rand=n=>{const x=Math.sin(n*127.1+12.7)*43758.5453;return x-Math.floor(x);};
@@ -39,6 +41,7 @@ function stoneLantern(parent,x,y,z){
   softBox(g,surface('#ffd69b',{emissive:'#ffc479',emissiveIntensity:1.3}),0,1.27,0,.32,.38,.32,.025);
   for(const s of [-1,1])for(const t of [-1,1])tube(g,stone,.035,.035,.43,s*.19,1.27,t*.19);
   const cap=part(g,new THREE.ConeGeometry(.49,.28,4),stone,0,1.57,0);cap.rotation.y=Math.PI/4;orb(g,stone,0,1.78,0,.09);
+  g.updateWorldMatrix(true,false);const w=g.localToWorld(new THREE.Vector3(0,1.27,0));registerLantern({x:w.x,y:w.y,z:w.z,kind:'stone'}); // REMASTER-HOOK r02
 }
 function torii(parent,x,z,w=6.8){
   const y=groundHeight(x,z),g=group(parent,x,y,z);
@@ -66,10 +69,8 @@ export function buildFestivalScenery(scene){
     for(let i=0;i<=count;i++){const a=i/count*Math.PI*2,r=radius+sin(a*7+layer)*5,h=10+layer*4+Math.pow(Math.max(0,sin(a*9+layer*.7)),2)*15+sin(a*17+layer)*3;verts.push(cos(a)*r,-8,sin(a)*r-7,cos(a)*r,h,sin(a)*r-7);if(i<count){const n=i*2;faces.push(n,n+1,n+2,n+2,n+1,n+3);}}
     const geo=new THREE.BufferGeometry();geo.setAttribute('position',new THREE.Float32BufferAttribute(verts,3));geo.setIndex(faces);geo.computeVertexNormals();const m=surface(['#263d4d','#2a3f53','#30445c'][layer],{roughness:1,side:THREE.DoubleSide});part(root,geo,m).castShadow=false;
   }
-  const sky=part(scene,new THREE.SphereGeometry(220,48,24),new THREE.ShaderMaterial({side:THREE.BackSide,depthWrite:false,uniforms:{time:{value:0}},vertexShader:'varying vec3 vP;void main(){vP=position;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.);}',fragmentShader:'varying vec3 vP;uniform float time;void main(){vec3 p=normalize(vP);float h=p.y;vec3 c=mix(vec3(.11,.17,.26),vec3(.009,.024,.075),smoothstep(-.1,.75,h));float band=pow(max(0.,1.-abs(p.x*.55+p.z*.24-p.y*.42)*6.),4.);float nebula=.5+.5*sin(p.x*17.+sin(p.z*24.))*sin(p.y*37.+p.z*12.);c+=vec3(.018,.012,.04)*band*nebula*smoothstep(.1,.55,h);gl_FragColor=vec4(c,1.);}'}));sky.castShadow=sky.receiveShadow=false;sky.name='full-night-sky';
-  const star=[];for(let i=0;i<1500;i++){const a=rand(i*3)*Math.PI*2,h=.04+rand(i*3+1)*.95,r=Math.sqrt(1-h*h);star.push(cos(a)*r*205,h*205,sin(a)*r*205);}
-  const starGeo=new THREE.BufferGeometry();starGeo.setAttribute('position',new THREE.Float32BufferAttribute(star,3));const stars=new THREE.Points(starGeo,new THREE.PointsMaterial({color:'#e1e9ff',size:.15,sizeAttenuation:true,transparent:true,opacity:.8,fog:false,depthWrite:false}));scene.add(stars);
-  const moon=part(scene,new THREE.SphereGeometry(3,32,24),new THREE.MeshBasicMaterial({color:'#fff2ce',fog:false}),-55,72,-100);moon.castShadow=moon.receiveShadow=false;
+  // REMASTER-HOOK r02: sky dome, stars and moon now come from public/render/sky.mjs (R02 owns the sky).
+  const sky={material:{uniforms:{time:{value:0}}}};
   // The valley lake catches streaks of moonlight and the warm village lights.
   const lakeMaterial=new THREE.ShaderMaterial({uniforms:{time:{value:0}},vertexShader:'varying vec2 v;void main(){v=uv;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.);}',fragmentShader:'uniform float time;varying vec2 v;void main(){float r=pow(max(0.,sin(v.y*330.+sin(v.x*51.+time*.45)*2.+time*.3)),18.);float path=exp(-pow((v.x-.45)*5.,2.));vec3 c=vec3(.025,.09,.14)+r*path*vec3(.16,.23,.28);float gold=exp(-pow((v.x-.72)*13.,2.));c+=r*gold*vec3(.35,.19,.045);gl_FragColor=vec4(c,1.);}'});
   const lake=part(root,new THREE.PlaneGeometry(65,155),lakeMaterial,63,-3.4,-12);lake.rotation.x=-Math.PI/2;lake.castShadow=false;
