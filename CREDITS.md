@@ -13,4 +13,11 @@ Non-commercial licenses (CC-BY-NC etc.) are not allowed.
 | Title wordmark | `public/assets/ui/logo-wordmark*.webp` | Matted from the project key art `public/assets/human-enough-title.png` by `source/v2/ui/build_logo.py` | Same as the key art (project) |
 
 ## Audio (R13)
-_Added by the sound room._
+| Asset | Path | Source | License |
+|---|---|---|---|
+| Music: title, festival, boss, victory, defeat | `public/assets/audio/music/` | Original compositions, synthesized by `source/v2/audio/build_audio.py` (no samples) | Original (project) |
+| Ambience: crowd, insects, wind | `public/assets/audio/amb/` | Synthesized (formant babble, sine crickets, filtered noise) | Original (project) |
+| Sound effects (31 cues) | `public/assets/audio/sfx/` | Synthesized (`synth.py` instruments) | Original (project) |
+| Character voices (7 x laugh / surprise) | `public/assets/audio/voice/` | Formant synthesis, nonsense syllables | Original (project) |
+
+No third-party audio, no generated-audio services. Every file can be rebuilt with `python3 -I source/v2/audio/build_audio.py public/assets/audio`.
