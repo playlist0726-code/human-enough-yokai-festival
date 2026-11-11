@@ -4,6 +4,7 @@ import {groundHeight,distance} from '../../shared/world.mjs';
 import {disguiseState} from '../../shared/disguise.mjs';
 import {createVisitor,animateVisitor} from '../visitors.mjs';
 import {planeText,contactShadow,shadedMesh} from '../render/labels.mjs';
+import {transformationPose} from '../transformation.mjs'; // REMASTER-HOOK r10: opening poses (magic hands, ta-da)
 
 /**
  * @param {object} o
@@ -57,8 +58,10 @@ export function createActors({scene,getMyId,rigs}){
      */
     update({state,dt,elapsed,disguising,introProgress,alpha,actorRange,onLocalPlayer}){
       const myId=getMyId();
+      let crewIndex=0;
       for(const n of players.values()){
-        const p=n.p;n.label.visible=!disguising&&p.id!==myId;n.label.position.y=3.45+(p.height||0)*.5;
+        // REMASTER-HOOK r10: during the opening, pose the rig from the transformation timeline instead of standing frozen.
+        const p=disguising?{...n.p,...transformationPose(introProgress,crewIndex++)}:n.p;n.label.visible=!disguising&&p.id!==myId;n.label.position.y=3.45+(p.height||0)*.5;
         if(!disguising)n.group.position.lerp(new THREE.Vector3(p.x,groundHeight(p.x,p.z),p.z),alpha);
         rigs.animate(n.rig,p,dt,elapsed,state?.tick||0,disguising?{x:0,z:0}:n.group.position,{form:disguising?'transform':'human',progress:introProgress,phase:state?.phase});
         if(p.id===myId)onLocalPlayer?.(n,p);

@@ -138,3 +138,23 @@
 - R02: 밤 룩이 들어오면 HUD 캡처를 다시 찍어 종이 밝기 확인(지금은 오프라인 밤 시뮬레이션으로 검증).
 - R15: 무료 서버 50초 깨우기는 HTML도 같은 서버라 페이지 안에서 보여줄 수 없음 → 정적 셸 + `/health` 폴링 제안(감사 15번).
 - R03 이후: v2 초상화 렌더를 슬롯에 넣기.
+## 2026-11-09 · F방 · R10 VFX · 게임필 (`remaster/r10-vfx`)
+
+### 바뀐 것
+- 모든 효과가 **이벤트 버스**로 동작: `public/fx/recipes.mjs`의 `FX_MAP`(이벤트 30종 → 효과·등급·사운드 큐). 연출표 `docs/production/VFX_LIST.md`.
+- 파티클 풀 2개(만화풍 연기 플립북, 가산 글로우) = 드로우콜 2개, 비면 0. 메시 효과(링·결계 돔·빛 기둥), 트라우마 흔들림·섬광·HUD 펄스.
+- 변신 오프닝 재작성(`public/transformation.mjs`, API 동일): 기운 → 연기 → 펑 → 공개, 캐릭터 포즈·스프링 동작.
+- 불꽃놀이 재작성(모양 4종), 액션 라벨은 라벨만 남기고 효과마다 붙던 PointLight 제거.
+- 모바일·light 프로필은 방출량 절반.
+
+### 다른 방이 알아야 할 인터페이스
+- **R13 사운드**: 큐 이름은 `FX_MAP[type].cue`(예: `reveal_pop`, `cover_ward`, `boss_banished`). 오프닝은 `transform_gather/pop/reveal`(진행도 0 / 0.51 / 0.6).
+- **R02 룩**: `pipeline.flash(color,intensity)`를 불꽃놀이·대형 이벤트에서 호출한다(지금은 no-op). R10은 별도로 DOM 섬광을 쓴다.
+- **R11 보스**: 판정 원은 `encounter-view.mjs` 그대로. 다시 그릴 때 `fx/meshes.mjs`의 `ring()` 사용 가능.
+- **R03 캐릭터**: `actors.mjs`에 `REMASTER-HOOK r10` — 오프닝 동안 `transformationPose(progress,i)`(action/cover/facing)를 리그에 넘김. v2 리그도 같은 필드를 읽으면 오프닝 연기가 그대로 붙는다. 오프닝의 연기는 진행도 0.40~0.51에 몸을 가리고 0.51에 리그가 형태를 바꾼다.
+- **본부**: 히트스톱을 원하면 game.js에 시간 배율 훅 필요. `pipeline.render`는 fx가 감싸서 흔들림을 넣는다(`pipeline.__fxWrapped`).
+- `package.json` check에 새 fx 모듈 5개 추가.
+
+### 다음 할 일
+- 실제 GPU에서 오프닝·불꽃놀이 FPS 확인(R14). 샌드박스 수치는 드로우콜만 유효.
+- R02 밤 룩 병합 후 결계 돔·빛 기둥 밝기 재확인.
