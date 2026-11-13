@@ -28,7 +28,7 @@ def stats(im):
 
 
 def main(a):
-    panels = [('Concept', load(a.concept))] + ([('Before', load(a.before))] if a.before else []) + [('After (R02)', load(a.after))]
+    panels = [('Concept', load(a.concept))] + ([('Before', load(a.before))] if a.before else []) + [(a.after_label, load(a.after))]
     W = a.width
     pw = W // len(panels)
     ph = int(pw * 9 / 16)
@@ -59,5 +59,6 @@ if __name__ == '__main__':
     ap.add_argument('--concept', required=True)
     ap.add_argument('--before')
     ap.add_argument('--after', required=True)
+    ap.add_argument('--after-label', default='After')
     ap.add_argument('--width', type=int, default=1920)
     main(ap.parse_args())

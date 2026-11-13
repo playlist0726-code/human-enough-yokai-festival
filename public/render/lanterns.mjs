@@ -18,9 +18,9 @@ export const POOL_SCALE=4;const SCALE=POOL_SCALE;
 
 /** Lantern kinds: default colour, pool radius (m), pool strength, real-light intensity (cd). */
 export const LANTERN_KINDS={
-  paper:{color:'#ffa95e',radius:4.2,pool:1.35,light:5},
-  stall:{color:'#ffa65a',radius:6,pool:1.6,light:10},
-  stone:{color:'#ffae66',radius:6.4,pool:1.7,light:4},
+  paper:{color:'#ffa95e',radius:4.2,pool:1.35,light:3},
+  stall:{color:'#ffa65a',radius:6,pool:1.4,light:6},
+  stone:{color:'#ffae66',radius:6.4,pool:1.6,light:0},
   string:{color:'#ffb36a',radius:6,pool:.8,light:0},
   portal:{color:'#a879ff',radius:5.5,pool:.9,light:6},
   potion:{color:'#5fd0ff',radius:1.6,pool:.55,light:0}

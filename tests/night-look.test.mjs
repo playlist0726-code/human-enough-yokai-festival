@@ -44,3 +44,19 @@ test('moonlight is a weak cool key from the uphill side',()=>{
   const c=new THREE.Color(LIGHTING.moon.color);assert.ok(c.b>c.r);assert.ok(LIGHTING.moon.intensity<1.5);
   assert.ok(LIGHTING.moon.direction[2]<0,'moon sits ahead of the default uphill camera');
 });
+
+// R04 festival kit: every stall kind has a kit asset on disk and the build sources exist.
+import {existsSync,readFileSync} from 'node:fs';
+import {STALLS} from '../shared/world.mjs';
+test('festival kit covers every stall and its GLBs are valid glTF binaries',async()=>{
+  const {KIT_STALLS,PAPER_LANTERN_CENTER}=await import('../public/festival-kit.mjs');
+  for(const s of STALLS)assert.ok(KIT_STALLS[s.game],`stall ${s.game} has a kit asset`);
+  for(const id of [...Object.values(KIT_STALLS),'env_lantern_paper','env_lantern_stone','env_path_tiles']){
+    const file=new URL(`../public/assets/env/v2/${id}.glb`,import.meta.url);assert.ok(existsSync(file),id);
+    const b=readFileSync(file);assert.equal(b.toString('ascii',0,4),'glTF');
+    const json=JSON.parse(b.subarray(20,20+b.readUInt32LE(12)));
+    for(const m of json.materials)assert.match(m.name,/^kit_(wood|cloth|paint|stone|water|glow)$/,`${id} uses shared kit materials`);
+  }
+  assert.ok(existsSync(new URL('../public/assets/env/v2/textures/kit_ground.webp',import.meta.url)));
+  assert.match(readFileSync(new URL('../source/v2/environment/kit/family.py',import.meta.url),'utf8'),new RegExp(`LANTERN_CENTER = ${String(PAPER_LANTERN_CENTER).replace('0.','\\.')}`));
+});

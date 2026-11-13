@@ -34,14 +34,20 @@ function shrine(parent,x,z,scale=1){
   for(const xx of [-3.1,3.1])stoneLantern(g,xx,0,2.2);
   return g;
 }
+let activeKit=null;
 function stoneLantern(parent,x,y,z){
-  const stone=stoneSurface('#8b9897'),g=group(parent,x,y,z);
+  const g=group(parent,x,y,z);
+  g.updateWorldMatrix(true,false);const w=g.localToWorld(new THREE.Vector3(0,1.27,0));registerLantern({x:w.x,y:w.y,z:w.z,kind:'stone'}); // REMASTER-HOOK r02
+  // R04: env_lantern_stone instance; the procedural lantern is the load-failure fallback.
+  if(activeKit)activeKit.stoneLantern(g.matrixWorld,()=>stoneLanternProcedural(g));else stoneLanternProcedural(g);
+}
+function stoneLanternProcedural(g){
+  const stone=stoneSurface('#8b9897');
   softBox(g,stone,0,.09,0,.6,.18,.6,.04);tube(g,stone,.13,.19,.80,0,.55,0);
   softBox(g,stone,0,1.0,0,.50,.14,.50,.04);
   softBox(g,surface('#ffd69b',{emissive:'#ffc479',emissiveIntensity:1.3}),0,1.27,0,.32,.38,.32,.025);
   for(const s of [-1,1])for(const t of [-1,1])tube(g,stone,.035,.035,.43,s*.19,1.27,t*.19);
   const cap=part(g,new THREE.ConeGeometry(.49,.28,4),stone,0,1.57,0);cap.rotation.y=Math.PI/4;orb(g,stone,0,1.78,0,.09);
-  g.updateWorldMatrix(true,false);const w=g.localToWorld(new THREE.Vector3(0,1.27,0));registerLantern({x:w.x,y:w.y,z:w.z,kind:'stone'}); // REMASTER-HOOK r02
 }
 function torii(parent,x,z,w=6.8){
   const y=groundHeight(x,z),g=group(parent,x,y,z);
@@ -56,13 +62,14 @@ function batchStatic(root){
   root.traverse(n=>{if(n.isMesh&&!n.isInstancedMesh&&!n.material.transparent){const k=n.material;if(!buckets.has(k))buckets.set(k,[]);buckets.get(k).push(n);}});
   for(const [mat,nodes]of buckets){if(nodes.length<2)continue;const geos=nodes.map(n=>{const g=n.geometry.clone().applyMatrix4(inverse.clone().multiply(n.matrixWorld));return g.index?g.toNonIndexed():g;});const merged=mergeGeometries(geos,false);geos.forEach(g=>g.dispose());if(!merged)continue;nodes.forEach(n=>n.removeFromParent());part(root,merged,mat);}
 }
-export function buildFestivalScenery(scene){
+export function buildFestivalScenery(scene,kit=null){
+  activeKit=kit;
   const root=group(scene);root.name='mountain-festival-v02';
   const occluders=[],wisteriaMaterials=[];
-  function fadingStructure(g){g.traverse(n=>{if(n.isMesh){n.material=n.material.clone();n.material.transparent=true;}});occluders.push({group:g,opacity:1,box:new THREE.Box3()});return g;}
+  function fadingStructure(g){batchStatic(g); /* R04: one mesh per material before the per-structure material clones */ g.traverse(n=>{if(n.isMesh){n.material=n.material.clone();n.material.transparent=true;}});occluders.push({group:g,opacity:1,box:new THREE.Box3()});return g;}
   // Continuous terrain surrounds the playable space, including behind the camera.
   const terrain=new THREE.PlaneGeometry(320,320,96,96);terrain.rotateX(-Math.PI/2);const p=terrain.attributes.position;
-  for(let i=0;i<p.count;i++){const x=p.getX(i),z=p.getZ(i),away=Math.max(0,Math.abs(x)-23,Math.abs(z+7)-39);let y=groundHeight(x,z)-.15;if(away>0)y+=Math.sin(x*.08)*Math.cos(z*.07)*Math.min(8,away*.16);if(x>29)y-=Math.min(8,(x-29)*.50);p.setY(i,y);}terrain.computeVertexNormals();part(root,terrain,surface('#344e48',{roughness:1})).castShadow=false;
+  for(let i=0;i<p.count;i++){const x=p.getX(i),z=p.getZ(i),away=Math.max(0,Math.abs(x)-23,Math.abs(z+7)-39);let y=groundHeight(x,z)-.15;if(away>0)y+=Math.sin(x*.08)*Math.cos(z*.07)*Math.min(8,away*.16);if(x>29)y-=Math.min(8,(x-29)*.50);p.setY(i,y);}terrain.computeVertexNormals();part(root,terrain,surface('#2f3f33',{roughness:1})).castShadow=false;
   // Actual mountain silhouettes, not a cylindrical photograph.
   for(let layer=0;layer<3;layer++){
     const verts=[],faces=[],count=160,radius=98+layer*23;

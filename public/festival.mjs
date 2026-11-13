@@ -8,9 +8,13 @@ import {buildFestivalScenery} from './festival-scenery.mjs';
 import {timber,stoneSurface,groundMaterial,pavingMaterial} from './art-materials.mjs';
 // REMASTER-HOOK r02: lanterns register light anchors so the render pipeline can paint light pools and place real lights.
 import {registerLantern} from './render/lanterns.mjs';
+// R04: hand-modelled festival kit (stalls, lanterns, flagstones) from public/assets/env/v2.
+import {createFestivalKit,KIT_STALLS} from './festival-kit.mjs';
+export {KIT_STALLS};
+let kit=null;
 const lanternAt=(parent,x,y,z,kind,extra)=>{parent.updateWorldMatrix(true,false);const p=parent.localToWorld(new THREE.Vector3(x,y,z));registerLantern({x:p.x,y:p.y,z:p.z,kind:kind||(p.y-groundHeight(p.x,p.z)>4?'string':'paper'),...extra});};
 
-const wood=timber('#886048'),gold=surface('#d5a758',{metalness:.4,roughness:.45}),red=surface('#b94942'),stone=stoneSurface('#9a9ca3');
+const wood=timber('#886048'),gold=surface('#d5a758',{metalness:.4,roughness:.45}),red=surface('#b94942'),stone=stoneSurface('#a59c8d');
 const lamp=surface('#ffba6c',{emissive:'#ff9b48',emissiveIntensity:1.05,roughness:.82});
 function makeWater(color){return new THREE.ShaderMaterial({uniforms:{time:{value:0},color:{value:new THREE.Color(color)}},vertexShader:'varying vec2 v;void main(){v=uv;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.);}',fragmentShader:'varying vec2 v;uniform float time;uniform vec3 color;void main(){float w=sin(v.x*38.+time*1.7+sin(v.y*19.-time))*sin(v.y*29.-time*1.1);float lines=pow(max(0.,sin(v.x*65.+v.y*33.+time*1.2)),16.);vec3 c=color*(.8+w*.12)+vec3(.18,.22,.20)*lines*.65;float warm=exp(-pow((v.x-.72)*14.,2.))*(.08+lines*.05);c+=vec3(.5,.3,.08)*warm;gl_FragColor=vec4(c,1.);}'});}
 function sign(parent,text,x,y,z,w=2.7){
@@ -22,10 +26,16 @@ function sign(parent,text,x,y,z,w=2.7){
 }
 let paperTexture;const paperMaterials=new Map();
 function lantern(parent,x,y,z,color=null){
+  lanternAt(parent,x,y,z,null,color?{color}:undefined); // REMASTER-HOOK r02
+  // R04: paper lanterns are instances of env_lantern_paper; the procedural one is the load-failure fallback.
+  parent.updateWorldMatrix(true,false);const p=parent.localToWorld(new THREE.Vector3(x,y,z));
+  if(kit)kit.paperLantern(p.x,p.y,p.z,color,()=>lanternProcedural(parent,x,y,z,color));else lanternProcedural(parent,x,y,z,color);
+}
+function lanternProcedural(parent,x,y,z,color=null){
   if(!paperTexture){const c=document.createElement('canvas');c.width=128;c.height=256;const ctx=c.getContext('2d');ctx.fillStyle='#fff4dc';ctx.fillRect(0,0,128,256);for(let i=0;i<256;i+=16){ctx.fillStyle='#a5774944';ctx.fillRect(0,i,128,2);ctx.fillStyle='#ffffff66';ctx.fillRect(0,i+2,128,2);}for(let i=0;i<1800;i++){ctx.fillStyle=i%2?'#bd8d5120':'#ffffff44';ctx.fillRect((Math.sin(i*13.4)*.5+.5)*128,(Math.cos(i*21)*.5+.5)*256,1,2);}paperTexture=new THREE.CanvasTexture(c);paperTexture.colorSpace=THREE.SRGBColorSpace;}
   const tint=color||'#ffc681';if(!paperMaterials.has(tint))paperMaterials.set(tint,new THREE.MeshStandardMaterial({color:tint,map:paperTexture,emissive:tint,emissiveMap:paperTexture,emissiveIntensity:.65,roughness:.85}));const m=paperMaterials.get(tint);
   const profile=[];for(let i=0;i<=24;i++){const t=i/24;profile.push(new THREE.Vector2(.11+Math.sin(Math.PI*t)*.21+Math.cos(t*Math.PI*24)*.006,(t-.5)*.75));}
-  part(parent,new THREE.LatheGeometry(profile,24),m,x,y,z);lanternAt(parent,x,y,z,null,color?{color}:undefined); // REMASTER-HOOK r02
+  part(parent,new THREE.LatheGeometry(profile,24),m,x,y,z);
   for(const yy of [-.37,.37])tube(parent,wood,.13,.13,.055,x,y+yy,z);
   curve(parent,wood,[[x,y+.4,z],[x,y+.54,z],[x+.08,y+.59,z]],.014);
   const tassel=part(parent,new THREE.ConeGeometry(.025,.18,5),gold,x,y-.48,z);tassel.rotation.z=.08;
@@ -44,27 +54,36 @@ function batch(root){
 }
 export function buildFestival(scene,potionNodes){
   const world=group(scene),wind=[],keepers=[],waterUniforms=[],steamOrigins=[];let lastTime=0;
+  kit=createFestivalKit(scene,{water:()=>{const w=makeWater('#245f78');waterUniforms.push(w.uniforms);return w;}});
   const geo=new THREE.PlaneGeometry(52,75,88,118);geo.rotateX(-Math.PI/2);
   const pos=geo.attributes.position;for(let i=0;i<pos.count;i++){const z=pos.getZ(i)-7.5;pos.setZ(i,z);pos.setY(i,groundHeight(pos.getX(i),z));}geo.computeVertexNormals();
   const ground=part(world,geo,groundMaterial());ground.castShadow=false;
+  // R04: painterly night ground (dark moss, earth, fallen leaves); tiles every 5 m. The canvas texture stays as the fallback.
+  new THREE.TextureLoader().load('/assets/env/v2/textures/kit_ground.webp',t=>{t.colorSpace=THREE.SRGBColorSpace;t.wrapS=t.wrapT=THREE.RepeatWrapping;t.repeat.set(52/5,75/5);t.anisotropy=8;ground.material.map=t;ground.material.color.set('#ffffff');ground.material.needsUpdate=true;});
   const pathGeo=new THREE.PlaneGeometry(4.8,56,12,112);pathGeo.rotateX(-Math.PI/2);const pv=pathGeo.attributes.position;
   for(let i=0;i<pv.count;i++){const z=pv.getZ(i)-7.5,x=pv.getX(i)+Math.sin(z*.14)*.35;pv.setX(i,x);pv.setZ(i,z);pv.setY(i,groundHeight(x,z)+.045);}pathGeo.computeVertexNormals();
-  const pathMaterial=stoneSurface('#a6a393').clone();part(world,pathGeo,pathMaterial).castShadow=false;pavingMaterial().then(m=>{pathMaterial.copy(m);pathMaterial.needsUpdate=true;});
+  const pathMaterial=stoneSurface('#a6a393').clone();part(world,pathGeo,pathMaterial).castShadow=false;pavingMaterial().then(m=>{pathMaterial.copy(m);pathMaterial.color.set('#5b5145');pathMaterial.needsUpdate=true;}); // R04: reads as dark soil between the flagstones
   // Real beveled paving catches light along the edges instead of painting depth on a plane.
+  const tileMatrix=new THREE.Matrix4(),tilePos=new THREE.Vector3(),tileQuat=new THREE.Quaternion(),tileEuler=new THREE.Euler(),tileScale=new THREE.Vector3();
   const pavingColors=['#8e9a94','#a2aa9c','#b2b4a2','#95a39a','#aaa994'].map(c=>stoneSurface(c));
   for(let row=0;row<68;row++){
     const z=20-row*.82;
     for(let col=0;col<(row%2?6:5);col++){
       const edge=row%2&&(col===0||col===5),w=edge?.43:.91;
       const x=(row%2?col*.96-2.4:col*.96-1.92)+(edge?(col===0?.24:-.24):0)+Math.sin(z*.14)*.35;
-      const tile=softBox(world,pavingColors[(row*3+col*7)%5],x,groundHeight(x,z)+.03,z,w,.075,.77,.055);
-      tile.rotation.x=Math.atan2(groundHeight(x,z-.1)-groundHeight(x,z+.1),.2);
-      tile.rotation.y=Math.sin(row*17+col*3)*.014;
+      // R04: flagstones are instances of env_path_tiles (uneven tops, chipped corners, moss); softBox is the fallback.
+      const slope=Math.atan2(groundHeight(x,z-.1)-groundHeight(x,z+.1),.2),turn=Math.sin(row*17+col*3)*.02+((row+col)%2?Math.PI:0),n=row*31+col*17;
+      const shade=.9+.1*Math.abs(Math.sin(n*1.7)),mossy=Math.sin(n*.37)>.72;
+      tileMatrix.compose(tilePos.set(x,groundHeight(x,z)-.015+.012*Math.sin(n*2.3),z),tileQuat.setFromEuler(tileEuler.set(slope,turn,0,'YXZ')),tileScale.set(w/.91,1,1));
+      kit.pathTile(tileMatrix,n,new THREE.Color(mossy?'#b9c29a':'#ffffff').multiplyScalar(shade),()=>{
+        const tile=softBox(world,pavingColors[(row*3+col*7)%5],x,groundHeight(x,z)+.03,z,w,.075,.77,.055);tile.rotation.x=slope;tile.rotation.y=Math.sin(row*17+col*3)*.014;});
     }
   }
   for(let z=-35;z<21;z+=1.05)for(const side of [-1,1]){const x=side*2.58+Math.sin(z*.14)*.35;const slab=softBox(world,stone,x,groundHeight(x,z)+.075,z,.3,.16,.99,.04);slab.rotation.y=Math.sin(z)*.025;}
   for(const s of STALLS){
     const g=group(world,s.x,groundHeight(s.x,s.z),s.z),cloth=fabric(s.color,'waves','#f6d9a9');
+    // R04: stalls with a festival-kit GLB (public/assets/env/v2) skip the procedural body; it stays as the load-failure fallback.
+    const bodyA=()=>{
     softBox(g,wood,0,.55,0,s.w,1.1,s.d,.07);softBox(g,timber('#b5865b'),0,1.16,0,s.w+.2,.15,s.d+.3,.035);
     for(let i=0;i<12;i++)cube(g,wood,-s.w/2+(i+.5)*s.w/12,.55,s.d/2+.03,s.w/12-.016,.96,.055);
     for(const x of [-s.w/2,s.w/2])for(const z of [-s.d/2,s.d/2])tube(g,wood,.085,.1,3.15,x,1.55,z);
@@ -73,9 +92,12 @@ export function buildFestival(scene,potionNodes){
     const roof=part(g,roofGeo,cloth,0,3.13,0);roof.material=cloth.clone();roof.material.side=THREE.DoubleSide;
     for(const side of [-1,1])curve(g,gold,[[side*(s.w/2+.4),3.1,-s.d/2-.25],[side*s.w/2,3.35,0],[side*(s.w/2+.4),3.15,s.d/2+.5]],.065);
     for(let i=0;i<8;i++){const x=-s.w/2+(i+.5)*s.w/8;const flap=softBox(g,cloth,x,2.96,s.d/2+.58,s.w/8-.015,.55,.07,.025);flap.rotation.z=Math.sin(i*4)*.02;}
+    };
     sign(g,s.name,0,2.38,s.d/2+.62,2.35);lantern(g,-s.w/2+.1,2.04,s.d/2+.57);lantern(g,s.w/2-.1,2.04,s.d/2+.57);
     sign(g,'E · Play',0,.65,s.d/2+.2,1.3);
     const shopkeeper=createVisitor(STALLS.indexOf(s)+1);shopkeeper.root.position.set(s.x+.75,groundHeight(s.x,s.z)+.07,s.z-.5);shopkeeper.root.scale.setScalar(.94);shopkeeper.arms.forEach(a=>a.rotation.x=-.5);scene.add(shopkeeper.root);keepers.push({rig:shopkeeper,kind:s.game});
+    if(s.game==='cook')steamOrigins.push({x:s.x-.4,y:groundHeight(s.x,s.z)+1.7,z:s.z+.5});
+    const bodyB=()=>{
     if(s.game==='shoot'){
       for(let row=0;row<2;row++){cube(g,wood,-.75,1.65+row*.58,-.55,1.9,.09,.6);for(let i=0;i<3;i++){const x=-1.4+i*.62,y=1.91+row*.58;orb(g,['#ce6354','#e6c384','#ad869e'][i],x,y,-.55,.2,.23,.16);for(const side of [-1,1]){orb(g,'#d8a570',x+side*.16,y+.18,-.55,.065);orb(g,'#342c31',x+side*.065,y+.04,-.4,.023);}orb(g,'#f6dfa9',x,y-.05,-.39,.065);}}
       const rifle=cube(g,wood,-.5,1.33,.85,1.4,.12,.16);rifle.rotation.y=.2;tube(g,gold,.04,.04,.6,.3,1.33,.7).rotation.z=Math.PI/2;
@@ -86,7 +108,6 @@ export function buildFestival(scene,potionNodes){
     }else if(s.game==='ring'){
       cube(g,'#dfb87c',-.3,1.28,.5,2.8,.13,1.55);for(let i=0;i<6;i++){const x=-1.15+(i%3)*.8,z=.15+Math.floor(i/3)*.7;const base=ring(g,['#c7594c','#6c9d82','#c7a542'][i%3],.24,.03,x,1.36,z);base.rotation.x=Math.PI/2;tube(g,wood,.055,.07,.36,x,1.52,z);if(i%2===0)ring(g,'#e6cf9a',.18,.025,x,1.4,z).rotation.x=Math.PI/2;}
     }else if(s.game==='cook'){
-      steamOrigins.push({x:s.x-.4,y:groundHeight(s.x,s.z)+1.7,z:s.z+.5});
       cube(g,'#303337',-.4,1.3,.5,2.7,.18,1.4);for(let i=0;i<12;i++){const x=-1.45+(i%6)*.4,z=.25+Math.floor(i/6)*.5;tube(g,'#161d24',.17,.17,.035,x,1.41,z);orb(g,'#d7974a',x,1.48,z,.14,.1,.14);orb(g,'#e7d7a8',x+.04,1.56,z,.07,.012,.025);}for(let i=0;i<2;i++)tube(g,['#cc6847','#eadcae'][i],.075,.09,.35,1.1+i*.22,1.45,.65);
     }else if(s.game==='fortune'){
       cube(g,wood,-.55,1.43,.4,.9,.5,.7);cube(g,'#352b30',-.55,1.7,.4,.3,.02,.26);for(let i=0;i<5;i++){const x=-1.55+i*.61;orb(g,['#ce8c88','#b195ba','#84b2a4'][i%3],x,1.36,.98,.2,.2,.16);tube(g,gold,.09,.055,.09,x,1.57,.98);ring(g,'#f2dda9',.09,.02,x,1.64,.98);}
@@ -98,6 +119,8 @@ export function buildFestival(scene,potionNodes){
     for(let k=0;k<7;k++)cube(g,timber('#986e4e'),-s.w/2+(k+.5)*s.w/7,1.55,-s.d/2+.06,s.w/7-.025,.7,.06);
     cube(g,wood,0,2,-s.d/2,s.w+.15,.12,.12);
     for(let k=0;k<4;k++)cube(g,wood,(k-1.5)*.8,.42,s.d/2+.085,.035,.78,.045);
+    };
+    if(KIT_STALLS[s.game])kit.stall(g,KIT_STALLS[s.game],()=>{bodyA();bodyB();});else{bodyA();bodyB();}
     // Small stepping stones connect every booth to the festival lane.
     for(let k=0;k<5;k++){const t=(k+.5)/5,x=THREE.MathUtils.lerp(Math.sign(s.x)*2.8,s.x,t),z=s.z+s.d/2+1;for(const side of [-1,1]){const pz=z+side*.34,slab=softBox(world,stone,x,groundHeight(x,pz)+.04,pz,.82,.09,.64,.11);slab.rotation.y=Math.sin(k*4+s.x)*.15;}}
 
@@ -114,9 +137,12 @@ export function buildFestival(scene,potionNodes){
     const x=side*17.1,y=groundHeight(x,z);tube(world,wood,.075,.09,1.1,x,y+.55,z);for(const yy of [.42,.85])cube(world,red,x,y+yy,z+1.72,.13,.14,3.5);
   }
   for(const [x,z]of [[-5,16],[5,15],[-6,-5],[5,-15],[-7,-23],[6,-25]]){
-    const g=group(world,x,groundHeight(x,z),z);softBox(g,stone,0,.25,0,.6,.5,.6,.06);tube(g,stone,.19,.27,.7,0,.72,0);softBox(g,wood,0,1.17,0,.58,.46,.58,.02);orb(g,lamp,0,1.16,0,.19,.19,.19);registerLantern({x,y:groundHeight(x,z)+1.16,z,kind:'stone'}); // REMASTER-HOOK r02
+    const g=group(world,x,groundHeight(x,z),z);registerLantern({x,y:groundHeight(x,z)+1.26,z,kind:'stone'}); // REMASTER-HOOK r02
+    g.rotation.y=Math.sin(x*3+z)*.3;g.updateWorldMatrix(true,false);
+    // R04: env_lantern_stone instance; procedural lantern only if the GLB fails.
+    kit.stoneLantern(g.matrixWorld,()=>{softBox(g,stone,0,.25,0,.6,.5,.6,.06);tube(g,stone,.19,.27,.7,0,.72,0);softBox(g,wood,0,1.17,0,.58,.46,.58,.02);orb(g,lamp,0,1.16,0,.19,.19,.19);
     part(g,new THREE.ConeGeometry(.59,.35,4),stone,0,1.61,0).rotation.y=Math.PI/4;
-    for(const s of [-1,1])for(const zz of [-.22,.22])cube(g,wood,s*.22,1.18,zz,.045,.5,.045);
+    for(const s of [-1,1])for(const zz of [-.22,.22])cube(g,wood,s*.22,1.18,zz,.045,.5,.045);});
   }
   for(const [x,z]of [[-5,5],[5,-7],[-5,-20]]){const g=group(world,x,groundHeight(x,z),z);softBox(g,timber('#b68561'),0,.52,0,2.2,.15,.6,.04);for(const s of [-1,1])softBox(g,wood,s*.7,.24,0,.12,.5,.4,.025);}
   // Shrubs and rocks sit outside the navigation lane and stall entrances.
@@ -158,13 +184,14 @@ export function buildFestival(scene,potionNodes){
     const motes=group(g);for(let i=0;i<5;i++){const spark=part(motes,new THREE.OctahedronGeometry(.035),surface('#e5f9ff',{emissive:'#a6eaff',emissiveIntensity:2.5}));spark.position.set(Math.sin(i*2.4)*.43,.6+i*.16,Math.cos(i*2.4)*.43);}g.userData.motes=motes;potionNodes.set(p.id,g);registerLantern({x:p.x,y:groundHeight(p.x,p.z)+.9,z:p.z,kind:'potion'}); // REMASTER-HOOK r02
   
   }
-  const scenery=buildFestivalScenery(scene);
+  const scenery=buildFestivalScenery(scene,kit);
   const motePositions=new Float32Array(135*3),moteGeo=new THREE.BufferGeometry();moteGeo.setAttribute('position',new THREE.BufferAttribute(motePositions,3));const moteMat=new THREE.PointsMaterial({color:'#ffe2a0',size:.045,transparent:true,opacity:.65,depthWrite:false});scene.add(new THREE.Points(moteGeo,moteMat));
   const steamData=new Float32Array(steamOrigins.length*18*3),steamGeo=new THREE.BufferGeometry();steamGeo.setAttribute('position',new THREE.BufferAttribute(steamData,3));
   const steamMat=new THREE.ShaderMaterial({transparent:true,depthWrite:false,uniforms:{},vertexShader:'void main(){vec4 p=modelViewMatrix*vec4(position,1.);gl_PointSize=clamp(330./-p.z,3.,22.);gl_Position=projectionMatrix*p;}',fragmentShader:'void main(){float r=length(gl_PointCoord-.5)*2.;if(r>1.)discard;gl_FragColor=vec4(.82,.87,.92,(1.-r)*(1.-r)*.18);}'});
   scene.add(new THREE.Points(steamGeo,steamMat));
   batch(world);
-  return {ground,update(time,camera,subject,focus){
+  kit.finish();
+  return {ground,kit,update(time,camera,subject,focus){
     scenery.update(time,camera,subject,focus);foliage.update(time);portal.material.uniforms.time.value=time;wind.forEach((b,i)=>b.rotation.y=Math.sin(time*1.6+i)*.12);
     waterUniforms.forEach(u=>u.time.value=time);
     steamOrigins.forEach((origin,j)=>{for(let i=0;i<18;i++){const age=(time*.4+i/18)%1,at=(j*18+i)*3;steamData[at]=origin.x+Math.sin(i*4+time)*.16+Math.sin(age*5)*.15;steamData[at+1]=origin.y+age*1.2;steamData[at+2]=origin.z+Math.cos(i*3+time)*.2;}});steamGeo.attributes.position.needsUpdate=true;

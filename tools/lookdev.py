@@ -17,6 +17,8 @@ Shots (player position, camera yaw/pitch/distance follow the game camera rig):
     wide    the "Reset view (wide)" camera at the start, closest to the key-art framing
     fish    hero framing of the Goldfish Scooping stall (R04 approval shot)
 
+--breakdown prints draw calls per top-level scene object (first shot) and degenerate-normal meshes.
+--nocast leaves characters out (environment-only accounting).
 --perf writes renderer.info numbers (draw calls, triangles, geometries, textures) to perf.json.
 """
 import argparse, asyncio, base64, json, os, re
@@ -51,7 +53,7 @@ const SHOTS={
   street:{p:[0,3.2],yaw:-.18,pitch:.40,dist:9.5,cast:[[0,3.2,Math.PI],[-1.5,4.2,Math.PI*.9],[1.5,4.4,-Math.PI*.9]],guests:[[-3.6,1.2],[3.2,-1.5],[-1,-3.5]]},
   shrine:{p:[0,-22.5],yaw:0,pitch:.36,dist:9.5,cast:[[0,-22.5,Math.PI],[-1.6,-21.4,Math.PI*.9],[1.6,-21.6,-Math.PI*.9]],guests:[[-2.4,-26],[2.5,-25.5],[3.4,-19.5]]},
   wide:{p:[0,16.5],yaw:.2,pitch:.62,dist:17,cast:[[0,16.5,Math.PI],[-1.7,17.6,Math.PI*.9],[1.8,17.4,-Math.PI*.9]],guests:[[-2,10.5],[2.6,8],[0.5,6]]},
-  fish:{p:[6.2,13.6],yaw:.42,pitch:.36,dist:8.2,cast:[[6.2,13.6,Math.PI*.95],[4.6,14.2,Math.PI*.8],[7.8,14.6,-Math.PI*.9]],guests:[[9.6,12.2],[3.4,10.6],[5,6.5]]},
+  fish:{p:[7.6,12.0],yaw:-.12,pitch:.42,dist:7.4,cast:[[5.1,12.4,Math.PI*.8],[4.0,13.4,Math.PI*.85],[10.9,12.8,-Math.PI*.85]],guests:[[12.4,11.4],[3.2,10.6],[5.4,6]]},
 };
 window.shoot=async(name,t)=>{
   const s=SHOTS[name];s.cast.forEach((c,i)=>place(models[i],...c));
@@ -65,6 +67,19 @@ window.shoot=async(name,t)=>{
   pipeline.renderer.info.reset();pipeline.render(PROFILES[q.get('profile')].post);
   const i=pipeline.renderer.info,png=document.getElementById('c').toDataURL('image/png');  // same task as the draw: no partial frames
   return {png,calls:i.render.calls,triangles:i.render.triangles,geometries:i.memory.geometries,textures:i.memory.textures,lights:(()=>{let n=0;scene.traverse(o=>{if(o.isLight&&o.visible&&o.intensity>0)n++;});return n;})()};
+};
+// wait for festival-kit GLBs (R04) so shots never catch a half-loaded street
+await festival.kit?.finish();
+if(q.get('nocast')==='1'){models.length=0;for(const g of guests)scene.remove(g.root);}
+// draw-call accounting: calls with each top-level object hidden, plus mesh/material counts, plus geometry problems
+window.breakdown=async(name)=>{
+  await window.shoot(name);const post=PROFILES[q.get('profile')].post;
+  const calls=()=>{pipeline.renderer.info.reset();pipeline.render(post);return pipeline.renderer.info.render.calls;};
+  const all=calls(),rows=[];
+  for(const ch of scene.children){if(!ch.visible||ch.isLight)continue;let meshes=0;const mats=new Set();ch.traverse(o=>{if(o.isMesh||o.isPoints){meshes++;(Array.isArray(o.material)?o.material:[o.material]).forEach(m=>mats.add(m));}});if(!meshes)continue;
+    ch.visible=false;const d=all-calls();ch.visible=true;rows.push({name:ch.name||ch.type,calls:d,meshes,materials:mats.size,kinds:(()=>{const k={};ch.traverse(o=>{if(o.isMesh||o.isPoints){const key=(o.material.transparent?'T:':'')+(o.material.name||o.material.type)+(o.isInstancedMesh?':inst':'');k[key]=(k[key]||0)+1;}});return k;})()});}
+  const bad=[];scene.traverse(o=>{const n=o.geometry?.attributes?.normal;if(!n)return;let c=0;for(let i=0;i<n.count;i++){const l=Math.hypot(n.getX(i),n.getY(i),n.getZ(i));if(!(l>1e-6))c++;}if(c)bad.push({name:o.name||o.parent?.name||o.type,material:o.material?.name||o.material?.type,degenerateNormals:c});});
+  return {total:all,rows:rows.sort((a,b)=>b.calls-a.calls),bad};
 };
 document.title='READY';
 </script></body></html>"""
@@ -82,8 +97,12 @@ async def main(a):
         pg.on('console', lambda m: m.type in ('error', 'warning') and print('console:', m.text[:300]))
         pg.on('pageerror', lambda e: print('pageerror:', str(e)[:500]))
         await pg.route(re.compile(r'__lookdev\.html'), lambda route: route.fulfill(status=200, content_type='text/html', body=PAGE))
-        await pg.goto(f'{a.url}/__lookdev.html?w={w}&h={h}&profile={a.profile}&flash={1 if a.flash else 0}')
+        await pg.goto(f'{a.url}/__lookdev.html?w={w}&h={h}&profile={a.profile}&flash={1 if a.flash else 0}&nocast={1 if a.nocast else 0}')
         await pg.wait_for_function("document.title=='READY'")
+        if a.breakdown:
+            print(json.dumps(await pg.evaluate(f"window.breakdown('{a.shots.split(',')[0]}')"), indent=1))
+            await b.close()
+            return
         for shot in a.shots.split(','):
             await pg.evaluate(f"window.shoot('{shot}')")  # warm-up: compile shaders, fill shadow maps
             stats = await pg.evaluate(f"window.shoot('{shot}')")
@@ -107,5 +126,7 @@ if __name__ == '__main__':
     ap.add_argument('--shots', default='start,street,shrine')
     ap.add_argument('--flash', action='store_true')
     ap.add_argument('--perf', action='store_true')
+    ap.add_argument('--breakdown', action='store_true', help='print draw calls per top-level object and meshes with degenerate normals')
+    ap.add_argument('--nocast', action='store_true', help='environment only: no characters (draw-call accounting)')
     ap.add_argument('--chrome', default='/usr/bin/google-chrome')
     asyncio.run(main(ap.parse_args()))

@@ -217,3 +217,21 @@
 
 ### 검증
 - check 71 files OK · test 134/134 · integration 5/5 · build OK(491 assets, 52.9 → 17.4 MB) · 브라우저(솔로 연습: 타이틀 → 오프닝 → 플레이, 포션·점프·결계·핑) JS 오류·HTTP 오류 0.
+
+## 2026-11-13 · B방 · R04 축제 환경 키트 (`remaster/r04-festival-kit`)
+### 바뀐 것
+- 축제 키트 GLB 9개(`public/assets/env/v2`): 노점 6종(`env_stall_{shoot,fish,ring,cook,fortune,ice}`), `env_lantern_paper`, `env_lantern_stone`, `env_path_tiles`(돌 4종). 전부 validator PASS. 소스는 `source/v2/environment/`(bpy 스크립트 + 절차 텍스처, 재실행하면 다시 만들어짐).
+- 런타임 `public/festival-kit.mjs`: 노점 6개는 공유 재질(kit_wood·kit_cloth·kit_paint·kit_water)별로 병합되어 4메시, 등불·석등·돌길은 InstancedMesh. GLB 로드가 실패하면 기존 절차 버전이 나온다.
+- 지면 텍스처(`textures/kit_ground.webp`), 돌길 줄눈·연석·주변 지형 색을 밤 톤으로.
+- 페이드 구조물을 재질별로 병합(머리 위 페이드는 그대로 동작).
+- 충돌 박스·좌표·동선(`shared/world.mjs`)은 건드리지 않았다.
+- R02 값 조정: 석등 실제 빛 0(빛 웅덩이만), 종이 등불 5→3, 노점 10→6.
+
+### 다른 방이 알아야 할 것
+- 환경 소품을 더 만들 때: `source/v2/environment/kit/kitlib.py`(게임 좌표, 공유 재질, 정점 색 × 타일 텍스처)와 `stallkit.py`를 쓰고 재질 이름을 `kit_*`로 유지하면 런타임이 자동으로 합친다.
+- `tools/lookdev.py --breakdown --nocast --profile mobile`: 최상위 오브젝트별 드로우콜. 현재 모바일 시작 지점(캐릭터 제외) 721콜 중 환경(world 47 + scenery 37 + kit 19 + garden 8 + sky 5)은 약 116, **포션 15개가 약 322, 상인 6명이 약 249**.
+- 요청(R03/R14): 포션(`renderkit.mjs createPotion`)은 병에 재질 9개·메시 15개 → 재질 공유/인스턴싱 필요. 상인(visitors)은 메시 27~56개씩.
+
+### 다음 할 일
+- 남은 환경(도리이·신사·울타리·계단·바위·나무·배너·야구라)은 절차 버전 그대로. 매니페스트 참고.
+- Higgsfield 결과 CDN이 클라우드 샌드박스에서 막혀 있어(프록시 403) 텍스처는 절차 생성. 사람이 받은 이미지를 `source/v2/environment/kit/textures/`에 같은 이름으로 넣고 build를 다시 돌리면 교체된다.

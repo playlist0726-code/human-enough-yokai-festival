@@ -1,0 +1,30 @@
+{
+ "fish": {
+  "calls": 3143,
+  "triangles": 10201875,
+  "geometries": 772,
+  "textures": 109,
+  "lights": 10
+ },
+ "start": {
+  "calls": 3314,
+  "triangles": 10622345,
+  "geometries": 801,
+  "textures": 117,
+  "lights": 10
+ },
+ "street": {
+  "calls": 3207,
+  "triangles": 10499853,
+  "geometries": 801,
+  "textures": 117,
+  "lights": 10
+ },
+ "shrine": {
+  "calls": 2226,
+  "triangles": 9173781,
+  "geometries": 801,
+  "textures": 117,
+  "lights": 10
+ }
+}

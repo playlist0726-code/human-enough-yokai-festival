@@ -1,0 +1,160 @@
+{
+  "brief": "R04",
+  "conventions": "ASSET_CONTRACT 1 & 8: Y-up, front +Z, metres, origin at footprint centre on the ground. Shared kit materials by name: kit_wood, kit_cloth, kit_paint, kit_stone, kit_water, kit_glow (colour from vertex colours x kit textures, source/v2/environment/kit/textures.py).",
+  "build": ".venv-bpy/bin/python source/v2/environment/<folder>/build.py (all family assets: source/v2/environment/kit/family.py; textures: kit/textures.py). GLBs are written straight to public/assets/env/v2 and are reproducible from the scripts.",
+  "assets": [
+    {
+      "id": "env_stall_fish",
+      "profile": "env",
+      "kind": "stall",
+      "footprint": [
+        4.7,
+        3.4
+      ],
+      "status": "done — validator PASS",
+      "method": "blender",
+      "triangles": 8286
+    },
+    {
+      "id": "env_stall_shoot",
+      "profile": "env",
+      "kind": "stall",
+      "footprint": [
+        4.5,
+        3.4
+      ],
+      "status": "done — validator PASS",
+      "method": "blender",
+      "props": "cork gun rack, prize shelves, plush targets",
+      "triangles": 8608
+    },
+    {
+      "id": "env_stall_ring",
+      "profile": "env",
+      "kind": "stall",
+      "footprint": [
+        4.5,
+        3.3
+      ],
+      "status": "done — validator PASS",
+      "method": "blender",
+      "props": "ring pegs board, prize dolls, hoops",
+      "triangles": 9400
+    },
+    {
+      "id": "env_stall_cook",
+      "profile": "env",
+      "kind": "stall",
+      "footprint": [
+        4.7,
+        3.4
+      ],
+      "status": "done — validator PASS",
+      "method": "blender",
+      "props": "takoyaki griddle, steam, sauce bottles, paper boats",
+      "triangles": 10132
+    },
+    {
+      "id": "env_stall_fortune",
+      "profile": "env",
+      "kind": "stall",
+      "footprint": [
+        4.4,
+        3.5
+      ],
+      "status": "done — validator PASS",
+      "method": "blender",
+      "props": "omikuji box, charm rack, daruma",
+      "triangles": 6948
+    },
+    {
+      "id": "env_stall_ice",
+      "profile": "env",
+      "kind": "stall",
+      "footprint": [
+        4.6,
+        3.5
+      ],
+      "status": "done — validator PASS",
+      "method": "blender",
+      "props": "kakigori shaver, syrup bottles, ice flag",
+      "triangles": 7088
+    },
+    {
+      "id": "env_lantern_paper",
+      "profile": "prop",
+      "status": "done — validator PASS",
+      "method": "blender",
+      "note": "chochin with ribs, dark caps, emissive paper (kit_glow); instanced; registerLantern() kind paper/string",
+      "triangles": 1012
+    },
+    {
+      "id": "env_lantern_stone",
+      "profile": "prop",
+      "status": "done — validator PASS",
+      "method": "blender",
+      "note": "toro with lit firebox; instanced; kind stone",
+      "triangles": 1100
+    },
+    {
+      "id": "env_torii",
+      "profile": "env",
+      "status": "not built in R04 — the existing procedural version stays (follow-up)",
+      "method": "blender"
+    },
+    {
+      "id": "env_shrine",
+      "profile": "env",
+      "status": "not built in R04 — the existing procedural version stays (follow-up)",
+      "method": "blender",
+      "note": "Spirit Gate (yokai-world portal) frame"
+    },
+    {
+      "id": "env_fence",
+      "profile": "prop",
+      "status": "not built in R04 — the existing procedural version stays (follow-up)",
+      "method": "blender",
+      "note": "red railing module, instanced"
+    },
+    {
+      "id": "env_stairs",
+      "profile": "env",
+      "status": "not built in R04 — the existing procedural version stays (follow-up)",
+      "method": "blender"
+    },
+    {
+      "id": "env_path_tiles",
+      "profile": "prop",
+      "status": "done — validator PASS",
+      "method": "blender",
+      "triangles": 384,
+      "note": "4 flagstone variants (tile_a..d) in one GLB; instanced along the lane with 180-degree turns and tints (prop profile allows 4 primitives, so 4 variants instead of 5)"
+    },
+    {
+      "id": "env_rock_*",
+      "profile": "prop",
+      "status": "not built in R04 — the existing procedural version stays (follow-up)",
+      "method": "3d-gen (Tripo/Hunyuan low poly) -> blender cleanup"
+    },
+    {
+      "id": "env_tree_cherry / env_tree_pine / env_tree_bamboo",
+      "profile": "env",
+      "status": "not built in R04 — the existing procedural version stays (follow-up)",
+      "method": "3d-gen or foliage.mjs batches"
+    },
+    {
+      "id": "env_banner_*",
+      "profile": "prop",
+      "status": "not built in R04 — the existing procedural version stays (follow-up)",
+      "method": "blender + pattern textures"
+    },
+    {
+      "id": "env_yagura",
+      "profile": "env",
+      "status": "not built in R04 — the existing procedural version stays (follow-up)",
+      "method": "blender",
+      "note": "taiko drum tower"
+    }
+  ],
+  "runtime": "public/festival-kit.mjs (merged stalls, instanced lanterns and flagstones, procedural fallback on load failure)"
+}
