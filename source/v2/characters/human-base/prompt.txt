@@ -1,0 +1,10 @@
+# Human base body (shared by every disguise and R09 NPC) — gpt_image_2_6, high, 2k, 1:1, ref: Mizu yokai front (style only)
+# job d0bc7162-c94e-4eca-b5cb-d67223c8664f -> turnaround/base_front.webp
+Production base-body reference for a 3D game: a neutral stylized HUMAN mannequin character in the SAME soft matte vinyl toy 3D render style, lighting, framing and flat light gray (#c8c8c8) background as the reference image. This is the shared base body for all human characters of the game.
+BODY: chibi-stylized adult human, about 1.6 m tall in-world but toy-like proportions: large rounded head (head height about 1/2.6 of total height), rounded soft torso, short stubby arms and legs, small blunt mitten-like hands with a separate thumb, small rounded feet. Smooth rounded forms, no sharp edges. Neutral warm light skin. Simple short dark hair cap close to the skull. Two round friendly eyes (dark glossy pupils with two white highlight dots), small nose bump, small neutral smile.
+CLOTHING: plain tight cream undershirt and plain cream shorts only (so outfits can be designed on top), barefoot.
+VIEW: straight FRONT view, orthographic, full body centered with margin.
+POSE: neutral A-pose for rigging, arms straight out and down at 45 degrees, hands open and empty, legs straight slightly apart, feet flat.
+EXCLUDE: no text, no props, no accessories, no shadow on ground, nothing cropped.
+
+# Every disguise: put this image FIRST in the references and say "Use EXACTLY the body proportions ... of the first reference image".
