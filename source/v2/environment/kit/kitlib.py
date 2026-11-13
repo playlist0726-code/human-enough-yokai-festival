@@ -27,8 +27,11 @@ MATS = {
     'kit_paint': {'tex': 'kit_paint.png', 'rough': .55},
     'kit_stone': {'tex': 'kit_stone.png', 'rough': .92},
     'kit_water': {'tex': None, 'rough': .1, 'color': (.18, .42, .55, 1)},
-    'kit_glow': {'tex': 'kit_paint.png', 'rough': .7, 'emit': 1.0},
+    'kit_glow': {'tex': 'kit_paint.png', 'rough': .8, 'emit': 1.0, 'emit_color': (1.0, .72, .42, 1)},
 }
+
+
+_mats = {}
 
 
 def g2b(x, y, z):
@@ -37,12 +40,12 @@ def g2b(x, y, z):
 
 
 def reset():
+    _mats.clear()
     bpy.ops.wm.read_factory_settings(use_empty=True)
     for m in list(bpy.data.materials):
         bpy.data.materials.remove(m)
 
 
-_mats = {}
 
 
 def material(name):
@@ -71,7 +74,7 @@ def material(name):
     nt.links.new(mix.outputs['Result'], bsdf.inputs['Base Color'])
     if spec.get('emit'):
         bsdf.inputs['Emission Strength'].default_value = spec['emit']
-        nt.links.new(mix.outputs['Result'], bsdf.inputs['Emission Color'])
+        bsdf.inputs['Emission Color'].default_value = spec['emit_color']
     _mats[name] = m
     return m
 
@@ -96,7 +99,7 @@ class Builder:
             self.parts[mat] = b
         return self.parts[mat]
 
-    def add(self, src, mat, color, grain='x', tile=None, matrix=None):
+    def add(self, src, mat, color, grain='x', tile=None, matrix=None, keep_uv=False):
         """Merge bmesh `src` (game-space coordinates) into the material bucket with colour + box UVs."""
         dst = self.bm(mat)
         if matrix is not None:
@@ -112,6 +115,8 @@ class Builder:
             vmap[v] = dst.verts.new(v.co)
         uv = dst.loops.layers.uv['UVMap']
         cl = dst.loops.layers.color['Color']
+        suv = src.loops.layers.uv.get('UVMap') if keep_uv else None
+        scl = src.loops.layers.color.get('Color')
         # grain axis in blender space
         gaxis = {'x': 0, 'y': 2, 'z': 1}[grain]
         for f in src.faces:
@@ -125,10 +130,14 @@ class Builder:
             axes = [i for i in range(3) if i != dom]
             if gaxis in axes:
                 axes = [gaxis] + [a for a in axes if a != gaxis]
-            for l in nf.loops:
+            for sl, l in zip(f.loops, nf.loops):
                 co = l.vert.co
-                l[uv].uv = (co[axes[0]] / t, co[axes[1]] / t)
-                l[cl] = col
+                l[uv].uv = sl[suv].uv if suv else (co[axes[0]] / t, co[axes[1]] / t)
+                if scl:  # per-vertex shade painted by the part, multiplied into the part colour
+                    k = sl[scl]
+                    l[cl] = (col[0] * k[0], col[1] * k[1], col[2] * k[2], 1.0)
+                else:
+                    l[cl] = col
         src.free()
 
     def build(self):
@@ -233,31 +242,63 @@ def torus(B, mat, color, x, y, z, R, r, segs=16, csegs=6, rot=(0, 0, 0)):
     B.add(b, mat, color, 'x', None, M)
 
 
-def grid(B, mat, color, fn, nu, nv, grain='x', tile=None, double=False):
-    """Parametric surface: fn(u, v) -> (x, y, z) game coords, u, v in [0, 1]."""
+def grid(B, mat, color, fn, nu, nv, grain='x', tile=None, double=False, uv=None, flip=False, matrix=None):
+    """Parametric surface: fn(u, v) -> (x, y, z) game coords, u, v in [0, 1].
+    uv=(su, sv) keeps parametric UVs scaled by (su, sv) instead of box mapping."""
     b = bmesh.new()
     vs = [[b.verts.new(Vector(fn(i / nu, j / nv))) for j in range(nv + 1)] for i in range(nu + 1)]
+    layer = b.loops.layers.uv.new('UVMap') if uv else None
     for i in range(nu):
         for j in range(nv):
-            f = b.faces.new([vs[i][j], vs[i + 1][j], vs[i + 1][j + 1], vs[i][j + 1]])
+            quad = [(i, j), (i + 1, j), (i + 1, j + 1), (i, j + 1)]
+            if flip:
+                quad.reverse()
+            f = b.faces.new([vs[a][c] for a, c in quad])
             f.smooth = True
+            if layer:
+                for l, (a, c) in zip(f.loops, quad):
+                    l[layer].uv = (a / nu * uv[0], c / nv * uv[1])
     if double:
         # give cloth a back face with a small offset so it reads from below
         bmesh.ops.solidify(b, geom=list(b.faces), thickness=.025)
-    B.add(b, mat, color, grain, tile)
+    B.add(b, mat, color, grain, tile, matrix, keep_uv=bool(uv))
+
+
+def lathe(B, mat, color, x, y, z, profile, segs=16, uv=(1, 1)):
+    """Revolve profile [(radius, height), ...] around the up axis at (x, y, z)."""
+    n = len(profile) - 1
+
+    def fn(u, v):
+        r, h = profile[min(n, int(round(v * n)))]
+        a = u * 2 * math.pi
+        return (x + math.cos(a) * r, y + h, z + math.sin(a) * r)
+    grid(B, mat, color, fn, segs, n, uv=uv, flip=True)
 
 
 def export(obj, path):
+    """obj: one object or a list of objects (each becomes a mesh node)."""
     os.makedirs(os.path.dirname(path), exist_ok=True)
     bpy.ops.object.select_all(action='DESELECT')
-    obj.select_set(True)
-    bpy.context.view_layer.objects.active = obj
+    objs = obj if isinstance(obj, (list, tuple)) else [obj]
+    for o in objs:
+        o.select_set(True)
+    bpy.context.view_layer.objects.active = objs[0]
     bpy.ops.export_scene.gltf(filepath=path, export_format='GLB', use_selection=True, export_apply=True,
-                              export_vertex_color='ACTIVE', export_yup=True, export_image_format='AUTO',
-                              export_image_quality=88, export_materials='EXPORT', export_normals=True,
+                              export_vertex_color='ACTIVE', export_yup=True, export_image_format='JPEG',
+                              export_image_quality=86, export_materials='EXPORT', export_normals=True,
                               export_texcoords=True, export_extras=False)
     print('exported', path, os.path.getsize(path), 'bytes')
 
 
 def tri_count(obj):
     return sum(len(p.vertices) - 2 for p in obj.data.polygons)
+
+
+ROOT = os.path.abspath(os.path.join(KIT, '..', '..', '..', '..'))
+
+
+def finish(B_or_objs, asset_id):
+    """Build, report and export to public/assets/env/v2/<id>.glb."""
+    objs = B_or_objs if isinstance(B_or_objs, list) else [B_or_objs.build()]
+    print(asset_id, 'triangles', sum(tri_count(o) for o in objs))
+    export(objs, os.path.join(ROOT, 'public', 'assets', 'env', 'v2', asset_id + '.glb'))

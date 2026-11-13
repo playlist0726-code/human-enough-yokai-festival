@@ -1,7 +1,7 @@
 """env_stall_fish — Goldfish Scooping stall (R04 hero asset).
 
 Run: .venv-bpy/bin/python source/v2/environment/stall_fish/build.py
-Out: public/assets/env/v2/env_stall_fish.glb  (+ source copy for validate-glb)
+Out: public/assets/env/v2/env_stall_fish.glb
 
 Footprint 4.7 x 3.4 m (shared/world.mjs STALLS 'fish'). Blue lacquered goldfish tub with
 water (material kit_water, replaced by the runtime water shader), a school of goldfish,
@@ -9,18 +9,16 @@ paper scoops (poi), bowls, a goldfish emblem on the apron, crates and a keeper's
 """
 import math
 import os
-import shutil
 import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.join(HERE, '..', 'kit'))
-from kitlib import Builder, reset, box, cyl, sphere, torus, grid, export, tri_count  # noqa: E402
+from kitlib import Builder, reset, box, cyl, sphere, torus, grid, finish  # noqa: E402
 from stallkit import stall_frame, crate, stool, bowl, GOLD  # noqa: E402
 
 ID = 'env_stall_fish'
 W, D = 4.7, 3.4
 COLOR = '#2f5f8f'
-ROOT = os.path.abspath(os.path.join(HERE, '..', '..', '..', '..'))
 
 
 def goldfish(B, x, y, z, yaw, body='#f2762e', fin='#ffb66b', s=1.0):
@@ -84,11 +82,7 @@ def build():
     stool(B, 1.55, -.95)
     for i in range(5):
         bowl(B, -1.6 + i * .32, 1.18, -D / 2 + .3, .09)
-    obj = B.build()
-    print('triangles', tri_count(obj))
-    out = os.path.join(ROOT, 'public', 'assets', 'env', 'v2', ID + '.glb')
-    export(obj, out)
-    shutil.copy(out, os.path.join(HERE, ID + '.glb'))
+    finish(B, ID)
 
 
 if __name__ == '__main__':

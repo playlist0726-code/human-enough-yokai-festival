@@ -8,7 +8,7 @@ part comes from vertex colours (COLOR_0) multiplied with these maps.
   kit_wood.png   cedar planks, painterly grain, worn edges (natural colour)
   kit_cloth.png  seigaiha wave pattern on woven cloth (grey, tinted per stall)
   kit_paint.png  mottled brush paint for lacquer, metal, ceramics (light grey, tinted)
-  kit_stone.png  path stones with moss in the joints (natural colour)
+  kit_stone.png  worn stone with moss blotches, no joints (natural colour)
   kit_ground.png dark moss, earth and fallen leaves for night grass (natural colour)
 """
 import os
@@ -143,38 +143,24 @@ def paint():
 
 
 def stone():
-    """Irregular flagstones (4x4 per tile) with mossy joints."""
+    """Worn festival stone with no joints: each flagstone / lantern part is its own mesh, so the
+    joints come from geometry. Warm grey, soft mottling, speckles, a little moss in the hollows."""
     rng = np.random.default_rng(41)
-    yy, xx = np.mgrid[0:N, 0:N].astype(float)
-    pts = rng.random((22, 2)) * N
-    d1 = np.full((N, N), 1e9)
-    d2 = np.full((N, N), 1e9)
-    idx = np.zeros((N, N), int)
-    for i, (px, py) in enumerate(pts):
-        for ox in (-N, 0, N):
-            for oy in (-N, 0, N):
-                d = np.hypot(xx - px - ox, yy - py - oy)
-                closer = d < d1
-                d2 = np.where(closer, d1, np.minimum(d2, d))
-                idx = np.where(closer, i, idx)
-                d1 = np.where(closer, d, d1)
-    edge = d2 - d1
-    tones = [hexrgb(c) for c in ['#a79a86', '#9b8f7d', '#b2a48d', '#958a7b', '#a99886', '#8f8676']]
-    col = np.array(tones)[idx % len(tones)]
-    n = vnoise(N, 10, 43, 5)
-    col = col * (.85 + .25 * n)[..., None]
-    bevel = np.clip(edge / 18, 0, 1)
-    col = col * (.62 + .38 * bevel)[..., None] + (bevel > .3)[..., None] * (bevel < .55)[..., None] * .03
-    joint = edge < 6
-    moss = hexrgb('#3e5236') * (.8 + .4 * vnoise(N, 20, 45, 3))[..., None]
-    soil = hexrgb('#3a2e26')
-    mossmask = vnoise(N, 7, 47, 3) > .5
-    col = np.where(joint[..., None], np.where(mossmask[..., None], moss, soil), col)
-    # moss creeping onto stone edges
-    creep = (edge < 14) & (vnoise(N, 14, 49, 4) > .62)
-    col = np.where(creep[..., None], col * .5 + moss * .5, col)
+    n1 = vnoise(N, 5, 43, 5)
+    n2 = vnoise(N, 20, 45, 4)
+    a, b = hexrgb('#b3a590'), hexrgb('#93887a')
+    col = a * n1[..., None] + b * (1 - n1[..., None])
+    col *= (.9 + .2 * n2)[..., None]
+    moss = hexrgb('#5f7146')
+    mm = np.clip((vnoise(N, 6, 47, 4) - .62) * 6, 0, 1) * .55
+    col = col * (1 - mm[..., None]) + moss * mm[..., None]
     img = Image.fromarray((np.clip(col, 0, 1) * 255).astype(np.uint8)).convert('RGBA')
-    strokes(img, rng, 500, 40, 4, [hexrgb('#c4b59c'), hexrgb('#7b7064')], True, 40)
+    strokes(img, rng, 900, 46, 5, [hexrgb('#c9bba3'), hexrgb('#7d7366'), hexrgb('#a89b88')], True, 38)
+    d = ImageDraw.Draw(img)
+    for _ in range(1400):  # speckles
+        x, y = rng.random() * N, rng.random() * N
+        c = (70, 64, 58, 90) if rng.random() < .6 else (222, 212, 196, 90)
+        d.ellipse([x, y, x + 1 + rng.random() * 2, y + 1 + rng.random() * 2], fill=c)
     return save('kit_stone.png', np.asarray(img.convert('RGB')).astype(float) / 255)
 
 
@@ -206,5 +192,9 @@ def ground():
 
 if __name__ == '__main__':
     for f in (wood, cloth, paint, stone, ground):
-        f()
+        img = f()
         print('wrote', f.__name__)
+    # runtime copy of the ground texture (the other maps travel inside the GLBs)
+    pub = os.path.abspath(os.path.join(OUT, '..', '..', '..', '..', '..', 'public', 'assets', 'env', 'v2', 'textures'))
+    os.makedirs(pub, exist_ok=True)
+    Image.open(os.path.join(OUT, 'kit_ground.png')).save(os.path.join(pub, 'kit_ground.webp'), quality=86, method=6)
