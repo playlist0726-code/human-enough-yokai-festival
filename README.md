@@ -1,3 +1,23 @@
+# Human Enough! — Yokai Festival
+
+**A cooperative browser game by Junsu (Michael) Kim / E.V.E Games.**
+
+[Read the project case study](https://playlist0726-code.github.io/projects/human-enough/) · [Play online](https://human-enough-yokai-festival.onrender.com/) · [Portfolio](https://playlist0726-code.github.io/)
+
+![Human Enough festival game cover](submission/cover-1500x1000.png)
+
+## Portfolio overview
+
+- **Goal:** make cooperation visible through disguise cover, potion sharing, guest handoffs, and a shared escort objective.
+- **Contribution:** game concept, interaction design, visual direction, and AI-assisted implementation.
+- **Implementation:** Three.js browser client, Node.js WebSocket server, shared deterministic game rules, reconnect/session handling, six first-person stall games, and a cooperative boss encounter.
+- **Status:** playable competition submission, with solo practice. Submission is not an award claim. AI assisted development and asset workflows; the game does not require a live language model.
+- **Review note:** the free hosted server may need 50 seconds or more to wake. Source and local setup are available below if the demo is asleep.
+
+The project made onboarding, readable feedback, and connection recovery part of the design work alongside the world and characters. The case study explains the decisions and remaining questions; the reference below covers operation and implementation.
+
+---
+
 # Human Enough! · e.v.e games
 
 A cozy 3D browser co-op game about yokai sneaking into a mountaintop fireworks festival. All player-facing text is in English.
