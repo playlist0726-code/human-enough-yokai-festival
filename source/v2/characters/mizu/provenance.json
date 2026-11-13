@@ -1,0 +1,63 @@
+{
+  "character": "mizu",
+  "brief": "R03",
+  "date": "2026-11-08..13",
+  "room": "C",
+  "concept": [
+    "public/assets/mizu-reference.png",
+    "public/assets/cast.png (column 1)"
+  ],
+  "turnaround": {
+    "model": "gpt_image_2_6 (quality high, 2k, 1:1)",
+    "yokai": {
+      "front": "0516dc71-ea43-4027-8b49-f9ebe92fab5c",
+      "left": "161a0106-c1f7-44d4-a4d4-08b337fa938e",
+      "back": "72305d8c-957c-4371-9595-fce026a49fed",
+      "right": "1aa68b13-1364-41e3-b0eb-ab3b6b16091c",
+      "three_quarter": "1c208edc-8732-4b46-ae29-ddb3d55c3c8c"
+    },
+    "human_base_front": "d0bc7162-c94e-4eca-b5cb-d67223c8664f",
+    "human": {
+      "front": "42792cc9-d544-4585-b53f-59ebda81ee23",
+      "left": "a27d3d00-6d7f-456b-925e-7fd698b42bd4",
+      "back": "4f92e300-d588-476f-826c-9ac63c3aacd1",
+      "right": "2ff50525-20bb-42c2-9c25-ef86a101490c"
+    },
+    "files": "source/v2/characters/mizu/turnaround/*.webp (1024, downscaled from 2048 PNG)"
+  },
+  "mesh": {
+    "yokai": {
+      "model": "tripo_h3_1_multiview_to_3d (detailed/detailed, pbr)",
+      "job": "2b14b19a-0df8-4a11-8b8a-c392470a8283",
+      "url": "https://d8j0ntlcm91z4.cloudfront.net/user_2zs4TXKZILG9oDiY1L03YTxgUob/hf_20261109_063223_2b14b19a-0df8-4a11-8b8a-c392470a8283.glb",
+      "raw": "1,985,382 tris, 65 MB (not committed)"
+    },
+    "human": {
+      "model": "tripo_h3_1_multiview_to_3d (detailed/detailed, pbr, face_limit 400000)",
+      "job": "b62f8d03-c414-4dfd-865e-80d6836211dd",
+      "url": "https://d8j0ntlcm91z4.cloudfront.net/user_2zs4TXKZILG9oDiY1L03YTxgUob/hf_20261109_065404_b62f8d03-c414-4dfd-865e-80d6836211dd.glb",
+      "raw": "20 MB (not committed)"
+    },
+    "rejected": {
+      "model": "meshy_v7_image_to_3d",
+      "job": "55fee2dd-12b6-4e29-997f-553f77aa333f",
+      "why": "single image: shell pattern smeared onto the back of the head"
+    },
+    "reveal": "cut from the clean yokai mesh by source/v2/pipeline/reveal_prop.py (no generation)"
+  },
+  "pipeline": "source/v2/characters/mizu/build.py -> source/v2/pipeline/* (bpy 5.2.3)",
+  "animation": "procedural keyframes: source/v2/pipeline/motion_lib.py + source/v2/characters/mizu/motion.py, motion_human.py (no mocap, no library clips)",
+  "outputs": {
+    "yokai": "source/v2/characters/mizu/export/mizu_yokai.glb",
+    "human": "source/v2/characters/mizu/export/mizu_human.glb",
+    "reveal": "source/v2/characters/mizu/export/mizu_reveal.glb",
+    "portrait": "public/assets/ui/portraits/mizu.webp"
+  },
+  "credits": {
+    "images": 35.75,
+    "3d": 74,
+    "total": 109.75,
+    "note": "includes the rejected Meshy comparison (38)"
+  },
+  "license": "Generated with the user's Higgsfield account for this project; concept art is the project's own."
+}

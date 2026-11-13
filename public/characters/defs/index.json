@@ -1,5 +1,7 @@
 {
   "version": 1,
   "note": "List character ids that ship a v2 def (<id>.json in this folder). Unlisted characters use the legacy rig. See HANDOFF.md for the def schema.",
-  "characters": []
+  "characters": [
+    "mizu"
+  ]
 }

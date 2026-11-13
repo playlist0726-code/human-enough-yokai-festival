@@ -1,0 +1,14 @@
+{
+  "id": "mizu",
+  "version": 2,
+  "forms": {
+    "yokai": "/assets/models/v2/mizu_yokai.glb",
+    "human": "/assets/models/v2/mizu_human.glb"
+  },
+  "reveal": "/assets/models/v2/mizu_reveal.glb",
+  "formGait": {
+    "yokai": {"walkSpeed": 2.591, "runSpeed": 5.02},
+    "human": {"walkSpeed": 2.333, "runSpeed": 4.273}
+  },
+  "note": "R03 pilot. Source and rebuild: source/v2/characters/mizu/build.py. formGait comes from build/v2/<id>/gait.json (treadmill speed of the planted foot in runtime units)."
+}

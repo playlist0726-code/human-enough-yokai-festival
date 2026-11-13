@@ -40,13 +40,17 @@ export function validateDef(def){
   for(const [form,url] of Object.entries(forms))if(!['yokai','human'].includes(form)||typeof url!=='string'||!url.endsWith('.glb'))errors.push(`forms.${form} must be a .glb path`);
   if(def.reveal!==undefined&&(typeof def.reveal!=='string'||!def.reveal.endsWith('.glb')))errors.push('reveal must be a .glb path');
   for(const [key,value] of Object.entries(def.gait||{}))if(!(key in DEFAULTS.gait)||typeof value!=='number'||!(value>=0))errors.push(`gait.${key} is not a known positive number`);
+  for(const [form,g] of Object.entries(def.formGait||{})){if(!['yokai','human'].includes(form))errors.push(`formGait.${form} must be yokai or human`);for(const [key,value] of Object.entries(g||{}))if(!(key in DEFAULTS.gait)||typeof value!=='number'||!(value>=0))errors.push(`formGait.${form}.${key} is not a known positive number`);}
   for(const [key,value] of Object.entries(def.clips||{}))if(typeof value!=='string')errors.push(`clips.${key} must name a clip`);
   return errors;
 }
 
 /** Fill defaults. `clips` maps contract names to the names inside the GLB (identity by default). */
 export function normalizeDef(def){
-  return {...def,height:{...DEFAULTS.height,...def.height},gait:{...DEFAULTS.gait,...def.gait},clips:{...def.clips},crossfade:def.crossfade??DEFAULTS.crossfade};
+  const gait={...DEFAULTS.gait,...def.gait};
+  // formGait: per-form treadmill speeds measured by the pipeline (build/v2/<id>/gait.json); a yokai and its disguise walk differently
+  const formGait=Object.fromEntries(Object.entries(def.formGait||{}).map(([form,g])=>[form,{...gait,...g}]));
+  return {...def,height:{...DEFAULTS.height,...def.height},gait,formGait,clips:{...def.clips},crossfade:def.crossfade??DEFAULTS.crossfade};
 }
 
 /** Loads defs/index.json and every listed def. Invalid or missing defs are skipped (that character stays legacy). */
@@ -124,6 +128,12 @@ export function selectBaseClip(p,ctx){
   return speed>g.runThreshold?'run':speed>g.idleBelow?'walk':'idle';
 }
 
+/**
+ * Transformation opening (R10 timeline via actors.mjs `transformationPose`): stand still, then
+ * the "ta-da" beat (cover>0 after the pop) plays victory. The charm beat comes through the upper layer.
+ */
+export function openingClip(p){return (p.cover||0)>0?'victory':'idle';}
+
 /** Upper-body layer clip for the current action, or null. */
 export function selectUpperClip(p){
   return p.action==='drink'?'drink_potion':p.action==='charm'?'charm_cast':p.action==='cover'?'cover_ward':null;
@@ -179,6 +189,30 @@ export function createClipPlayer(root,animations,{clipNames={},fade=DEFAULTS.cro
   };
 }
 
+/** Meshes carrying the contract face morphs (face_blink, optional face_shock). */
+export function faceMorphs(object){
+  const out=[];
+  object.traverse(n=>{const d=n.morphTargetDictionary;if(n.isMesh&&d&&('face_blink' in d||'face_shock' in d))out.push({mesh:n,blink:d.face_blink,shock:d.face_shock});});
+  return out;
+}
+
+/**
+ * Face weights for this frame. Pure apart from the state object it advances.
+ * Blinks every 2.2-5 s (0.16 s long, double-blink sometimes); eyes widen in reveal_panic/hit, droop when sealed.
+ */
+export function faceWeights(state,dt,clip){
+  state.t=(state.t||0)+dt;
+  if(state.next==null)state.next=state.t+1.5+((state.seed||0)%1)*2;
+  if(state.t>=state.next){state.blinkAt=state.t;const r=Math.abs(Math.sin(state.t*12.9898+(state.seed||0))*43758.5453)%1;state.next=state.t+2.2+r*2.8;if(r<.18)state.double=state.t+.28;}
+  const pulse=at=>{if(at==null)return 0;const x=(state.t-at)/.16;return x<0||x>1?0:Math.sin(Math.PI*x);};
+  const shockTarget=clip==='reveal_panic'||clip==='hit'?1:0;
+  state.shock=THREE.MathUtils.lerp(state.shock||0,shockTarget,1-Math.exp(-dt*(shockTarget?30:8)));
+  const blink=clip==='sealed'?.7:Math.max(pulse(state.blinkAt),pulse(state.double))*(1-state.shock);
+  return {blink,shock:state.shock};
+}
+
+function applyFace(morphs,w){for(const m of morphs){const inf=m.mesh.morphTargetInfluences;if(m.blink!=null)inf[m.blink]=w.blink;if(m.shock!=null)inf[m.shock]=w.shock;}}
+
 function normalizeForm(object,height){
   object.updateMatrixWorld(true);
   const box=new THREE.Box3().setFromObject(object),size=box.getSize(new THREE.Vector3());
@@ -200,7 +234,7 @@ export function createV2Rig(def,assets){
   for(const form of ['yokai','human']){
     const asset=assets[form];if(!asset)continue;
     const holder=normalizeForm(asset.scene,def.height[form]);holder.name=`v2-${def.id}-${form}`;root.add(holder);
-    forms[form]={holder,model:asset.scene,player:createClipPlayer(asset.scene,asset.animations||[],{clipNames:def.clips,fade:def.crossfade}),asset:def.forms[form]};
+    forms[form]={holder,model:asset.scene,player:createClipPlayer(asset.scene,asset.animations||[],{clipNames:def.clips,fade:def.crossfade}),asset:def.forms[form],face:faceMorphs(asset.scene),faceState:{seed:form==='human'?.37:.71}};
   }
   const formNames=Object.keys(forms);
   if(!formNames.length)throw Error(`v2 rig ${def.id} has no forms`);
@@ -247,8 +281,8 @@ function updateV2Rig(r,p,dt,time,tick,position,options){
   r.wasAirborne=airborne;
   const revealed=form==='human'&&(options.revealed??disguiseState(p,tick).revealed);
   if(revealed&&r.revealStartedAt==null)r.revealStartedAt=r.time;else if(!revealed)r.revealStartedAt=null;
-  const f=r.forms[form],player=f.player,gait=r.def.gait;
-  let base=selectBaseClip(p,{speed:r.speed,tick,phase:options.phase,gait,justLanded:r.time<r.landUntil,revealAge:r.revealStartedAt==null?null:r.time-r.revealStartedAt,form});
+  const f=r.forms[form],player=f.player,gait=r.def.formGait?.[form]||r.def.gait;
+  let base=transform?openingClip(p):selectBaseClip(p,{speed:r.speed,tick,phase:options.phase,gait,justLanded:r.time<r.landUntil,revealAge:r.revealStartedAt==null?null:r.time-r.revealStartedAt,form});
   if(base==='jump_start'&&player.state.base==='jump_start'&&player.finished('jump_start'))base='jump_air';
   const current=player.state.base;
   const holdOneShot=current&&!LOOPING.has(current)&&!player.finished(current)&&(PRIORITY[base]??0)<=(PRIORITY[current]??0)&&base!==current;
@@ -259,6 +293,7 @@ function updateV2Rig(r,p,dt,time,tick,position,options){
   player.update(dt);
   if(!player.has('sealed'))root.rotation.z=THREE.MathUtils.lerp(root.rotation.z,p.health===0?.65:0,1-Math.exp(-dt*8));
   r.gaitPhase=player.state.base==='walk'||player.state.base==='run'?(r.gaitPhase+dt*r.speed)%(Math.PI*2):r.gaitPhase;
+  if(f.face.length){const w=faceWeights(f.faceState,dt,player.state.base);applyFace(f.face,w);r.face=w;}
   r.clip.base=player.state.base;r.clip.upper=player.state.upper;
   if(r.forms.human){
     r.revealBlend=THREE.MathUtils.lerp(r.revealBlend,revealed?1:0,1-Math.exp(-dt*22));

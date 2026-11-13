@@ -217,3 +217,26 @@
 
 ### 검증
 - check 71 files OK · test 134/134 · integration 5/5 · build OK(491 assets, 52.9 → 17.4 MB) · 브라우저(솔로 연습: 타이틀 → 오프닝 → 플레이, 포션·점프·결계·핑) JS 오류·HTTP 오류 0.
+
+## 2026-11-13 · C방 · R03 미즈 파일럿 · 캐릭터 파이프라인 v1 (`remaster/r03-mizu-pilot`)
+
+### 바뀐 것
+- 미즈 v2: `public/assets/models/v2/mizu_{yokai,human,reveal}.glb`(validator PASS, 런타임 1.18/1.00/0.12 MB), `public/characters/defs/mizu.json`, `index.json`에 등록 → 미즈를 고르면 새 모델. `?rig=legacy`로 비교.
+- 재사용 파이프라인 `source/v2/pipeline/`(clean·rig·animate·export·reveal_prop·preview·review_capture·build_character, motion_lib) + 문서 `docs/production/CHARACTER_PIPELINE.md`.
+- 공용 인간 몸 `source/v2/characters/human-base/`(base.json·motion.py·base_front 레퍼런스·prompt.txt).
+- rig-v2: 얼굴 모프(깜빡임·놀람·봉인), 폼별 걸음 `formGait`, 오프닝 클립 `openingClip`.
+- R05 초상화 슬롯에 `mizu.webp` 등록. R10 오프닝 훅을 v2가 받게 연결.
+
+### 다른 방이 알아야 할 인터페이스
+- **R06~R09·R11 캐릭터 방**: `CHARACTER_PIPELINE.md` 순서대로. 설정 하나(`character.json`)와 `motion.py`로 요괴가 나오고, 인간 변장은 `"extends": "source/v2/characters/human-base/base.json"`. 리빌 소품은 요괴 메시에서 잘라낸다(`reveal.json`).
+- **R09**: human-base의 골격 비율·소켓·걸음을 그대로 쓴다. 모든 인간 턴어라운드는 `human-base/turnaround/base_front.webp`(job d0bc7162)를 첫 레퍼런스로.
+- **def 스키마 추가**: `formGait: {yokai:{walkSpeed,runSpeed}, human:{...}}`(파이프라인의 `build/v2/<id>/gait.json` 값). 없으면 `gait`를 쓴다.
+- **얼굴 모프**: GLB에 `face_blink`·`face_shock`이 있으면 rig-v2가 자동으로 움직인다(눈 재질 `<id>_eyes`에서 생성).
+- **R10**: 오프닝 동안 `cover>0` → `victory`, `action:'charm'` → 상체 `charm_cast`. 폼 전환 0.51 그대로.
+- **R05**: 초상화는 `review_capture.py`가 키아트 조명으로 512² 투명 PNG를 만든다.
+- **클라우드 세션의 결과 받기**: Higgsfield CDN이 막혀 있으면 사용자 맥의 내장 브라우저로 받아 스테이징(문서 1장).
+
+### 다음 할 일
+- R14/사용자: 실제 GPU에서 `?perf=1` 수치(샌드박스는 전체 게임 세션이 끊겨 못 잼). 캐릭터당 삼각형은 기존 50~186k → 22k/13.5k.
+- C방: R06 폰·콘.
+- 다듬을 거리: 변장 볼의 물방울 점, 변장 손 색(조금 회색).
