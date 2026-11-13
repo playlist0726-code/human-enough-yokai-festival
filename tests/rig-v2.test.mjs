@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import * as THREE from 'three';
 import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';
 import {makeContractGlb} from './fixtures/make-contract-glb.mjs';
-import {validateDef,normalizeDef,loadDefs,rigMode,selectBaseClip,selectUpperClip,resolveClip,locomotionScale,upperBodyClip,createV2Rig,createRigFactory,DEFAULTS,PLAYER_CLIPS} from '../public/characters/rig-v2.mjs';
+import {validateDef,normalizeDef,loadDefs,rigMode,selectBaseClip,selectUpperClip,resolveClip,locomotionScale,upperBodyClip,createV2Rig,createRigFactory,faceWeights,faceMorphs,openingClip,DEFAULTS,PLAYER_CLIPS} from '../public/characters/rig-v2.mjs';
 
 const DEF={id:'mizu',version:2,forms:{yokai:'/assets/models/v2/mizu_yokai.glb',human:'/assets/models/v2/mizu_human.glb'}};
 async function parse(options={}){const b=makeContractGlb({texture:false,...options});return new GLTFLoader().parseAsync(b.buffer.slice(b.byteOffset,b.byteOffset+b.length),'');}
@@ -119,4 +119,24 @@ test('rig factory: legacy by default, v2 when a def loads, legacy again on any f
   const broken=new Map([['mizu',normalizeDef({...DEF,forms:{human:'/assets/models/v2/missing.glb'}})]]);
   assert.equal(await createRigFactory({defs:broken,loader,mode:'auto',createLegacy,animateLegacy,log:quiet}).upgrade('mizu'),null,'load error falls back');
   assert.equal(await createRigFactory({defs,loader:null,mode:'auto',createLegacy,animateLegacy}).upgrade('mizu'),null,'no loader');
+});
+
+test('face morphs: periodic blinks, wide eyes in reveal_panic/hit, droopy when sealed',()=>{
+  const st={seed:.3};let blinks=0,prev=0;
+  for(let i=0;i<30*12;i++){const w=faceWeights(st,1/30,'idle');if(w.blink>.5&&prev<=.5)blinks++;prev=w.blink;assert.ok(w.blink>=0&&w.blink<=1);}
+  assert.ok(blinks>=2&&blinks<=7,`blinks every few seconds (got ${blinks} in 12 s)`);
+  let w;for(let i=0;i<10;i++)w=faceWeights(st,1/30,'reveal_panic');assert.ok(w.shock>.9,'eyes widen during reveal_panic');assert.ok(w.blink<.1);
+  for(let i=0;i<30;i++)w=faceWeights(st,1/30,'walk');assert.ok(w.shock<.05,'and relax afterwards');
+  assert.equal(faceWeights(st,1/30,'sealed').blink,.7);
+  const mesh=new THREE.Mesh(new THREE.BufferGeometry());mesh.morphTargetDictionary={face_blink:0,face_shock:1};mesh.morphTargetInfluences=[0,0];
+  const g=new THREE.Group();g.add(mesh);assert.deepEqual(faceMorphs(g).map(m=>[m.blink,m.shock]),[[0,1]]);
+});
+
+test('transformation opening: R10 pose fields drive v2 clips (charm hands, ta-da victory)',async()=>{
+  const {transformationPose}=await import('../public/transformation.mjs');
+  const beats=[.05,.3,.62,.95].map(t=>{const p=transformationPose(t,0);return [openingClip(p),selectUpperClip(p)];});
+  assert.deepEqual(beats[0],['idle',null]);
+  assert.equal(beats[1][1],'charm_cast','magic hands before the pop');
+  assert.equal(beats[2][0],'victory','ta-da after the pop');
+  assert.deepEqual(beats[3],['idle',null]);
 });

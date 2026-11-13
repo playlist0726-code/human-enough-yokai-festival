@@ -1,0 +1,21 @@
+# Mizu — prompts used (gpt_image_2_6, quality high, 2k, 1:1)
+
+## Yokai front (refs: mizu-reference.png, cast.png column 1)
+Production character turnaround reference for a 3D game model. Character: MIZU, the exact same design as the reference images (do not redesign): a chubby kappa yokai with a big rounded teal-turquoise head, ONE huge cyclops eye (cream sclera, large glossy black pupil), soft pink blush cheeks, small wavy pouty mouth, a crown of thick green rounded leaves around the top of the head holding a glowing blue water dish on top, a dark green turtle shell on the back, an orange yukata with cream seigaiha wave pattern, navy blue obi belt, short stubby teal legs, brown wooden geta sandals. Proportions: head about as big as the body, small blunt hands and feet.
+VIEW: straight FRONT view, orthographic, camera at chest height, full body centered with margin on all sides.
+POSE: neutral A-pose for rigging: arms held straight out and down at about 45 degrees away from the body, hands open and empty, fingers relaxed, legs straight and slightly apart, feet flat, facing the camera, neutral calm expression.
+STYLE: soft matte vinyl toy / clay 3D render, smooth rounded forms, no sharp edges, even soft studio lighting, no strong shadows, no rim light.
+BACKGROUND: flat uniform light gray (#c8c8c8), no floor, no shadow on ground.
+EXCLUDE: no potion bottle, nothing held in hands, no floating water droplets, no text, no labels, no extra characters, no props, nothing cropped.
+
+## Yokai left / back / right / 3-4 (refs: front job, cast column)
+Same character, same A-pose, same scale, same framing, same lighting and same flat light gray (#c8c8c8) background as the first reference image (the front view). Change ONLY the camera angle: exact orthographic LEFT SIDE PROFILE view — the character is turned 90 degrees so its nose/face points toward the LEFT edge of the image. ... (BACK: camera directly behind; RIGHT: face toward the RIGHT edge; THREE-QUARTER: rotated ~40 degrees)
+
+## Human base body (shared, human-base) — see source/v2/characters/human-base/
+## Human disguise front (refs: human-base front, yokai front)
+Production turnaround reference for a 3D game: MIZU'S HUMAN DISGUISE. Use EXACTLY the body proportions, head size, face construction, A-pose and matte vinyl toy 3D render style of the first reference image (the human base body). Dress and color it after the second reference image (Mizu the kappa yokai), so players can tell who is in disguise:
+- outfit: the same orange yukata with cream seigaiha wave pattern, crossed collar, short sleeves to mid-forearm, navy blue obi belt tied with a flat knot at the front, brown wooden geta sandals.
+- hair: short, slightly messy hair in dark teal (#253e40), visibly WET and slick with a glossy water sheen, a few water droplets dripping from the tips onto the forehead and cheeks — the one kappa trace the disguise cannot hide.
+- skin: light warm skin with a faint cool teal tint and soft pink blush cheeks like Mizu.
+- face: two big round dark glossy eyes with two white highlights, small nervous wobbly smile, one bead of sweat.
+(VIEW/POSE/BACKGROUND/EXCLUDE as above; no leaf crown, no water dish, no turtle shell)

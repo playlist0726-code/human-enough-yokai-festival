@@ -1,0 +1,46 @@
+{
+  "note": "Shared human body for all disguises (R03) and NPCs (R09). A disguise config sets \"extends\": \"source/v2/characters/human-base/base.json\" and overrides id/raw/materials/sockets.socket_reveal. Joint positions are fractions of height, left side only. Generate every human from base_front.png (turnaround reference) so these joints fit.",
+  "form": "human",
+  "profile": "disguise",
+  "jpeg_quality": 84,
+  "export_texture_size": {"normal": 512, "orm": 512},
+  "height_m": 1.55,
+  "yaw_deg": -90,
+  "target_tris": 13500,
+  "min_island": 0.015,
+  "texture": {"base": 2048, "orm": 1024, "normal": 1024},
+  "ao_samples": 48,
+  "roughness": {"body": [0.55, 0.78]},
+  "cloth_sheen": 0.35,
+  "ao_strength": 0.4,
+  "skeleton": {
+    "Hips": [0, 0, 0.26],
+    "Spine": [0, 0, 0.33],
+    "Spine1": [0, 0, 0.4],
+    "Neck": [0, 0, 0.5],
+    "Head": [0, 0, 0.545],
+    "HeadTop": [0, 0, 0.99],
+    "LeftShoulder": [0.04, 0, 0.46],
+    "LeftArm": [0.165, 0, 0.45],
+    "LeftForeArm": [0.245, 0, 0.378],
+    "LeftHand": [0.305, 0, 0.324],
+    "LeftHandTip": [0.335, 0, 0.29],
+    "LeftUpLeg": [0.075, 0, 0.25],
+    "LeftLeg": [0.085, 0, 0.135],
+    "LeftFoot": [0.094, 0, 0.064],
+    "LeftToeBase": [0.094, -0.045, 0.02],
+    "LeftToeTip": [0.094, -0.085, 0.02]
+  },
+  "extra_bones": [],
+  "weight_overrides": [
+    {"bone": "Head", "box": [-0.7, -0.7, 0.56, 0.7, 0.7, 1.2], "falloff": 0.03}
+  ],
+  "sockets": {
+    "socket_hand_R": {"bone": "RightHand", "at": [-0.325, -0.02, 0.31]},
+    "socket_hip_L": {"bone": "Hips", "at": [0.14, -0.08, 0.34]},
+    "socket_head_top": {"bone": "Head", "at": [0, 0, 1.0]},
+    "socket_reveal": {"bone": "Head", "at": [0, 0, 0.97]}
+  },
+  "morphs": {"eye_material": "eyes", "blink_squash": 0.1},
+  "motion_file": "source/v2/characters/human-base/motion.py"
+}
