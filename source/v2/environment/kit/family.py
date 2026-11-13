@@ -350,7 +350,7 @@ def path_tiles():
     from mathutils import Vector
     objs = []
     rng = random.Random(7)
-    tints = ['#e3d6c0', '#d6c8b0', '#eadcc4', '#cfc3ae', '#ddcfb6']
+    tints = ['#fff6e6', '#f3e6d0', '#fffaf0', '#ecdfca', '#f8ecd8']
     for k, name in enumerate('abcd'):  # prop profile allows 4 primitives; runtime adds 180-degree turns and tints
         B = Builder(f'tile_{name}')
         b = bmesh.new()

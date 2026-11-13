@@ -1,10 +1,35 @@
 {
-  "assets": ["kit_wood.png", "kit_cloth.png", "kit_paint.png", "kit_stone.png", "kit_ground.png", "env_stall_fish.glb"],
-  "tools": ["Blender 5.2.3 LTS (pip bpy, headless)", "numpy + Pillow (procedural textures)"],
+  "assets": [
+    "kit_wood.png",
+    "kit_cloth.png",
+    "kit_paint.png",
+    "kit_stone.png",
+    "kit_ground.png(+public kit_ground.webp)",
+    "env_stall_fish",
+    "env_stall_shoot",
+    "env_stall_ring",
+    "env_stall_cook",
+    "env_stall_fortune",
+    "env_stall_ice",
+    "env_lantern_paper",
+    "env_lantern_stone",
+    "env_path_tiles"
+  ],
+  "tools": [
+    "Blender 5.2.3 LTS (pip bpy, headless)",
+    "numpy + Pillow (procedural textures)"
+  ],
   "method": "Textures are procedural (textures.py, fixed seeds). Geometry is scripted (kitlib.py, stallkit.py, <id>/build.py). Re-run the scripts to rebuild byte-for-byte equivalent assets.",
   "generated": [
-    {"tool": "Higgsfield generate_image", "model": "gpt_image_2_6", "job_id": "c56516fc-fe2d-4dbc-949e-0084ac7f92bf", "credits": 0.25, "prompt": "seamless tileable hand-painted wooden planks", "used": false,
-     "note": "Not used: the result CDN (d8j0ntlcm91z4.cloudfront.net) is blocked from the cloud sandbox (proxy 403), so the image cannot reach the repo. Replaced by procedural textures."}
+    {
+      "tool": "Higgsfield generate_image",
+      "model": "gpt_image_2_6",
+      "job_id": "c56516fc-fe2d-4dbc-949e-0084ac7f92bf",
+      "credits": 0.25,
+      "prompt": "seamless tileable hand-painted wooden planks",
+      "used": false,
+      "note": "Not used: the result CDN (d8j0ntlcm91z4.cloudfront.net) is blocked from the cloud sandbox (proxy 403), so the image cannot reach the repo. Replaced by procedural textures."
+    }
   ],
   "human_edits": "none"
 }

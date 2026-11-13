@@ -73,7 +73,7 @@ export function buildFestival(scene,potionNodes){
       const x=(row%2?col*.96-2.4:col*.96-1.92)+(edge?(col===0?.24:-.24):0)+Math.sin(z*.14)*.35;
       // R04: flagstones are instances of env_path_tiles (uneven tops, chipped corners, moss); softBox is the fallback.
       const slope=Math.atan2(groundHeight(x,z-.1)-groundHeight(x,z+.1),.2),turn=Math.sin(row*17+col*3)*.02+((row+col)%2?Math.PI:0),n=row*31+col*17;
-      const shade=.86+.14*Math.abs(Math.sin(n*1.7)),mossy=Math.sin(n*.37)>.72;
+      const shade=.9+.1*Math.abs(Math.sin(n*1.7)),mossy=Math.sin(n*.37)>.72;
       tileMatrix.compose(tilePos.set(x,groundHeight(x,z)-.015+.012*Math.sin(n*2.3),z),tileQuat.setFromEuler(tileEuler.set(slope,turn,0,'YXZ')),tileScale.set(w/.91,1,1));
       kit.pathTile(tileMatrix,n,new THREE.Color(mossy?'#b9c29a':'#ffffff').multiplyScalar(shade),()=>{
         const tile=softBox(world,pavingColors[(row*3+col*7)%5],x,groundHeight(x,z)+.03,z,w,.075,.77,.055);tile.rotation.x=slope;tile.rotation.y=Math.sin(row*17+col*3)*.014;});

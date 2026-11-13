@@ -1,8 +1,8 @@
 # B방 진행 상황 — 월드 룩(R02 밤 조명 → R04 환경)
 
-- 마지막 갱신: 2026-11-09 (America/Denver)
+- 마지막 갱신: 2026-11-13 (America/Denver)
 - 현재 브리프: **R04** · 브랜치 `remaster/r04-festival-kit`(R02 브랜치 위에 쌓음)
-- 상태: R02 완료(PR #5). **R04 히어로 에셋(금붕어 노점) 사용자 승인 대기**
+- 상태: R02 완료(PR #5, main 통합됨). R04 히어로 승인됨(2026-11-11) → 패밀리 제작 완료, PR 올림
 
 ## R02 끝난 것
 - [x] 클론, `npm ci`, check·test(112)·integration(5) 초록, 브랜치 생성
@@ -37,6 +37,17 @@
 - [x] 키트 라이브러리 `kit/kitlib.py`(게임 좌표 → Blender, 공유 재질 이름, 박스 UV, 정점 색), `kit/stallkit.py`(공용 노점 골격)
 - [x] 히어로 `env_stall_fish`(8,286 삼각형, 재질 4, validator PASS) + 런타임 로더(`KIT_STALLS`, 재질 이름별 공유, kit_water → 물 셰이더, 실패 시 절차 노점)
 - [x] 비교 `captures/r04/compare_fish_hero.jpg`, 근접 `fish_hero_closeup.png`
+
+- [x] 패밀리: 노점 5종(shoot·ring·cook·fortune·ice), 종이 등불, 석등, 돌길 타일 4종 — 전부 validator PASS
+- [x] 런타임 `public/festival-kit.mjs`: 노점 6개를 재질별 1메시로 병합, 등불·석등·타일 인스턴싱, 로드 실패 시 절차 버전
+- [x] 지면: `kit_ground.webp`(이끼·흙·낙엽), 돌길 줄눈은 어두운 흙색, 주변 지형 색 맞춤
+- [x] 페이드 구조물(도리이·등나무 퍼걸러)을 재질별로 병합(페이드 기능 유지) → scenery 드로우콜 103 → 37
+- [x] 드로우콜 분석 도구: `tools/lookdev.py --breakdown --nocast`
+- [x] 3장면 + 히어로 비교 보드, 테스트 추가(135 통과), main(통합 #6) 위로 리베이스
+
+## R04에서 만들지 않은 것(후속)
+- 도리이·신사·울타리·계단·바위·나무·배너·야구라는 기존 절차 버전 그대로(매니페스트에 표시)
+- 포션(15개 × 메시 15개 ≈ 322콜)과 상인·캐릭터가 모바일 드로우콜 대부분 — 환경 밖(R03·R14 요청)
 
 ## R04 결정 사항
 - Higgsfield 이미지는 결과 CDN(cloudfront)이 샌드박스에서 막혀(프록시 403) 저장소로 가져올 수 없음 → 텍스처를 절차적으로 생성(재실행 가능). 0.25 크레딧 1건 사용, `provenance.json`에 기록
