@@ -2,7 +2,7 @@
 
 - 현재 브리프: **R03** · 브랜치 `remaster/r03-mizu-pilot`
 - 마지막 갱신: 2026-11-13 00:30 (America/Denver)
-- 상태: **대표 결과물 승인 대기(게이트 A)** — 미즈 요괴·인간·리빌 GLB validator PASS, 게임 런타임 등록, 초상화·오프닝 훅 완료. 승인 후 PR
+- 상태: **R03 완료** — 사용자 승인(11-13 00:33), PR #8 https://github.com/playlist0726-code/human-enough-yokai-festival/pull/8
 
 ## 시작 점검
 - [x] 저장소 클론, `npm ci`, `npm run check`, `npm test` 112개 통과
@@ -53,8 +53,8 @@
 - 전체 게임 인게임 캡처는 샌드박스 소프트웨어 WebGL에서 세션이 끊김(R01과 같은 한계) → 실제 GPU 확인은 사용자/R14.
 
 ## 다음 단계
-1. 사용자 승인(게이트 A) → PR `[R03]`, 한 줄 보고
-2. 승인 후 R06(폰 → 승인 → 콘)
+1. ~~사용자 승인(게이트 A) → PR~~ 완료: PR #8
+2. R06(폰 → 승인 → 콘) — 브랜치 `remaster/r06-pon-kon`(R03 위에 쌓음)
 
 ## 진행 중인 job id
 - (없음 — 아래 완료 job들은 결과 URL에서 다시 받을 수 있음)
