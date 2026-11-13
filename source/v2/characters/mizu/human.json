@@ -5,7 +5,7 @@
   "raw_url": "https://d8j0ntlcm91z4.cloudfront.net/user_2zs4TXKZILG9oDiY1L03YTxgUob/hf_20261109_065404_b62f8d03-c414-4dfd-865e-80d6836211dd.glb",
   "height_m": 1.55,
   "materials": [
-    {"name": "eyes", "region": [-0.17, -0.6, 0.66, 0.17, -0.12, 0.75], "rules": [{"v_max": 0.13}]},
+    {"name": "eyes", "region": [-0.2, -0.6, 0.63, 0.2, -0.12, 0.755], "rules": [{"v_max": 0.42, "s_max": 0.5, "h_max": 0.16}, {"s_max": 0.15, "v_min": 0.9}]},
     {"name": "cloth", "region": [-0.5, -0.6, 0.06, 0.5, 0.6, 0.53], "rules": [{"h_min": 0.02, "h_max": 0.13, "s_min": 0.3}, {"h_min": 0.08, "h_max": 0.16, "s_max": 0.45, "v_min": 0.75}, {"h_min": 0.55, "h_max": 0.72, "s_min": 0.25, "v_max": 0.55}]}
   ],
   "motion_file": "source/v2/characters/mizu/motion_human.py",

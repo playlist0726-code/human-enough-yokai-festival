@@ -13,6 +13,50 @@ sys.path.insert(0, os.path.dirname(__file__))
 import charkit as K
 
 
+def reencode_images(path, quality, sizes=None):
+    """Re-encode every JPEG/PNG texture inside a GLB at `quality` (the Blender exporter ignores
+    export_jpeg_quality for packed images). Rebuilds the BIN chunk with 4-byte alignment."""
+    import io, json, struct
+    from PIL import Image
+    b = open(path, 'rb').read()
+    jl = struct.unpack('<I', b[12:16])[0]
+    g = json.loads(b[20:20 + jl])
+    bin_off = 20 + jl + 8
+    bin_data = b[bin_off:bin_off + struct.unpack('<I', b[20 + jl:24 + jl])[0]]
+    img_views = {}
+    for im in g.get('images', []):
+        v = g['bufferViews'][im['bufferView']]
+        raw = bin_data[v.get('byteOffset', 0):v.get('byteOffset', 0) + v['byteLength']]
+        pic = Image.open(io.BytesIO(raw))
+        for suffix, px in (sizes or {}).items():  # e.g. {"normal": 512} for small on-screen forms
+            if im.get('name', '').endswith(suffix) and pic.width > px:
+                pic = pic.resize((px, px), Image.LANCZOS)
+        out = io.BytesIO()
+        pic.convert('RGB').save(out, 'JPEG', quality=quality, optimize=True, progressive=False)
+        im['mimeType'] = 'image/jpeg'
+        img_views[im['bufferView']] = out.getvalue()
+    new = bytearray()
+    for i, v in enumerate(g['bufferViews']):
+        data = img_views.get(i)
+        if data is None:
+            data = bin_data[v.get('byteOffset', 0):v.get('byteOffset', 0) + v['byteLength']]
+        while len(new) % 4:
+            new.append(0)
+        v['byteOffset'] = len(new)
+        v['byteLength'] = len(data)
+        new += data
+    while len(new) % 4:
+        new.append(0)
+    g['buffers'][0]['byteLength'] = len(new)
+    js = json.dumps(g, separators=(',', ':')).encode()
+    js += b' ' * ((4 - len(js) % 4) % 4)
+    total = 12 + 8 + len(js) + 8 + len(new)
+    with open(path, 'wb') as f:
+        f.write(struct.pack('<4sII', b'glTF', 2, total))
+        f.write(struct.pack('<I4s', len(js), b'JSON')); f.write(js)
+        f.write(struct.pack('<I4s', len(new), b'BIN\x00')); f.write(new)
+
+
 def run(cfg_path):
     cfg = K.load_config(cfg_path)
     K.open_blend(K.build_path(cfg, cfg.get('export_stage', 'animated') + '.blend'))
@@ -39,6 +83,7 @@ def run(cfg_path):
         export_frame_step=1, export_optimize_animation_size=True, export_anim_single_armature=True,
         export_reset_pose_bones=True, export_current_frame=False, export_rest_position_armature=True,
         export_extras=False, export_cameras=False, export_lights=False)
+    reencode_images(out, cfg.get('jpeg_quality', 88), cfg.get('export_texture_size'))
     K.log('exported', os.path.relpath(out, K.REPO), os.path.getsize(out), 'bytes')
     r = subprocess.run(['node', os.path.join(K.REPO, 'tools/validate-glb.mjs'), out, '--profile', cfg.get('profile', 'player')],
                        capture_output=True, text=True)

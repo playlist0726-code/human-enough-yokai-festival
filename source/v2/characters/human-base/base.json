@@ -2,6 +2,8 @@
   "note": "Shared human body for all disguises (R03) and NPCs (R09). A disguise config sets \"extends\": \"source/v2/characters/human-base/base.json\" and overrides id/raw/materials/sockets.socket_reveal. Joint positions are fractions of height, left side only. Generate every human from base_front.png (turnaround reference) so these joints fit.",
   "form": "human",
   "profile": "disguise",
+  "jpeg_quality": 84,
+  "export_texture_size": {"normal": 512, "orm": 512},
   "height_m": 1.55,
   "yaw_deg": -90,
   "target_tris": 13500,

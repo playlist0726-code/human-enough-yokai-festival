@@ -6,7 +6,7 @@ _spec = _u.spec_from_file_location('human_base_motion', _os.path.join(_os.path.d
 _base = _u.module_from_spec(_spec); _spec.loader.exec_module(_base)
 
 STYLE = {k: (dict(v) if isinstance(v, dict) else v) for k, v in _base.STYLE.items()}
-STYLE['walk'].update({'hands': 'chest', 'arm_swing': 10, 'step': 0.22, 'frames': 13, 'lean': 4})
+STYLE['walk'].update({'hands': 'chest', 'arm_swing': 10, 'step': 0.26, 'lean': 4})
 STYLE['idle'].update({'hands': 'chest', 'look': 24})
 CLIPS = dict(_base.CLIPS)
 SECONDARY = {}

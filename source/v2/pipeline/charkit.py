@@ -20,20 +20,21 @@ def log(*a):
     print('[charkit]', *a, flush=True)
 
 
-def load_config(path):
+def load_config(path, _base=False):
     path = path if os.path.isabs(path) else os.path.join(REPO, path)
     with open(path) as f:
         cfg = json.load(f)
     if cfg.get('extends'):  # e.g. a human disguise built on source/v2/characters/human-base/base.json
-        base = load_config(cfg['extends'])
+        base = load_config(cfg['extends'], _base=True)
         base.pop('_dir', None)
-        base.pop('build_dir', None)
         merged = {**base, **{k: v for k, v in cfg.items() if not isinstance(v, dict) or not isinstance(base.get(k), dict)}}
         for k, v in cfg.items():
             if isinstance(v, dict) and isinstance(base.get(k), dict):
                 merged[k] = {**base[k], **v}
         cfg = merged
     cfg['_dir'] = os.path.dirname(path)
+    if _base:
+        return cfg
     cfg.setdefault('build_dir', f"build/v2/{cfg['id']}")
     os.makedirs(repo_path(cfg['build_dir']), exist_ok=True)
     return cfg

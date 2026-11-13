@@ -226,6 +226,7 @@ def morphs(cfg, mesh):
         p = mesh.data.vertices[i].co
         blink.data[i].co = Vector((p.x, p.y + (rz * 0.15 if p.y < c.y else 0), c.z + (p.z - c.z) * sq))
         shock.data[i].co = c + (p - c) * Vector((1.16, 1.0, 1.2))
+    blink.value = shock.value = 0.0  # Blender 5 adds new keys at 1.0; the contract default is 0
     K.log('morphs face_blink/face_shock on', len(eye_v), 'eye verts')
 
 

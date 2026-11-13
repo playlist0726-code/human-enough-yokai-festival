@@ -183,6 +183,7 @@ def key_clip(arm, solver, name, frames, upper):
     arm.animation_data_create()
     arm.animation_data.action = act
     pbs = arm.pose.bones
+    scaled = {n for B, P in frames for n, m in B.items() if any(abs(c - 1) > 1e-4 for c in m.to_scale())}
     for f, (B, P) in enumerate(frames):
         for n, m in B.items():
             if upper and n in LEG_BONES:
@@ -195,7 +196,7 @@ def key_clip(arm, solver, name, frames, upper):
             if n == 'Hips':
                 pb.location = loc
                 pb.keyframe_insert('location', frame=f, group=n)
-            if any(abs(c - 1) > 1e-4 for c in sca) or n in ('Spine1', 'Head') or n.startswith('x_'):
+            if n in scaled:  # only bones that squash/stretch in this clip get scale keys
                 pb.scale = sca
                 pb.keyframe_insert('scale', frame=f, group=n)
     arm.animation_data.action = None
