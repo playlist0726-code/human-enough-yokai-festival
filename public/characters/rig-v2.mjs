@@ -40,13 +40,17 @@ export function validateDef(def){
   for(const [form,url] of Object.entries(forms))if(!['yokai','human'].includes(form)||typeof url!=='string'||!url.endsWith('.glb'))errors.push(`forms.${form} must be a .glb path`);
   if(def.reveal!==undefined&&(typeof def.reveal!=='string'||!def.reveal.endsWith('.glb')))errors.push('reveal must be a .glb path');
   for(const [key,value] of Object.entries(def.gait||{}))if(!(key in DEFAULTS.gait)||typeof value!=='number'||!(value>=0))errors.push(`gait.${key} is not a known positive number`);
+  for(const [form,g] of Object.entries(def.formGait||{})){if(!['yokai','human'].includes(form))errors.push(`formGait.${form} must be yokai or human`);for(const [key,value] of Object.entries(g||{}))if(!(key in DEFAULTS.gait)||typeof value!=='number'||!(value>=0))errors.push(`formGait.${form}.${key} is not a known positive number`);}
   for(const [key,value] of Object.entries(def.clips||{}))if(typeof value!=='string')errors.push(`clips.${key} must name a clip`);
   return errors;
 }
 
 /** Fill defaults. `clips` maps contract names to the names inside the GLB (identity by default). */
 export function normalizeDef(def){
-  return {...def,height:{...DEFAULTS.height,...def.height},gait:{...DEFAULTS.gait,...def.gait},clips:{...def.clips},crossfade:def.crossfade??DEFAULTS.crossfade};
+  const gait={...DEFAULTS.gait,...def.gait};
+  // formGait: per-form treadmill speeds measured by the pipeline (build/v2/<id>/gait.json); a yokai and its disguise walk differently
+  const formGait=Object.fromEntries(Object.entries(def.formGait||{}).map(([form,g])=>[form,{...gait,...g}]));
+  return {...def,height:{...DEFAULTS.height,...def.height},gait,formGait,clips:{...def.clips},crossfade:def.crossfade??DEFAULTS.crossfade};
 }
 
 /** Loads defs/index.json and every listed def. Invalid or missing defs are skipped (that character stays legacy). */
@@ -123,6 +127,12 @@ export function selectBaseClip(p,ctx){
   const speed=ctx.speed||0;
   return speed>g.runThreshold?'run':speed>g.idleBelow?'walk':'idle';
 }
+
+/**
+ * Transformation opening (R10 timeline via actors.mjs `transformationPose`): stand still, then
+ * the "ta-da" beat (cover>0 after the pop) plays victory. The charm beat comes through the upper layer.
+ */
+export function openingClip(p){return (p.cover||0)>0?'victory':'idle';}
 
 /** Upper-body layer clip for the current action, or null. */
 export function selectUpperClip(p){
@@ -271,8 +281,8 @@ function updateV2Rig(r,p,dt,time,tick,position,options){
   r.wasAirborne=airborne;
   const revealed=form==='human'&&(options.revealed??disguiseState(p,tick).revealed);
   if(revealed&&r.revealStartedAt==null)r.revealStartedAt=r.time;else if(!revealed)r.revealStartedAt=null;
-  const f=r.forms[form],player=f.player,gait=r.def.gait;
-  let base=selectBaseClip(p,{speed:r.speed,tick,phase:options.phase,gait,justLanded:r.time<r.landUntil,revealAge:r.revealStartedAt==null?null:r.time-r.revealStartedAt,form});
+  const f=r.forms[form],player=f.player,gait=r.def.formGait?.[form]||r.def.gait;
+  let base=transform?openingClip(p):selectBaseClip(p,{speed:r.speed,tick,phase:options.phase,gait,justLanded:r.time<r.landUntil,revealAge:r.revealStartedAt==null?null:r.time-r.revealStartedAt,form});
   if(base==='jump_start'&&player.state.base==='jump_start'&&player.finished('jump_start'))base='jump_air';
   const current=player.state.base;
   const holdOneShot=current&&!LOOPING.has(current)&&!player.finished(current)&&(PRIORITY[base]??0)<=(PRIORITY[current]??0)&&base!==current;

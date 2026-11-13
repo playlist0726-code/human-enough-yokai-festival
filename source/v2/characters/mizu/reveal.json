@@ -2,13 +2,29 @@
   "id": "mizu_reveal",
   "source": "source/v2/characters/mizu/character.json",
   "select": {
-    "region": [-0.5, -0.5, 0.8, 0.5, 0.5, 1.1],
-    "exclude_rules": [{"h_min": 0.43, "h_max": 0.52, "s_min": 0.25, "v_max": 0.8}]
+    "region": [
+      -0.5,
+      -0.5,
+      0.8,
+      0.5,
+      0.5,
+      1.1
+    ],
+    "exclude_rules": [
+      {
+        "h_min": 0.43,
+        "h_max": 0.52,
+        "s_min": 0.25,
+        "v_max": 0.8
+      }
+    ]
   },
   "min_island": 0.02,
   "target_tris": 4500,
-  "width_m": 0.62,
-  "texture": {"base": 1024},
+  "width_m": 0.86,
+  "texture": {
+    "base": 1024
+  },
   "export": "source/v2/characters/mizu/export/mizu_reveal.glb",
   "runtime": "public/assets/models/v2/mizu_reveal.glb"
 }

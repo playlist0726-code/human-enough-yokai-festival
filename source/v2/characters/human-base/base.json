@@ -12,6 +12,7 @@
   "ao_samples": 48,
   "roughness": {"body": [0.55, 0.78]},
   "cloth_sheen": 0.35,
+  "ao_strength": 0.4,
   "skeleton": {
     "Hips": [0, 0, 0.26],
     "Spine": [0, 0, 0.33],

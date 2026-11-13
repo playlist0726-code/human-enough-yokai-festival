@@ -18,7 +18,19 @@
   → public/characters/defs/<id>.json + index.json 등록 → rig-v2가 재생
 ```
 
-캐릭터 하나(요괴 + 인간 변장 + 리빌 소품)의 실제 크레딧: **아래 4장 표** 참조(미즈 실측).
+캐릭터 하나(요괴 + 인간 변장 + 리빌 소품)의 실제 크레딧(미즈 실측):
+
+| 항목 | 크레딧 |
+|---|---|
+| 요괴 턴어라운드 5장(정면+좌·후·우·3/4) | 13.75 |
+| 요괴 3D Tripo multiview | 18 |
+| 인간 변장 턴어라운드 4장 | 11 |
+| 인간 변장 3D Tripo multiview | 18 |
+| 리빌 소품 | 0 (요괴 메시에서 잘라냄) |
+| **합계(비교 실험 제외)** | **≈ 61** |
+| (미즈만) human-base 정면 2.75 + Meshy 비교 38 | 40.75 |
+
+결과(미즈): 요괴 22,000 삼각형·2.55 MB → 런타임 1.18 MB, 인간 13,499·1.92 MB → 1.00 MB, 리빌 4,499·0.25 MB → 0.12 MB. 모두 validator PASS.
 
 ## 1. 준비
 
@@ -28,6 +40,7 @@ npm ci && npm run check && npm test
 ```
 - 중간 파일은 `build/v2/<id>/`(git 무시)에 생긴다: `clean.blend` → `rigged.blend` → `animated.blend`, 텍스처 PNG, `preview/`, `gait.json`.
 - 커밋하는 것: `source/v2/characters/<id>/`의 설정(`character.json`·`human.json`·`reveal.json`), `motion.py`, `build.py`, `turnaround/*.webp`, `export/*.glb`(+ `.validate.txt`), `provenance.json`, `prompt.txt`. 원본 생성 GLB는 크기가 커서(트리포 65 MB) 커밋하지 않고 `raw_url` + job id로 다시 받는다.
+- **결과 받기(클라우드 세션):** 샌드박스와 맥 셸 모두 Higgsfield CDN이 막혀 있으면, 사용자 맥의 **내장 브라우저**로 받는다: CDN 결과 URL 하나를 연 탭에서 `javascript_tool`로 `fetch` → `<a download>` 클릭(같은 출처라 CORS 없음) → `~/Downloads`에 저장 → `device_stage_files`로 작업 공간(`/mnt/user-data/uploads/Downloads/...`)에 가져온다. 큰 GLB(65 MB)도 된다. 한 번에 여러 개를 받으면 스크립트가 45초 제한에 걸리지만 다운로드는 계속되니, 파일이 생길 때까지 `device_bash`로 확인.
 - **클라우드 세션 주의:** 샌드박스에서 Higgsfield CDN(`*.cloudfront.net`, `upload.higgsfield.ai`)이 막혀 있으면 결과를 받을 수 없다. 사용자에게 claude.ai **Settings > Capabilities** 허용 도메인 추가를 요청한다(`d8j0ntlcm91z4.cloudfront.net`, `d2ol7oe51mr4n9.cloudfront.net`, `upload.higgsfield.ai`). 레퍼런스 업로드는 GitHub raw URL을 `media_import_url`로 넣으면 막히지 않는다. 평가 렌더는 Higgsfield `sandbox_exec`(헤드리스 Chromium + three.js)에서 할 수 있다(8장).
 
 ## 2. 턴어라운드(이미지)
@@ -130,6 +143,8 @@ npm run build   # 런타임 사본 압축(Meshopt + KTX2/WebP). 이미 압축된
 런타임(rig-v2)이 자동으로 하는 것: 높이 정규화, 크로스페이드, 걸음 속도 동기화, 상체 레이어, 소켓, **눈 깜빡임(2.2~5초), reveal_panic·hit에서 눈 크게, sealed에서 반쯤 감김**.
 
 ## 8. 검수(승인 전에 반드시)
+- **`review_capture.py`**(권장): `npm run dev` 후 `python3 -I source/v2/pipeline/review_capture.py --id <id> --out docs/production/captures/<brief>/review`. 게임의 rig-v2·R02 조명·게임 카메라(fov 55, 거리 9.5)로 game_distance, 클로즈업, 4방향, 리빌, 걷기 GIF 3개, 스튜디오 전신, **초상화(R05 슬롯용 512² 투명)**를 찍는다. 전체 게임은 소프트웨어 WebGL에서 세션이 끊기므로 이 페이지로 본다.
+- 초상화: `portrait.png` → `public/assets/ui/portraits/<id>.webp` + `index.json`의 `portraits`.
 - validator PASS(출력을 PR에).
 - `preview.py` 3뷰 + 뼈 + 걷기 스트립을 컨셉 시트 옆에 놓고 본다: 실루엣, 색, 무늬, 얼굴.
 - 게임 카메라 거리(캐릭터 화면 높이 약 120 px)에서 실루엣이 읽히는가.
@@ -139,6 +154,14 @@ npm run build   # 런타임 사본 압축(Meshopt + KTX2/WebP). 이미 압축된
 ## 9. 자주 생기는 결함과 해결
 | 증상 | 원인 | 해결 |
 |---|---|---|
+| 눈이 찌그러지고 볼이 튀어나옴 | Blender 5가 새 셰이프 키를 1.0으로 만듦 | rig가 0으로 고정(수정됨) |
+| 인간 눈에 유광 재질이 안 붙음 | 눈동자가 진갈색(명도 ~0.3) | eyes 규칙 `{"v_max":0.42,"s_max":0.5,"h_max":0.16}` + 흰 하이라이트 `{"s_max":0.15,"v_min":0.9}` |
+| three.js에서 금속처럼 번들거림 | ORM 파란 채널 압축 잔여 × metallicFactor 1 | export가 `metallicFactor: 0` 고정(수정됨) |
+| 눈 테두리가 반짝반짝 | 압축된 노멀맵 + 낮은 거칠기 | export가 눈 노멀맵 제거, 거칠기 0.25(수정됨) |
+| 얼굴에 회색 얼룩 | 머리카락 아래 AO | `ao_strength`(인간 0.4) |
+| JPEG 품질을 낮춰도 파일이 안 줄어듦 | 내보내기가 품질을 무시 | export 후 GLB 텍스처 재인코딩(`jpeg_quality`, `export_texture_size`) |
+| 리빌 소품이 머리 위에 뜸 | 소품 원점 = 가장 낮은 잎 끝 | 변장 설정에서 `socket_reveal`을 0.85~0.9H로 |
+| 걸음 배속이 1.8을 넘어 미끄러짐 | 치비 다리가 서버 속도(3.6 u/s)에 비해 짧음 | 보폭을 다리 길이 한계 가까이, 사이클 10~11프레임. `gait.json`으로 확인 |
 | 클립이 1.25배 길다 | Blender 기본 24 fps | animate가 30 fps로 고정(수정됨) |
 | Bone Heat 실패("failed to find solution") | 비다양체 생성 메시 | 복셀 대리 메시 → Data Transfer(기본 동작). `proxy_voxel`을 키우면 더 안정 |
 | 베이크에 검은 얼룩 | 레이가 고해상도 면을 못 찾음 | `cage`(기본 키의 1.2%)를 1.5~2%로 |
@@ -149,4 +172,4 @@ npm run build   # 런타임 사본 압축(Meshopt + KTX2/WebP). 이미 압축된
 | 원본 GLB 3 MB 초과 | PNG 텍스처 | export는 JPEG(q88). 그래도 넘으면 ORM·normal 512 |
 
 ## 개선 기록
-- (R03) v1 작성.
+- (R03) v1 작성. 실제 빌드에서 9장 결함 8개를 찾아 파이프라인에 반영, `review_capture.py` 추가, 맥 브라우저로 결과 받는 법 추가.

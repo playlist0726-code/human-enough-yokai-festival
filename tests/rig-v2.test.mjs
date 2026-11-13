@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import * as THREE from 'three';
 import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';
 import {makeContractGlb} from './fixtures/make-contract-glb.mjs';
-import {validateDef,normalizeDef,loadDefs,rigMode,selectBaseClip,selectUpperClip,resolveClip,locomotionScale,upperBodyClip,createV2Rig,createRigFactory,faceWeights,faceMorphs,DEFAULTS,PLAYER_CLIPS} from '../public/characters/rig-v2.mjs';
+import {validateDef,normalizeDef,loadDefs,rigMode,selectBaseClip,selectUpperClip,resolveClip,locomotionScale,upperBodyClip,createV2Rig,createRigFactory,faceWeights,faceMorphs,openingClip,DEFAULTS,PLAYER_CLIPS} from '../public/characters/rig-v2.mjs';
 
 const DEF={id:'mizu',version:2,forms:{yokai:'/assets/models/v2/mizu_yokai.glb',human:'/assets/models/v2/mizu_human.glb'}};
 async function parse(options={}){const b=makeContractGlb({texture:false,...options});return new GLTFLoader().parseAsync(b.buffer.slice(b.byteOffset,b.byteOffset+b.length),'');}
@@ -130,4 +130,13 @@ test('face morphs: periodic blinks, wide eyes in reveal_panic/hit, droopy when s
   assert.equal(faceWeights(st,1/30,'sealed').blink,.7);
   const mesh=new THREE.Mesh(new THREE.BufferGeometry());mesh.morphTargetDictionary={face_blink:0,face_shock:1};mesh.morphTargetInfluences=[0,0];
   const g=new THREE.Group();g.add(mesh);assert.deepEqual(faceMorphs(g).map(m=>[m.blink,m.shock]),[[0,1]]);
+});
+
+test('transformation opening: R10 pose fields drive v2 clips (charm hands, ta-da victory)',async()=>{
+  const {transformationPose}=await import('../public/transformation.mjs');
+  const beats=[.05,.3,.62,.95].map(t=>{const p=transformationPose(t,0);return [openingClip(p),selectUpperClip(p)];});
+  assert.deepEqual(beats[0],['idle',null]);
+  assert.equal(beats[1][1],'charm_cast','magic hands before the pop');
+  assert.equal(beats[2][0],'victory','ta-da after the pop');
+  assert.deepEqual(beats[3],['idle',null]);
 });

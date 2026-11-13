@@ -13,7 +13,7 @@ sys.path.insert(0, os.path.dirname(__file__))
 import charkit as K
 
 
-def reencode_images(path, quality, sizes=None):
+def reencode_images(path, quality, sizes=None, sheen=0.35, ao=1.0):
     """Re-encode every JPEG/PNG texture inside a GLB at `quality` (the Blender exporter ignores
     export_jpeg_quality for packed images). Rebuilds the BIN chunk with 4-byte alignment."""
     import io, json, struct
@@ -23,6 +23,23 @@ def reencode_images(path, quality, sizes=None):
     g = json.loads(b[20:20 + jl])
     bin_off = 20 + jl + 8
     bin_data = b[bin_off:bin_off + struct.unpack('<I', b[20 + jl:24 + jl])[0]]
+    # material fixes the Blender exporter cannot express:
+    #  - metallicFactor 0: the ORM blue channel is ~0 but JPEG/WebP chroma bleed leaves 0.05-0.15
+    #    and glTF multiplies it by a default metallicFactor of 1 -> plastic/metal shine in three.js
+    #  - sheen colour = cloth_sheen weight (the exporter writes white, far too satin)
+    for m in g.get('materials', []):
+        m.setdefault('pbrMetallicRoughness', {})['metallicFactor'] = 0
+        if 'occlusionTexture' in m:  # config ao_strength: soften baked AO (hair overhangs darken faces)
+            m['occlusionTexture']['strength'] = ao
+        if m.get('name', '').endswith('_eyes'):  # eyes are smooth glass: no baked normal noise, soft glossy
+            m.pop('normalTexture', None)
+            m['pbrMetallicRoughness']['roughnessFactor'] = 0.25
+            cc = m.get('extensions', {}).get('KHR_materials_clearcoat')
+            if cc:
+                cc['clearcoatRoughnessFactor'] = 0.12
+        sh = m.get('extensions', {}).get('KHR_materials_sheen')
+        if sh:
+            sh['sheenColorFactor'] = [sheen] * 3
     img_views = {}
     for im in g.get('images', []):
         v = g['bufferViews'][im['bufferView']]
@@ -83,7 +100,7 @@ def run(cfg_path):
         export_frame_step=1, export_optimize_animation_size=True, export_anim_single_armature=True,
         export_reset_pose_bones=True, export_current_frame=False, export_rest_position_armature=True,
         export_extras=False, export_cameras=False, export_lights=False)
-    reencode_images(out, cfg.get('jpeg_quality', 88), cfg.get('export_texture_size'))
+    reencode_images(out, cfg.get('jpeg_quality', 88), cfg.get('export_texture_size'), cfg.get('cloth_sheen', 0.35), cfg.get('ao_strength', 1.0))
     K.log('exported', os.path.relpath(out, K.REPO), os.path.getsize(out), 'bytes')
     r = subprocess.run(['node', os.path.join(K.REPO, 'tools/validate-glb.mjs'), out, '--profile', cfg.get('profile', 'player')],
                        capture_output=True, text=True)

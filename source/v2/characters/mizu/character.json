@@ -73,6 +73,7 @@
     ]
   },
   "cloth_sheen": 0.35,
+  "ao_strength": 0.75,
   "skeleton": {
     "Hips": [
       0,
