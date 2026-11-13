@@ -2,7 +2,7 @@
 
 - 마지막 갱신: 2026-11-13 (America/Denver)
 - 현재 브리프: **R04** · 브랜치 `remaster/r04-festival-kit`(R02 브랜치 위에 쌓음)
-- 상태: R02 완료(PR #5, main 통합됨). R04 히어로 승인됨(2026-11-11) → 패밀리 제작 완료, PR 올림
+- 상태: R02 완료(PR #5, main 통합됨). R04 히어로 승인됨(2026-11-11) → **R04 완료 — PR #7** https://github.com/playlist0726-code/human-enough-yokai-festival/pull/7
 
 ## R02 끝난 것
 - [x] 클론, `npm ci`, check·test(112)·integration(5) 초록, 브랜치 생성
