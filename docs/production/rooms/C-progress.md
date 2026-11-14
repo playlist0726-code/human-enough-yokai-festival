@@ -132,4 +132,4 @@
 - R09에게: kon_human `socket_reveal`은 허리 뒤(Hips, 약 [0, 0.1, 0.12]×키).
 
 ## R06 상태
-- 폰·콘 요괴 + 리빌 완료, `defs/pon.json`·`defs/kon.json` 작성(인덱스 등록은 R09 인간 폼 뒤). PR 생성.
+- 폰·콘 요괴 + 리빌 완료, `defs/pon.json`·`defs/kon.json` 작성(인덱스 등록은 R09 인간 폼 뒤). PR #9 https://github.com/playlist0726-code/human-enough-yokai-festival/pull/9 (base: R03 브랜치)
