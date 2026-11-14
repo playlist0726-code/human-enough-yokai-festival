@@ -9,7 +9,7 @@ Materials are shared across the kit by name, so the runtime can merge every stal
 draw call per material:
   kit_wood  kit_cloth  kit_paint  (textured, tinted by vertex colour)
   kit_water (replaced at runtime by the animated water shader)
-  kit_glow  (emissive, lantern paper / signs)
+  kit_glow  (emissive paper: kit_lantern.png is the glow gradient, v = 0.5 is the hot centre)
 """
 import math
 import os
@@ -27,7 +27,7 @@ MATS = {
     'kit_paint': {'tex': 'kit_paint.png', 'rough': .55},
     'kit_stone': {'tex': 'kit_stone.png', 'rough': .92},
     'kit_water': {'tex': None, 'rough': .1, 'color': (.18, .42, .55, 1)},
-    'kit_glow': {'tex': 'kit_paint.png', 'rough': .8, 'emit': 1.0, 'emit_color': (1.0, .72, .42, 1)},
+    'kit_glow': {'tex': 'kit_lantern.png', 'rough': .8, 'emit': 1.0, 'emit_color': (1.0, .72, .42, 1)},
 }
 
 

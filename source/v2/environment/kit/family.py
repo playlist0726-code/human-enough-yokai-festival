@@ -320,7 +320,7 @@ def lantern_stone():
     cyl(B, 'kit_stone', st, 0, .62, 0, .15, .7, segs=10, r2=.115, tile=1.1)
     box(B, 'kit_stone', st2, 0, 1.01, 0, .54, .1, .54, bevel=.035, segs=2, tile=1.1)
     # firebox: stone corner posts, glowing windows with a cross bar
-    box(B, 'kit_glow', '#ffffff', 0, 1.26, 0, .3, .38, .3, bevel=.0)
+    box(B, 'kit_glow', '#ffffff', 0, 1.26, 0, .3, .38, .3, bevel=.0, tile=.504)  # v = 0.5 (brightest) at the window centre
     for sx in (-1, 1):
         for sz in (-1, 1):
             box(B, 'kit_stone', st, sx * .17, 1.26, sz * .17, .07, .42, .07, bevel=.015, tile=1.1, grain='y')

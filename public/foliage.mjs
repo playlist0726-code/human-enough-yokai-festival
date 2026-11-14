@@ -42,7 +42,7 @@ function breezeMaterial(color,time){
   mat.customProgramCacheKey=()=> 'festival-leaf-breeze-v1';return mat;
 }
 function instances(root,name,geometry,material,count){const m=new THREE.InstancedMesh(geometry,material,count);m.name=name;m.castShadow=true;m.receiveShadow=true;root.add(m);return m;}
-export function buildFoliage(scene){
+export function buildFoliage(scene,kit=null){
   const root=new THREE.Group();root.name='living-festival-garden';scene.add(root);
   const plan=plantingPlan(),time={value:0},leaf=leafGeometry(),dummy=new THREE.Object3D(),color=new THREE.Color();
   const green=instances(root,'layered-broadleaf-canopies',leaf,breezeMaterial('#ffffff',time),plan.trees.length*180);
@@ -53,7 +53,9 @@ export function buildFoliage(scene){
   const greens=['#7eaa66','#92b274','#6f9c65','#a2b77e','#5c8b69'];let lc=0,bc=0,gc=0,fc=0;
   function place(mesh,index,x,y,z,sx,sy,sz,rx=0,ry=0,rz=0,tint=null){dummy.position.set(x,y,z);dummy.rotation.set(rx,ry,rz);dummy.scale.set(sx,sy,sz);dummy.updateMatrix();mesh.setMatrixAt(index,dummy.matrix);if(tint)mesh.setColorAt(index,color.set(tint));}
   function branch(a,b,r1,r2){const aa=new THREE.Vector3(...a),bb=new THREE.Vector3(...b),dir=bb.clone().sub(aa);const g=new THREE.CylinderGeometry(r2,r1,dir.length(),9,3);dummy.position.copy(aa).add(bb).multiplyScalar(.5);dummy.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0),dir.normalize());dummy.scale.set(1,1,1);dummy.updateMatrix();trunks.push(g.applyMatrix4(dummy.matrix));}
-  plan.trees.forEach((tree,index)=>{
+  // R04-2: with the festival kit, trees are modelled GLB instances (pine / broadleaf / cherry); the leaf-built trees stay as the no-kit path.
+  if(kit)plan.trees.forEach((tree,index)=>{const y=groundHeight(tree.x,tree.z);kit.propAt(tree.blossom?'env_tree_cherry':index%3===0?'env_tree_pine':'env_tree_broadleaf',tree.x,y-.03,tree.z,{yaw:random(index+500)*Math.PI*2,scale:tree.scale*(tree.blossom?1.1:1.05)});});
+  else plan.trees.forEach((tree,index)=>{
     const {x,z,scale:s,blossom:pink}=tree,y=groundHeight(x,z),height=3.4*s;
     branch([x,y,z],[x+.13,y+height,z-.1],.38*s,.16*s);
     for(let k=0;k<5;k++){const a=k*Math.PI*2/5+.3;branch([x+Math.sin(a)*.65,y+.05,z+Math.cos(a)*.65],[x,y+.8,z],.07,.18);branch([x,y+height*.6,z],[x+Math.sin(a)*1.25*s,y+height+.35,z+Math.cos(a)*1.25*s],.15,.045);}
@@ -65,7 +67,7 @@ export function buildFoliage(scene){
       if(pink&&i<160){place(blossom,bc++,px,py+.18,pz,.16,.11,.17,0,a,0,['#ecc2ce','#f4d6cf','#d7a9c6'][i%3]);}
     }
   });
-  const trunkGeometry=mergeGeometries(trunks,false);trunks.forEach(g=>g.dispose());const treeWood=new THREE.Mesh(trunkGeometry,wood);treeWood.name='forked-trunks-and-roots';treeWood.castShadow=treeWood.receiveShadow=true;root.add(treeWood);
+  const trunkGeometry=trunks.length?mergeGeometries(trunks,false):new THREE.BufferGeometry();trunks.forEach(g=>g.dispose());const treeWood=new THREE.Mesh(trunkGeometry,wood);treeWood.visible=trunks.length>0;treeWood.name='forked-trunks-and-roots';treeWood.castShadow=treeWood.receiveShadow=true;root.add(treeWood);
   for(let i=0;i<plan.plants.length;i++){
     const p=plan.plants[i],y=groundHeight(p.x,p.z),angle=random(i+8000)*Math.PI*2;
     for(let k=0;k<3;k++){const a=angle+k*2.1;place(grass,gc++,p.x,y-.01,p.z,p.scale*.4,p.scale*.58,p.scale*.4,.75,a,.16,greens[i%5]);}

@@ -1,8 +1,8 @@
 # B방 진행 상황 — 월드 룩(R02 밤 조명 → R04 환경)
 
 - 마지막 갱신: 2026-11-13 (America/Denver)
-- 현재 브리프: **R04** · 브랜치 `remaster/r04-festival-kit`(R02 브랜치 위에 쌓음)
-- 상태: R02 완료(PR #5, main 통합됨). R04 히어로 승인됨(2026-11-11) → **R04 완료 — PR #7** https://github.com/playlist0726-code/human-enough-yokai-festival/pull/7
+- 현재 브리프: **R04 2차** · 브랜치 `remaster/r04b-festival-kit-2`(main 기준)
+- 상태: R02(PR #5)·R04 1차(PR #7) 병합됨. **R04 2차 대표 장면(신사 앞) 사용자 승인 대기**
 
 ## R02 끝난 것
 - [x] 클론, `npm ci`, check·test(112)·integration(5) 초록, 브랜치 생성
@@ -60,3 +60,19 @@
 
 ## 진행 중인 job id
 - 없음(R02 Higgsfield 사용 0)
+
+## R04 2차 (본부 지시 2026-11-13)
+### 끝난 것
+- [x] 키트 GLB 12개 추가(`kit/family2.py`, 전부 validator PASS): `env_torii`, `env_gate_spirit`, `env_shrine`, `env_fence`, `env_tree_{cherry,pine,broadleaf}`, `env_bamboo`, `env_rocks`, `env_banner`, `env_yagura`, `env_clutter`(술통·상자·종이우산·평상)
+- [x] 런타임: `kit.structure()`(도리이·정문·신사·망루, 도리이는 머리 위 페이드 유지), `kit.prop()/propAt()`(인스턴싱), 깃발 천 셰이더 흔들림
+- [x] 종이 등불: 발광 그라데이션 텍스처(`kit_lantern.png`)로 가운데가 밝고 끝이 주황인 등불로. 울타리 따라 등불 줄 2개 + 신사 앞 줄 1개 추가(모두 registerLantern)
+- [x] 포션 인스턴싱(`public/festival-potions.mjs`): 드로우콜 약 322 → 13
+- [x] 밀도: 깃발(노점 6 + 길가 + 신사 앞), 삼각 깃발 줄, 평상·종이우산, 노점 뒤 상자·술통, 경계 밖 숲(소나무·활엽수·벚나무·대나무 약 100그루), 바위
+- [x] 대표 장면 비교 `captures/r04b/compare_gate.jpg`, 룩뎁 `gate` 샷
+
+### 남은 것
+- [ ] 사용자 승인(신사 앞)
+- [ ] 나머지 장면 캡처·성능 표·테스트·HANDOFF·매니페스트·PR
+
+### 수치(모바일, 시작 지점, 캐릭터 제외)
+- 전체 721 → 431콜. 환경 합계 약 162(키트 61·scenery 42·world 39·포션 13·하늘 5·garden 2), 상인 6명 약 249

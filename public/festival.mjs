@@ -10,6 +10,7 @@ import {timber,stoneSurface,groundMaterial,pavingMaterial} from './art-materials
 import {registerLantern} from './render/lanterns.mjs';
 // R04: hand-modelled festival kit (stalls, lanterns, flagstones) from public/assets/env/v2.
 import {createFestivalKit,KIT_STALLS} from './festival-kit.mjs';
+import {createPotionField} from './festival-potions.mjs';
 export {KIT_STALLS};
 let kit=null;
 const lanternAt=(parent,x,y,z,kind,extra)=>{parent.updateWorldMatrix(true,false);const p=parent.localToWorld(new THREE.Vector3(x,y,z));registerLantern({x:p.x,y:p.y,z:p.z,kind:kind||(p.y-groundHeight(p.x,p.z)>4?'string':'paper'),...extra});};
@@ -80,6 +81,7 @@ export function buildFestival(scene,potionNodes){
     }
   }
   for(let z=-35;z<21;z+=1.05)for(const side of [-1,1]){const x=side*2.58+Math.sin(z*.14)*.35;const slab=softBox(world,stone,x,groundHeight(x,z)+.075,z,.3,.16,.99,.04);slab.rotation.y=Math.sin(z)*.025;}
+  const nobori=(x,z,color,yaw=0,scale=1)=>{const y=groundHeight(x,z);kit.propAt('env_banner',x,y,z,{node:'banner_pole',yaw,scale});kit.propAt('env_banner',x,y,z,{node:'banner_flag',yaw,scale,color:new THREE.Color(color).lerp(new THREE.Color('#ffffff'),.08).multiplyScalar(1.25)});};
   for(const s of STALLS){
     const g=group(world,s.x,groundHeight(s.x,s.z),s.z),cloth=fabric(s.color,'waves','#f6d9a9');
     // R04: stalls with a festival-kit GLB (public/assets/env/v2) skip the procedural body; it stays as the load-failure fallback.
@@ -126,15 +128,20 @@ export function buildFestival(scene,potionNodes){
 
     // REMASTER-HOOK r02: the stall glow is a lantern anchor; the render pipeline decides how many real lights exist per profile.
     registerLantern({x:s.x,y:2.5+groundHeight(s.x,s.z),z:s.z+2,kind:'stall'});
-    const flag=group(scene,s.x+s.w/2+.6,groundHeight(s.x,s.z),s.z);tube(flag,wood,.04,.04,4.3,0,2.15,0);const banner=cube(flag,cloth,.45,3.05,0,.85,1.85,.018);wind.push(banner);
+    // R04-2: nobori banner in the stall colour (env_banner; the cloth sways in the shader).
+    nobori(s.x+s.w/2+.6,s.z+.4,s.color,0);
+    // crates and sake barrels behind the booth
+    kit.propAt('env_clutter',s.x-s.w/2+.5,groundHeight(s.x,s.z),s.z-s.d/2-.55,{node:'clutter_crates',yaw:s.x*.3});
+    for(const k of [0,1])kit.propAt('env_clutter',s.x+s.w/2-.5-k*.78,groundHeight(s.x,s.z),s.z-s.d/2-.5-k*.1,{node:'clutter_barrel',yaw:k*2+s.z});
   }
   // The water garden is an actual obstacle, with a consistent sloping ground plane.
   const pond=group(world,-16,groundHeight(-16,-9),-9);softBox(pond,stone,0,.11,0,4.5,.24,5,.12);const pondMat=makeWater('#2d6c82');waterUniforms.push(pondMat.uniforms);const pondSurface=part(pond,new THREE.PlaneGeometry(4.1,4.6),pondMat,0,.25,0);pondSurface.rotation.x=-Math.PI/2;
-  for(let i=0;i<15;i++){const a=i/15*Math.PI*2;const rock=part(pond,new THREE.DodecahedronGeometry(.4,1),stone,Math.sin(a)*2.1,.28,Math.cos(a)*2.35);rock.scale.set(1,.65,1);rock.rotation.y=i;}
+  for(let i=0;i<15;i++){const a=i/15*Math.PI*2;kit.propAt('env_rocks',-16+Math.sin(a)*2.1,groundHeight(-16,-9)+.02,-9+Math.cos(a)*2.35,{node:'rock_'+'abc'[i%3],yaw:i,scale:.42+(i%3)*.06});} // R04-2
   for(let i=0;i<5;i++){const x=Math.sin(i*3)*1.4,z=Math.cos(i*3)*1.6;const pad=tube(pond,'#7b9b6e',.28,.3,.025,x,.28,z);orb(pond,'#e4b5c6',x,.35,z,.085,.05,.085);}
   // Low fences, stone lanterns, rope ties, baskets and lantern-lit seating.
   for(let z=-30;z<=18;z+=3.5)for(const side of [-1,1]){
-    const x=side*17.1,y=groundHeight(x,z);tube(world,wood,.075,.09,1.1,x,y+.55,z);for(const yy of [.42,.85])cube(world,red,x,y+yy,z+1.72,.13,.14,3.5);
+    // R04-2: env_fence (upright post + rails that tilt with the slope)
+    const x=side*17.1,y=groundHeight(x,z);kit.propAt('env_fence',x,y,z,{node:'fence_post'});kit.propAt('env_fence',x,y,z,{node:'fence_rails',tilt:-Math.atan2(groundHeight(x,z+3.5)-y,3.5)});
   }
   for(const [x,z]of [[-5,16],[5,15],[-6,-5],[5,-15],[-7,-23],[6,-25]]){
     const g=group(world,x,groundHeight(x,z),z);registerLantern({x,y:groundHeight(x,z)+1.26,z,kind:'stone'}); // REMASTER-HOOK r02
@@ -144,46 +151,82 @@ export function buildFestival(scene,potionNodes){
     part(g,new THREE.ConeGeometry(.59,.35,4),stone,0,1.61,0).rotation.y=Math.PI/4;
     for(const s of [-1,1])for(const zz of [-.22,.22])cube(g,wood,s*.22,1.18,zz,.045,.5,.045);});
   }
-  for(const [x,z]of [[-5,5],[5,-7],[-5,-20]]){const g=group(world,x,groundHeight(x,z),z);softBox(g,timber('#b68561'),0,.52,0,2.2,.15,.6,.04);for(const s of [-1,1])softBox(g,wood,s*.7,.24,0,.12,.5,.4,.025);}
+  // R04-2: red-felt benches with paper parasols (env_clutter)
+  for(const [x,z]of [[-5,5],[5,-7],[-5,-20],[-6.6,-27],[6.6,-27]]){kit.propAt('env_clutter',x,groundHeight(x,z),z,{node:'clutter_bench',yaw:Math.abs(z)===27?Math.PI/2:0});kit.propAt('env_clutter',x+Math.sign(x)*1.45,groundHeight(x,z),z-.2,{node:'clutter_wagasa',yaw:x+z});}
   // Shrubs and rocks sit outside the navigation lane and stall entrances.
-  for(let i=0;i<45;i++){const side=i%2?1:-1,x=side*(14.7+Math.sin(i*2)*1.2),z=19-i/45*53;if(!walkable(x,z,1.1))continue;const y=groundHeight(x,z);const rock=part(world,new THREE.DodecahedronGeometry(.35+(i%4)*.09,1),stone,x,y+.13,z);rock.scale.set(1.4,.55,1);rock.rotation.set(i*.1,i,0);}
+  for(let i=0;i<45;i++){const side=i%2?1:-1,x=side*(14.7+Math.sin(i*2)*1.2),z=19-i/45*53;if(!walkable(x,z,1.1))continue;const y=groundHeight(x,z);kit.propAt('env_rocks',x,y,z,{node:'rock_'+'abc'[i%3],yaw:i,scale:.5+(i%4)*.14});}
   // Festival drum platform: cloth, rope bands, studs and a striped tower.
-  const stage=group(world,7,groundHeight(7,-10),-10);cube(stage,wood,0,.25,0,5,.5,4);cube(stage,red,0,.55,0,5,.1,4);
+  const stage=group(world,7,groundHeight(7,-10),-10);
+  // R04-2: env_yagura drum tower; the old platform is the load-failure fallback.
+  kit.structure(stage,'env_yagura',{fallback:()=>{cube(stage,wood,0,.25,0,5,.5,4);cube(stage,red,0,.55,0,5,.1,4);
   for(let i=-3;i<=3;i++)cube(stage,i%2?'#eadcc1':red,i*.7,.27,2.02,.7,.42,.04);
   const drum=tube(stage,'#a46a45',.83,.85,1.05,0,1.11,0);for(const y of [.65,1.62])tube(stage,'#f4d8a0',.88,.88,.07,0,y,0);
   for(let i=0;i<16;i++){const a=i/16*Math.PI*2;orb(stage,gold,Math.sin(a)*.855,1.52,Math.cos(a)*.855,.04);}
   for(const side of [-1,1]){const stick=tube(stage,wood,.025,.025,1,side*.23,1.82,0);stick.rotation.z=side*.6;}
-  sign(stage,'Moonlight Festival',0,3.7,-1.6,3.3);for(const x of [-2,2]){tube(stage,wood,.07,.07,4,x,2,-1.6);lantern(stage,x,3.3,-1.6);}
+  }});
+  sign(stage,'Moonlight Festival',0,4.62,2.02,3.3);for(const sx of [-1,1])for(const sz of [-1,1])lantern(stage,sx*2.85,4.7,sz*2.4);
   // The shrine arch and portal at the top of the mountain.
   const summit=group(world,0,groundHeight(0,-30),-30);
+  // R04-2: env_gate_spirit (terrace, grand torii, rope, offering box, plinths); procedural gate is the fallback.
+  kit.structure(summit,'env_gate_spirit',{fallback:()=>{
   for(let i=0;i<3;i++)cube(summit,stone,0,.12+i*.16,0,9-i*.75,.2,5-i*.55);
   for(const x of [-3,3]){tube(summit,red,.22,.3,5,x,2.85,0);tube(summit,gold,.25,.25,.11,x,.63,0);tube(summit,gold,.23,.23,.11,x,4.55,0);}
   cube(summit,red,0,4.8,0,6.9,.32,.55);curve(summit,'#393d47',[[-4.3,5.65,0],[-3.4,5.48,0],[0,5.38,0],[3.4,5.48,0],[4.3,5.65,0]],.2);
-  cube(summit,red,0,5.28,0,8.1,.25,.65);cube(summit,wood,0,.99,-1,2.5,.7,1);sign(summit,'Spirit Gate',0,4.35,.35,2.4);
+  cube(summit,red,0,5.28,0,8.1,.25,.65);cube(summit,wood,0,.99,-1,2.5,.7,1);
   const rope=curve(summit,'#d5be89',[[-2.7,4.3,.25],[0,3.84,.4],[2.7,4.3,.25]],.055);
   for(const x of [-1.6,0,1.6]){const paper=cube(summit,'#fff4d3',x,3.76,.43,.18,.5,.03);paper.rotation.z=.3;}
+    for(const x of [-4.3,4.3])cube(summit,stone,x,.75,1.9,.55,1.1,.55);
+  }});
+  sign(summit,'Spirit Gate',0,4.72,.3,2.4);
   const portal=part(scene,new THREE.PlaneGeometry(5.35,4.15),new THREE.ShaderMaterial({transparent:true,depthWrite:false,side:THREE.DoubleSide,uniforms:{time:{value:0}},vertexShader:'varying vec2 v;void main(){v=uv;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.);}',fragmentShader:'varying vec2 v;uniform float time;void main(){vec2 p=v-.5;float r=length(p*vec2(1.,1.3));float s=sin(r*50.-time*3.)*.5+.5;float a=smoothstep(.57,.2,r)*(.17+s*.16);gl_FragColor=vec4(.44+s*.3,.32+s*.23,.9,a);}'}),0,groundHeight(0,-30)+2.5,-30.1);portal.name='summit-portal';registerLantern({x:0,y:groundHeight(0,-30)+1.6,z:-29.4,kind:'portal'}); // REMASTER-HOOK r02
   
-  for(const x of [-4.3,4.3]){cube(summit,stone,x,.75,1.9,.55,1.1,.55);lantern(summit,x,1.72,1.9);}
+  for(const x of [-4.3,4.3])lantern(summit,x,1.85,1.9);
   const arrival=ring(world,surface('#c49cf9',{emissive:'#9672ee',emissiveIntensity:1.3}),2.5,.06,0,.11,18.5);arrival.rotation.x=-Math.PI/2;
   for(let i=0;i<14;i++){const a=i/14*Math.PI*2;const rune=part(world,new THREE.OctahedronGeometry(.08),gold,Math.sin(a)*2.8,.12,18.5+Math.cos(a)*2.8);rune.scale.y=.2;}
   // Sagging paper lantern strings and small cloth pennants.
+  const pennantData={position:[],color:[]},pennantColors=['#d9534a','#f1e2c4','#4a8fc9','#e8c35a','#8f6fc4'].map(c=>new THREE.Color(c));
+  const pennant=(x,y,z,i)=>{const c=pennantColors[i%5],w=.19,h=.44,lean=Math.sin(i*1.7)*.06;pennantData.position.push(x-w,y,z,x+w,y,z,x+lean,y-h,z+lean);for(let k=0;k<3;k++)pennantData.color.push(c.r,c.g,c.b);};
   for(const z of [15,7,-2,-11,-21]){
     const points=[];for(let i=0;i<=16;i++){const x=-19+i*38/16,y=7.3-Math.sin(i/16*Math.PI)*1.2+groundHeight(x,z);points.push([x,y,z]);}
     curve(world,wood,points,.017);
     for(let i=1;i<15;i++){const x=-19+i*38/16,y=7.3-Math.sin(i/16*Math.PI)*1.2+groundHeight(x,z);if(Math.abs(x)>3)lantern(world,x,y-.5,z,i%4===0?'#f28a8d':null);}
     for(const x of [-19,19])tube(world,wood,.09,.13,7.5,x,groundHeight(x,z)+3.75,z);
+    // R04-2: cloth pennants between the lanterns
+    for(let i=0;i<48;i++){const x=-19+(i+.5)*38/48,y=7.3-Math.sin((x+19)/38*Math.PI)*1.2+groundHeight(x,z);if(Math.abs(((x+19)/(38/16))%1-.5)>.3)continue;pennant(x,y-.02,z,i);}
   }
-  const foliage=buildFoliage(scene);
+  // R04-2: lantern garlands along both fences and two low strings before the shrine, so light surrounds the lane.
+  const stringZ=[15,7,-2,-11,-21];
+  for(const side of [-1,1])for(let k=0;k<stringZ.length-1;k++){
+    const z0=stringZ[k],z1=stringZ[k+1],x=side*19,points=[];
+    for(let i=0;i<=8;i++){const z=z0+(z1-z0)*i/8;points.push([x,groundHeight(x,z)+6.7-Math.sin(i/8*Math.PI)*.8,z]);}
+    curve(world,wood,points,.017);for(let i=1;i<8;i++)lantern(world,x,points[i][1]-.5,points[i][2],(i+k)%3===0?'#f28a8d':null);
+  }
+  for(const [z,half,h]of [[-26.5,10,7.4]]){ // high enough to stay above the game camera
+    const points=[];for(let i=0;i<=12;i++){const x=-half+i*2*half/12;points.push([x,h-Math.sin(i/12*Math.PI)*.8+groundHeight(x,z),z]);}
+    curve(world,wood,points,.017);for(let i=1;i<12;i++)if(Math.abs(points[i][0])>2.6)lantern(world,points[i][0],points[i][1]-.5,z,i%3===0?'#f28a8d':null);
+    for(const x of [-half,half])tube(world,wood,.07,.1,h+.1,x,groundHeight(x,z)+h/2,z);
+    for(let i=0;i<24;i++){const x=-half+(i+.5)*2*half/24;pennant(x,h-Math.sin((x+half)/(2*half)*Math.PI)*.8+groundHeight(x,z)-.02,z,i);}
+  }
+  // one mesh for every pennant
+  {const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.Float32BufferAttribute(pennantData.position,3));g.setAttribute('color',new THREE.Float32BufferAttribute(pennantData.color,3));g.computeVertexNormals();
+   const m=new THREE.Mesh(g,new THREE.MeshStandardMaterial({vertexColors:true,side:THREE.DoubleSide,roughness:.9}));m.name='pennant-bunting';m.castShadow=false;scene.add(m);}
+  // nobori banners along the lane and at the shrine approach (thin poles, no colliders, like the stall flags)
+  const bannerColors=['#b23f55','#2f5f8f','#c79a3d','#6c57a8','#b95a36','#3f8a63'];
+  [13.2,8.2,1.6,-4.6,-12.6,-19.2].forEach((z,i)=>{for(const side of [-1,1]){const x=side*(4.85+Math.sin(z*.14)*.35*side);if(walkable(x,z,.3))nobori(x,z,bannerColors[(i*2+(side>0))%6],side<0?Math.PI:0,.92);}});
+  for(const [x,z,c]of [[-6.3,-25.6,'#6c57a8'],[6.3,-25.6,'#6c57a8'],[-7.4,-28.6,'#b23f55'],[7.4,-28.6,'#b23f55'],[-8.6,-31,'#6c57a8'],[8.6,-31,'#6c57a8']])nobori(x,z,c,x<0?Math.PI:0,1.08);
+  // backdrop planting outside the playable bounds: pines, broadleaf, cherry and bamboo groves close the horizon
+  {const rnd=n=>{const v=Math.sin(n*127.1+31.7)*43758.5453;return v-Math.floor(v);},kinds=['env_tree_pine','env_bamboo','env_tree_broadleaf','env_tree_cherry','env_tree_pine','env_bamboo'];
+   for(let i=0;i<46;i++){const side=i%2?1:-1,z=23-Math.floor(i/2)*2.6+rnd(i)*1.2,x=side*(22.6+rnd(i+50)*3.4);kit.propAt(kinds[(i+Math.floor(i/2))%6],x,groundHeight(x,z)-.05,z,{yaw:rnd(i+9)*6.28,scale:1.05+rnd(i+20)*.5});}
+   for(let i=0;i<30;i++){const side=i%2?1:-1,z=21-Math.floor(i/2)*4+rnd(i+70)*2,x=side*(27.5+rnd(i+90)*4);kit.propAt(kinds[(i*5+1)%6],x,groundHeight(x,z)-.05,z,{yaw:rnd(i+3)*6.28,scale:1.4+rnd(i+33)*.6});}
+   for(let i=0;i<18;i++){const x=-25+i*3+rnd(i+11)*1.4,z=-45.5-rnd(i+5)*5-(Math.abs(x)<8?3.5:0);kit.propAt(['env_tree_pine','env_tree_cherry','env_tree_broadleaf'][i%3],x,groundHeight(x,z)-.05,z,{yaw:rnd(i)*6.28,scale:1.5+rnd(i+40)*.6});}
+   for(let i=0;i<10;i++){const side=i%2?1:-1,x=side*(8.5+Math.floor(i/2)*2.6+rnd(i+60)),z=-38.5-rnd(i+61)*3;kit.propAt(i%4===0?'env_tree_cherry':i%4===2?'env_bamboo':'env_tree_pine',x,groundHeight(x,z)-.05,z,{yaw:rnd(i+2)*6.28,scale:1.15+rnd(i+44)*.4});}
+   for(let i=0;i<14;i++){const side=i%2?1:-1,x=side*(21.6+rnd(i+80)*1.2),z=20-i*4+rnd(i)*2;kit.propAt('env_rocks',x,groundHeight(x,z),z,{node:'rock_'+'abc'[i%3],yaw:i*1.3,scale:.8+rnd(i+15)*.7});}}
+  const foliage=buildFoliage(scene,kit);
   // Wishing bamboo and hanging papers beside the shop.
-  for(let j=0;j<4;j++){const x=-14.4+j*.42,z=-12.5;const bamboo=group(world,x,groundHeight(x,z),z);tube(bamboo,'#76926b',.045,.06,4,0,2,0);for(let k=0;k<5;k++){const a=k*2.4+j;curve(bamboo,'#718c62',[[0,1+k*.55,0],[Math.sin(a)*.48,1.4+k*.55,Math.cos(a)*.5]],.023);const leaf=orb(bamboo,'#8aab77',Math.sin(a)*.4,1.45+k*.55,Math.cos(a)*.4,.12,.035,.35);leaf.rotation.y=a;if(k%2===0){const slip=cube(bamboo,['#b794c8','#b9d5c2','#f4d38c'][k%3],Math.sin(a)*.35,.98+k*.55,Math.cos(a)*.4,.16,.43,.015);slip.rotation.z=.15;}}}
-  for(const p of POTION_SPOTS){
-    const g=group(scene,p.x,groundHeight(p.x,p.z),p.z);g.name=p.id;
-    tube(g,surface('#5b5770'),.39,.48,.15,0,.07,0);const halo=ring(g,surface('#52d4f5',{emissive:'#46bffd',emissiveIntensity:2}),.36,.02,0,.17,0);halo.rotation.x=Math.PI/2;
-    const b=createPotion(['#25c8ff','#b978ff','#ffb53e'][Number(p.id.slice(1))%3],1.15);b.position.y=.9;g.add(b);g.userData.bottle=b;
-    const motes=group(g);for(let i=0;i<5;i++){const spark=part(motes,new THREE.OctahedronGeometry(.035),surface('#e5f9ff',{emissive:'#a6eaff',emissiveIntensity:2.5}));spark.position.set(Math.sin(i*2.4)*.43,.6+i*.16,Math.cos(i*2.4)*.43);}g.userData.motes=motes;potionNodes.set(p.id,g);registerLantern({x:p.x,y:groundHeight(p.x,p.z)+.9,z:p.z,kind:'potion'}); // REMASTER-HOOK r02
-  
-  }
+  kit.propAt('env_bamboo',-13.8,groundHeight(-13.8,-12.5),-12.5,{scale:.8}); // R04-2: wishing bamboo
+  // R04-2: all potions are instanced (festival-potions.mjs); potionNodes keeps one node per potion for game.js.
+  const potions=createPotionField(scene,POTION_SPOTS.map(p=>({id:p.id,x:p.x,y:groundHeight(p.x,p.z),z:p.z,color:['#25c8ff','#b978ff','#ffb53e'][Number(p.id.slice(1))%3]})),potionNodes);
+  for(const p of POTION_SPOTS)registerLantern({x:p.x,y:groundHeight(p.x,p.z)+.9,z:p.z,kind:'potion'}); // REMASTER-HOOK r02
   const scenery=buildFestivalScenery(scene,kit);
   const motePositions=new Float32Array(135*3),moteGeo=new THREE.BufferGeometry();moteGeo.setAttribute('position',new THREE.BufferAttribute(motePositions,3));const moteMat=new THREE.PointsMaterial({color:'#ffe2a0',size:.045,transparent:true,opacity:.65,depthWrite:false});scene.add(new THREE.Points(moteGeo,moteMat));
   const steamData=new Float32Array(steamOrigins.length*18*3),steamGeo=new THREE.BufferGeometry();steamGeo.setAttribute('position',new THREE.BufferAttribute(steamData,3));
@@ -191,8 +234,8 @@ export function buildFestival(scene,potionNodes){
   scene.add(new THREE.Points(steamGeo,steamMat));
   batch(world);
   kit.finish();
-  return {ground,kit,update(time,camera,subject,focus){
-    scenery.update(time,camera,subject,focus);foliage.update(time);portal.material.uniforms.time.value=time;wind.forEach((b,i)=>b.rotation.y=Math.sin(time*1.6+i)*.12);
+  return {ground,kit,potions,update(time,camera,subject,focus){
+    scenery.update(time,camera,subject,focus);foliage.update(time);portal.material.uniforms.time.value=time;
     waterUniforms.forEach(u=>u.time.value=time);
     steamOrigins.forEach((origin,j)=>{for(let i=0;i<18;i++){const age=(time*.4+i/18)%1,at=(j*18+i)*3;steamData[at]=origin.x+Math.sin(i*4+time)*.16+Math.sin(age*5)*.15;steamData[at+1]=origin.y+age*1.2;steamData[at+2]=origin.z+Math.cos(i*3+time)*.2;}});steamGeo.attributes.position.needsUpdate=true;
     const delta=Math.min(.1,Math.max(0,time-lastTime));lastTime=time;
@@ -200,7 +243,7 @@ export function buildFestival(scene,potionNodes){
       animateVisitor(rig,{x:rig.root.position.x,z:rig.root.position.z,direction:0},delta,time);
       rig.arms.forEach((a,j)=>{a.rotation.x+=kind==='cook'?-.5+Math.sin(time*3+i+j)*.17:kind==='ice'?-.5+Math.sin(time*2+i+j)*.25:-.1+Math.sin(time*1.4+i+j)*.08;});
     });
-    for(const n of potionNodes.values()){const b=n.userData.bottle;b.rotation.y=time*.55;b.position.y=.95+Math.sin(time*2+n.position.x)*.12;n.userData.motes.rotation.y=-time*.65;b.userData.bubbles.rotation.y=time;}
+    potions.update(time);kit.update(time);
     for(let i=0;i<135;i++){motePositions[i*3]=Math.sin(i*127)*19+Math.sin(time*.25+i)*.4;motePositions[i*3+1]=.8+(i%5)*.7+Math.sin(time*.5+i)*.2;motePositions[i*3+2]=Math.cos(i*29)*27-7;}moteGeo.attributes.position.needsUpdate=true;
   }};
 }

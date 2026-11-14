@@ -23,6 +23,12 @@ function roof(parent,w,d,y){
 }
 function shrine(parent,x,z,scale=1){
   const g=group(parent,x,groundHeight(x,z),z);g.scale.setScalar(scale);
+  // R04-2: env_shrine hall; the procedural hall is the load-failure fallback.
+  if(activeKit)activeKit.structure(g,'env_shrine',{fallback:()=>shrineProcedural(g)});else shrineProcedural(g);
+  for(const xx of [-3.1,3.1])stoneLantern(g,xx,0,2.2);
+  return g;
+}
+function shrineProcedural(g){
   softBox(g,stoneSurface('#8b9395'),0,.3,0,7,.6,5.4,.1);
   for(let k=0;k<4;k++)softBox(g,stoneSurface('#a9aaa0'),0,.12+k*.13,3.1-k*.30,3.7,.25,.8,.06);
   for(const xx of [-2.5,2.5])for(const zz of [-1.6,1.6])tube(g,vermilion,.14,.17,3.7,xx,2.05,zz);
@@ -31,8 +37,6 @@ function shrine(parent,x,z,scale=1){
   roof(g,7.8,6.1,3.7);
   curve(g,ivory,[[-2,3.3,1.9],[0,2.9,2.03],[2,3.3,1.9]],.065);
   for(const xx of [-1.15,0,1.15]){const paper=softBox(g,ivory,xx,2.9,2.05,.17,.48,.02,.01);paper.rotation.z=.25;}
-  for(const xx of [-3.1,3.1])stoneLantern(g,xx,0,2.2);
-  return g;
 }
 let activeKit=null;
 function stoneLantern(parent,x,y,z){
@@ -51,11 +55,16 @@ function stoneLanternProcedural(g){
 }
 function torii(parent,x,z,w=6.8){
   const y=groundHeight(x,z),g=group(parent,x,y,z);
+  // R04-2: env_torii (modelled 6.8 m wide, stretched to w); own transparent materials so the overhead fade still works.
+  if(activeKit){g.scale.set(w/6.8,1,1);activeKit.structure(g,'env_torii',{fade:true,fallback:()=>{g.scale.set(1,1,1);toriiProcedural(g,w);g.traverse(n=>{if(n.isMesh){n.material=n.material.clone();n.material.transparent=true;}});}});}
+  else toriiProcedural(g,w);
+  return g;
+}
+function toriiProcedural(g,w){
   for(const s of [-1,1]){tube(g,vermilion,.14,.21,4.4,s*w*.43,2.2,0);tube(g,roofMat,.22,.23,.48,s*w*.43,.25,0);}
   softBox(g,vermilion,0,3.35,0,w*.97,.18,.27,.02);softBox(g,vermilion,0,4.14,0,w*1.1,.24,.39,.04);
   curve(g,roofMat,[[-w*.61,4.40,0],[-w*.40,4.29,0],[0,4.22,0],[w*.40,4.29,0],[w*.61,4.40,0]],.11);
   softBox(g,brass,0,3.73,.18,.46,.62,.10,.03);
-  return g;
 }
 function batchStatic(root){
   root.updateMatrixWorld(true);const inverse=root.matrixWorld.clone().invert(),buckets=new Map();
@@ -110,7 +119,9 @@ export function buildFestivalScenery(scene,kit=null){
   }
   // Cherry trees at the edges, with dense rounded flowering crowns.
   const blossomTransforms=[];
-  for(const [tx,tz]of [[-17,14],[17,11],[-17,-5],[17,-24],[-16,-28]]){
+  // R04-2: edge cherry trees are env_tree_cherry instances when the kit is present.
+  if(kit)for(const [tx,tz]of [[-17,14],[17,11],[-17,-5],[17,-24],[-16,-28]])kit.propAt('env_tree_cherry',tx,groundHeight(tx,tz),tz,{yaw:tx+tz,scale:1.05+Math.abs(Math.sin(tx*tz))*.25});
+  else for(const [tx,tz]of [[-17,14],[17,11],[-17,-5],[17,-24],[-16,-28]]){
     const ty=groundHeight(tx,tz);curve(root,wood,[[tx,ty,tz],[tx+.15,ty+2,tz],[tx-.3,ty+3.8,tz+.1]],.20);
     for(let branch=0;branch<5;branch++){
       const a=branch*2.4,end=new THREE.Vector3(tx+sin(a)*1.4,ty+3.6+cos(a)*.3,tz+cos(a)*1.4);
@@ -118,7 +129,7 @@ export function buildFestivalScenery(scene,kit=null){
       for(let k=0;k<18;k++)blossomTransforms.push({x:end.x+(rand(k*3+branch)*2-1)*.9,y:end.y+(rand(k*3+2)*2-1)*.6,z:end.z+(rand(k*3+1+branch)*2-1)*.9,s:.31+rand(k+branch)*.27});
     }
   }
-  const blossom=new THREE.InstancedMesh(new THREE.IcosahedronGeometry(1,1),surface('#e7aac2',{roughness:.9}),blossomTransforms.length),dummy=new THREE.Object3D();
+  const blossom=new THREE.InstancedMesh(new THREE.IcosahedronGeometry(1,1),surface('#e7aac2',{roughness:.9}),Math.max(1,blossomTransforms.length)),dummy=new THREE.Object3D();blossom.count=blossomTransforms.length;
   blossomTransforms.forEach((b,i)=>{dummy.position.set(b.x,b.y,b.z);dummy.scale.setScalar(b.s);dummy.rotation.set(rand(i),rand(i+2),rand(i+4));dummy.updateMatrix();blossom.setMatrixAt(i,dummy.matrix);});blossom.castShadow=true;root.add(blossom);
   const falling=new Float32Array(105*3),fallGeo=new THREE.BufferGeometry();fallGeo.setAttribute('position',new THREE.BufferAttribute(falling,3));const petals=new THREE.Points(fallGeo,new THREE.PointsMaterial({color:'#f2c9d9',size:.065,transparent:true,opacity:.75,depthWrite:false}));scene.add(petals);
   batchStatic(root);

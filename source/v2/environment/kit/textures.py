@@ -9,6 +9,7 @@ part comes from vertex colours (COLOR_0) multiplied with these maps.
   kit_cloth.png  seigaiha wave pattern on woven cloth (grey, tinted per stall)
   kit_paint.png  mottled brush paint for lacquer, metal, ceramics (light grey, tinted)
   kit_stone.png  worn stone with moss blotches, no joints (natural colour)
+  kit_lantern.png glow gradient for paper lanterns and windows
   kit_ground.png dark moss, earth and fallen leaves for night grass (natural colour)
 """
 import os
@@ -164,6 +165,24 @@ def stone():
     return save('kit_stone.png', np.asarray(img.convert('RGB')).astype(float) / 255)
 
 
+def lantern():
+    """Glow map for paper lanterns and paper windows (256 px). v runs bottom to top: deep orange at
+    the ends, warm yellow in the middle where the flame sits; faint ribs and paper fibres."""
+    n = 256
+    v = np.linspace(0, 1, n)[:, None] * np.ones((1, n))
+    u = np.ones((n, 1)) * np.linspace(0, 1, n, endpoint=False)[None, :]
+    hot = np.exp(-((v - .5) / .27) ** 2)
+    edge, mid = hexrgb('#c2501c'), hexrgb('#ffd27a')
+    col = edge * (1 - hot[..., None]) + mid * hot[..., None]
+    ribs = 1 - .16 * (np.abs(np.sin(v * np.pi * 9)) > .97)
+    fibre = 1 + .05 * np.sin(u * 2 * np.pi * 24 + np.sin(v * 9) * 2) + .04 * (np.random.default_rng(61).random((n, n)) - .5)
+    col = col * (ribs * fibre)[..., None]
+    os.makedirs(OUT, exist_ok=True)
+    img = Image.fromarray(np.clip(col[::-1] * 255, 0, 255).astype(np.uint8))
+    img.save(os.path.join(OUT, 'kit_lantern.png'), optimize=True)
+    return img
+
+
 def ground():
     rng = np.random.default_rng(51)
     n1 = vnoise(N, 4, 53, 5)
@@ -191,7 +210,7 @@ def ground():
 
 
 if __name__ == '__main__':
-    for f in (wood, cloth, paint, stone, ground):
+    for f in (wood, cloth, paint, stone, lantern, ground):
         img = f()
         print('wrote', f.__name__)
     # runtime copy of the ground texture (the other maps travel inside the GLBs)

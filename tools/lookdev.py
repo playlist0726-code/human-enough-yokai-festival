@@ -14,6 +14,7 @@ Shots (player position, camera yaw/pitch/distance follow the game camera rig):
     start   arrival ring at the bottom of the lane, looking uphill
     street  between the Cork Shooting and Goldfish stalls
     shrine  in front of the Spirit Gate at the summit
+    gate    lower, wider view of the Spirit Gate and the shrine hall behind it
     wide    the "Reset view (wide)" camera at the start, closest to the key-art framing
     fish    hero framing of the Goldfish Scooping stall (R04 approval shot)
 
@@ -52,6 +53,7 @@ const SHOTS={
   start:{p:[0,16.5],yaw:.2,pitch:.49,dist:9.5,cast:[[0,16.5,Math.PI],[-1.7,17.6,Math.PI*.9],[1.8,17.4,-Math.PI*.9]],guests:[[-2,10.5],[2.6,8],[0.5,6]]},
   street:{p:[0,3.2],yaw:-.18,pitch:.40,dist:9.5,cast:[[0,3.2,Math.PI],[-1.5,4.2,Math.PI*.9],[1.5,4.4,-Math.PI*.9]],guests:[[-3.6,1.2],[3.2,-1.5],[-1,-3.5]]},
   shrine:{p:[0,-22.5],yaw:0,pitch:.36,dist:9.5,cast:[[0,-22.5,Math.PI],[-1.6,-21.4,Math.PI*.9],[1.6,-21.6,-Math.PI*.9]],guests:[[-2.4,-26],[2.5,-25.5],[3.4,-19.5]]},
+  gate:{p:[0,-19.6],yaw:0,pitch:.24,dist:11.5,cast:[[0,-19.6,Math.PI],[-1.6,-18.7,Math.PI*.9],[1.6,-18.9,-Math.PI*.9]],guests:[[-2.6,-24.5],[2.8,-25.5],[4.4,-20.5]]},
   wide:{p:[0,16.5],yaw:.2,pitch:.62,dist:17,cast:[[0,16.5,Math.PI],[-1.7,17.6,Math.PI*.9],[1.8,17.4,-Math.PI*.9]],guests:[[-2,10.5],[2.6,8],[0.5,6]]},
   fish:{p:[7.6,12.0],yaw:-.12,pitch:.42,dist:7.4,cast:[[5.1,12.4,Math.PI*.8],[4.0,13.4,Math.PI*.85],[10.9,12.8,-Math.PI*.85]],guests:[[12.4,11.4],[3.2,10.6],[5.4,6]]},
 };
