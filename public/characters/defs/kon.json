@@ -1,0 +1,12 @@
+{
+  "id": "kon",
+  "version": 2,
+  "forms": {
+    "yokai": "/assets/models/v2/kon_yokai.glb"
+  },
+  "reveal": "/assets/models/v2/kon_reveal.glb",
+  "formGait": {
+    "yokai": {"walkSpeed": 2.202, "runSpeed": 4.524}
+  },
+  "note": "R06. Not in index.json yet: rig-v2 would replace the whole rig and kon has no v2 human form until R09 adds /assets/models/v2/kon_human.glb (then add forms.human and register). Rebuild: source/v2/characters/kon/build.py."
+}

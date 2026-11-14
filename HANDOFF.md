@@ -240,3 +240,18 @@
 - R14/사용자: 실제 GPU에서 `?perf=1` 수치(샌드박스는 전체 게임 세션이 끊겨 못 잼). 캐릭터당 삼각형은 기존 50~186k → 22k/13.5k.
 - C방: R06 폰·콘.
 - 다듬을 거리: 변장 볼의 물방울 점, 변장 손 색(조금 회색).
+
+## 2026-11-14 · C방 · R06 폰·콘 (`remaster/r06-pon-kon`, R03 위)
+
+### 바뀐 것
+- 폰·콘 v2 요괴 + 리빌 소품: `public/assets/models/v2/{pon,kon}_{yokai,reveal}.glb`(validator PASS), `public/characters/defs/{pon,kon}.json`.
+- **`index.json`에는 아직 넣지 않았다.** rig-v2는 def가 있으면 리그 전체를 v2로 바꾸는데, 폰·콘은 인간 폼이 없어 변장 단계에서 요괴가 보이게 된다. R09가 `pon_human.glb`·`kon_human.glb`를 넣을 때 `forms.human` 추가 + 등록.
+- 파이프라인: `reparent`(체인 밑 계약 뼈), 같은 이름 다중 재질 클래스, `material_keep`, `emissive` 재질, `cage`/`max_ray`, `feet_band`, `probe_colors.py`. 문서 `CHARACTER_PIPELINE.md` 10장(체형별 요령).
+
+### 다른 방이 알아야 할 인터페이스
+- **R09**: 리빌 소품 원점은 소품의 가장 낮은 점. `socket_reveal` — 폰: Hips, 허리 뒤 약 [0, 0.1, 0.3]×키(꼬리), 콘: Hips, 약 [0, 0.1, 0.12]×키(쌍꼬리). 미즈는 머리 위 0.86H(R03).
+- **R10**: 콘의 `onibi` 재질은 자체 발광(강도 0.6). 도깨비불 파티클을 꼬리 끝(`x_tail_L_03`, `x_tail_R_03`)에 붙이면 메시와 맞는다. 폰의 입은 `x_belly_jaw`(+X 회전 = 닫힘).
+
+### 다음 할 일
+- C방: 다음 브리프 대기.
+- 다듬을 거리: 폰 입안 가장자리의 작은 어두운 점, 콘·폰 실제 GPU 확인.

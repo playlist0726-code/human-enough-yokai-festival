@@ -1,0 +1,36 @@
+{
+  "character": "kon",
+  "brief": "R06",
+  "room": "C",
+  "concept": [
+    "public/assets/kon-reference.png",
+    "public/assets/cast.png (column 3)"
+  ],
+  "turnaround": {
+    "model": "gpt_image_2_6 (high, 2k, 1:1)",
+    "front": "d3efe78a-2c1a-43e0-94b3-59641fd929d6",
+    "left": "047f3eaa-f80a-4dc7-8dfb-e5401e131a36",
+    "back": "180772a1-6ab3-4658-bb74-81263b7a7618",
+    "right": "93292993-2114-45fd-8647-9eadaa9281c7",
+    "files": "source/v2/characters/kon/turnaround/*.webp"
+  },
+  "mesh": {
+    "yokai": {
+      "model": "tripo_h3_1_multiview_to_3d (detailed/detailed, pbr, face_limit 400000)",
+      "job": "fe2d1e05-e937-47cc-808b-0f7dbb17ca97",
+      "url": "https://d8j0ntlcm91z4.cloudfront.net/user_2zs4TXKZILG9oDiY1L03YTxgUob/hf_20261114_055449_fe2d1e05-e937-47cc-808b-0f7dbb17ca97.glb",
+      "raw": "378,890 tris, 18.1 MB (not committed)"
+    },
+    "reveal": "twin tails cut from the clean yokai mesh (reveal_prop.py)"
+  },
+  "animation": "procedural: motion_lib + source/v2/characters/kon/motion.py (neck-first wave on x_neck_01..04, ears, twin tails)",
+  "outputs": {
+    "yokai": "source/v2/characters/kon/export/kon_yokai.glb",
+    "reveal": "source/v2/characters/kon/export/kon_reveal.glb"
+  },
+  "credits": {
+    "images": 11.0,
+    "3d": 18,
+    "total": 29.0
+  }
+}

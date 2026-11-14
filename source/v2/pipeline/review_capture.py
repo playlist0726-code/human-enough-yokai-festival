@@ -88,6 +88,8 @@ async def main(a):
                 frames[0].save(os.path.join(a.out, name), save_all=True, append_images=frames[1:], duration=int(1000 * every / 30), loop=0)
                 print('wrote', name, len(frames), 'frames')
 
+            import json as _json
+            has_human = 'human' in _json.load(open(f'public/characters/defs/{a.id}.json'))['forms']
             # 1) game camera distance, idle then walking toward the camera's side
             pg = await open_page(960, 540)
             print(await pg.evaluate("step(45,{form:'yokai'})"))
@@ -96,19 +98,23 @@ async def main(a):
             print(await pg.evaluate("frame('close',.35)")); (await shot(pg)).save(os.path.join(a.out, 'closeup_yokai.png'))
             for yaw, tag in ((0, 'front'), (1.57, 'side'), (3.14, 'back'), (.6, 'tq')):
                 await pg.evaluate(f"frame('full',{yaw})"); (await shot(pg)).save(os.path.join(a.out, f'turn_yokai_{tag}.png'))
-            await pg.evaluate("step(30,{form:'human'})")
-            await pg.evaluate("frame('close',.35)"); (await shot(pg)).save(os.path.join(a.out, 'closeup_human.png'))
-            await pg.evaluate("frame('full',.45)"); (await shot(pg)).save(os.path.join(a.out, 'turn_human_tq.png'))
-            await pg.evaluate("step(10,{form:'human',revealed:true})")
-            print(await pg.evaluate("frame('full',.45)")); (await shot(pg)).save(os.path.join(a.out, 'reveal.png'))
+            if has_human:
+                await pg.evaluate("step(30,{form:'human'})")
+                await pg.evaluate("frame('close',.35)"); (await shot(pg)).save(os.path.join(a.out, 'closeup_human.png'))
+                await pg.evaluate("frame('full',.45)"); (await shot(pg)).save(os.path.join(a.out, 'turn_human_tq.png'))
+                await pg.evaluate("step(10,{form:'human',revealed:true})")
+                print(await pg.evaluate("frame('full',.45)")); (await shot(pg)).save(os.path.join(a.out, 'reveal.png'))
+            # reaction clips at the closeup framing (reveal_panic is the signature gag)
+            await pg.evaluate("step(1,{form:'yokai'})")
             await pg.close()
             # 3) walking GIFs at the game camera (server walk speed 3.6 u/s)
             pg = await open_page(640, 400)
             await gif(pg, 'walk_yokai.gif', 'yokai', n=20, kind='full', yaw=.25, facing=1.57)
             await pg.close()
-            pg = await open_page(640, 400)
-            await gif(pg, 'walk_human.gif', 'human', n=20, kind='full', yaw=.25, facing=1.57)
-            await pg.close()
+            if has_human:
+                pg = await open_page(640, 400)
+                await gif(pg, 'walk_human.gif', 'human', n=20, kind='full', yaw=.25, facing=1.57)
+                await pg.close()
             pg = await open_page(640, 400)
             await gif(pg, 'walk_game.gif', 'yokai', n=20, kind='game', yaw=.2, facing=-.9)
             await pg.close()
@@ -122,7 +128,7 @@ async def main(a):
             await pg.close()
             # 5) studio full-body (concept comparison), same key-art lighting as the portrait
             pg = await open_page(640, 640, alpha=True)
-            for form, yaw in (('yokai', 0), ('human', 0)):
+            for form, yaw in (('yokai', 0),) + ((('human', 0),) if has_human else ()):
                 await pg.evaluate(f"step(20,{{form:'{form}'}})")
                 await pg.evaluate(f"frame('full',{yaw})")
                 data = await pg.evaluate("png()")

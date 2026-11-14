@@ -1,0 +1,23 @@
+
+kon_yokai.glb  ·  profile: player
+  ✓ file size                  2.80 MB (max 3.0 MB, before meshopt/KTX2)
+  ✓ triangles                  22,000 (max 25,000)
+  ✓ materials                  4 (max 4)
+  ✓ draw calls                 4 primitives (target ≤ 6; merge separate parts into one skinned mesh)
+  ✓ texture size               1024x1024 jpeg, 1024x1024 jpeg, 2048x2048 jpeg
+  ✓ texture count              3 images (max 4)
+  ✓ textured (not flat colour) has texture maps
+  ✓ power-of-two textures      ok
+  ✓ skinned                    1 skin(s), 33 joints
+  ✓ bone count                 33 (max 64)
+  ✓ humanoid bones             all 16 core bones present
+  ✓ extra bone naming          ok
+  ✓ socket socket_hand_R       present
+  ✓ socket socket_hip_L        present
+  ✓ socket socket_head_top     present
+  ✓ animation clips            all 14 present (+0 extra)
+  ✓ morph face_blink           present
+  ✓ grounded origin            min Y -0.000 (feet should sit at 0)
+  ✓ clip naming                charm_cast, charm_hold, cover_ward, drink_potion, hit, idle, jump_air, jump_start, land, reveal_panic, run, sealed, victory, walk
+
+PASS (0 warnings)

@@ -1,0 +1,60 @@
+{
+  "id": "kon",
+  "form": "yokai",
+  "profile": "player",
+  "raw": "build/v2/kon/raw/tripo_h31_multiview.glb",
+  "raw_url": "https://d8j0ntlcm91z4.cloudfront.net/user_2zs4TXKZILG9oDiY1L03YTxgUob/hf_20261114_055449_fe2d1e05-e937-47cc-808b-0f7dbb17ca97.glb",
+  "height_m": 1.5,
+  "yaw_deg": -90,
+  "target_tris": 22000,
+  "min_island": 0.015,
+  "feet_band": 0.04,
+  "texture": {"base": 2048, "orm": 1024, "normal": 1024},
+  "ao_samples": 48,
+  "ao_strength": 0.75,
+  "jpeg_quality": 84,
+  "materials": [
+    {"name": "eyes", "region": [-0.16, -0.7, 0.64, 0.16, -0.05, 0.72], "rules": [{"v_max": 0.22}, {"h_min": 0.1, "h_max": 0.18, "s_min": 0.55, "v_min": 0.6}, {"h_min": 0.85, "h_max": 0.99, "s_min": 0.15}]},
+    {"name": "onibi", "emissive": 0.6, "region": [-0.6, -0.3, 0.12, 0.6, 0.7, 0.55], "rules": [{"h_min": 0.7, "h_max": 0.88, "s_min": 0.12, "v_min": 0.82}]},
+    {"name": "cloth", "region": [-0.32, -0.4, 0.1, 0.32, 0.4, 0.4], "rules": [{"h_min": 0.58, "h_max": 0.78, "s_min": 0.1, "v_max": 0.8}, {"h_min": 0.95, "h_max": 1.0, "s_min": 0.45}, {"h_min": 0.0, "h_max": 0.06, "s_min": 0.45}, {"h_min": 0.1, "h_max": 0.17, "s_min": 0.3}]}
+  ],
+  "roughness": {"body": [0.6, 0.8]},
+  "cloth_sheen": 0.35,
+  "skeleton": {
+    "Hips": [0, 0, 0.16],
+    "Spine": [0, 0, 0.22],
+    "Spine1": [0, 0, 0.3],
+    "Neck": [-0.02, 0, 0.615],
+    "Head": [0, 0, 0.65],
+    "HeadTop": [0, 0, 0.92],
+    "LeftShoulder": [0.03, 0, 0.35],
+    "LeftArm": [0.104, 0, 0.33],
+    "LeftForeArm": [0.15, 0, 0.283],
+    "LeftHand": [0.18, 0, 0.25],
+    "LeftHandTip": [0.2, 0, 0.226],
+    "LeftUpLeg": [0.06, 0, 0.14],
+    "LeftLeg": [0.08, 0, 0.085],
+    "LeftFoot": [0.088, 0, 0.057],
+    "LeftToeBase": [0.088, -0.04, 0.018],
+    "LeftToeTip": [0.088, -0.075, 0.018]
+  },
+  "extra_bones": [
+    {"name": "x_neck_{i:02d}", "parent": "Spine1", "points": [[0, 0, 0.375], [0.09, 0, 0.465], [0.02, 0, 0.53], [-0.055, 0, 0.575], [-0.02, 0, 0.615]]},
+    {"name": "x_ear_L", "parent": "Head", "head": [0.094, 0, 0.745], "tail": [0.217, 0, 0.97]},
+    {"name": "x_ear_R", "parent": "Head", "head": [-0.104, 0, 0.765], "tail": [-0.236, 0, 0.69]},
+    {"name": "x_tail_L_{i:02d}", "parent": "Hips", "mirror": true, "points": [[0.04, 0.08, 0.18], [0.15, 0.22, 0.16], [0.25, 0.32, 0.22], [0.24, 0.36, 0.4]]}
+  ],
+  "reparent": {"Neck": "x_neck_04"},
+  "weight_overrides": [
+    {"bone": "Head", "box": [-0.7, -0.7, 0.64, 0.7, 0.7, 1.2], "falloff": 0.02}
+  ],
+  "sockets": {
+    "socket_hand_R": {"bone": "RightHand", "at": [-0.19, -0.02, 0.24]},
+    "socket_hip_L": {"bone": "Hips", "at": [0.12, -0.08, 0.26]},
+    "socket_head_top": {"bone": "Head", "at": [0, 0, 0.9]}
+  },
+  "morphs": {"eye_material": "eyes", "blink_squash": 0.1},
+  "motion_file": "source/v2/characters/kon/motion.py",
+  "export": "source/v2/characters/kon/export/kon_yokai.glb",
+  "runtime": "public/assets/models/v2/kon_yokai.glb"
+}

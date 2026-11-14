@@ -1,0 +1,60 @@
+{
+  "id": "pon",
+  "form": "yokai",
+  "profile": "player",
+  "raw": "build/v2/pon/raw/tripo_h31_multiview.glb",
+  "raw_url": "https://d8j0ntlcm91z4.cloudfront.net/user_2zs4TXKZILG9oDiY1L03YTxgUob/hf_20261113_073833_83a65522-16ba-4f98-9b9b-4cbdd97aa7ea.glb",
+  "height_m": 1.35,
+  "yaw_deg": -90,
+  "target_tris": 22000,
+  "min_island": 0.02,
+  "texture": {"base": 2048, "orm": 1024, "normal": 1024},
+  "ao_samples": 48,
+  "cage": 0.02,
+  "max_ray": 0.1,
+  "ao_strength": 0.75,
+  "materials": [
+    {"name": "eyes", "region": [-0.2, -0.7, 0.67, 0.2, -0.1, 0.75], "rules": [{"v_max": 0.27}]},
+    {"name": "cloth", "region": [-0.7, -0.7, 0.12, 0.7, 0.7, 0.62], "rules": [{"h_min": 0.93, "h_max": 0.04, "s_min": 0.4}, {"h_min": 0.1, "h_max": 0.18, "s_min": 0.5, "v_min": 0.6}]},
+    {"name": "cloth", "region": [-0.7, -0.7, 0.12, -0.17, 0.7, 0.62], "rules": [{"s_max": 0.22, "v_min": 0.86}]},
+    {"name": "cloth", "region": [0.17, -0.7, 0.12, 0.7, 0.7, 0.62], "rules": [{"s_max": 0.22, "v_min": 0.86}]}
+  ],
+  "roughness": {"body": [0.6, 0.8]},
+  "cloth_sheen": 0.35,
+  "skeleton": {
+    "Hips": [0, 0, 0.18],
+    "Spine": [0, 0, 0.28],
+    "Spine1": [0, 0, 0.4],
+    "Neck": [0, 0, 0.56],
+    "Head": [0, 0, 0.6],
+    "HeadTop": [0, 0, 0.86],
+    "LeftShoulder": [0.1, 0, 0.48],
+    "LeftArm": [0.27, 0, 0.475],
+    "LeftForeArm": [0.35, 0, 0.42],
+    "LeftHand": [0.415, 0, 0.375],
+    "LeftHandTip": [0.46, 0, 0.345],
+    "LeftUpLeg": [0.12, 0, 0.163],
+    "LeftLeg": [0.14, 0, 0.114],
+    "LeftFoot": [0.145, 0, 0.078],
+    "LeftToeBase": [0.145, -0.06, 0.025],
+    "LeftToeTip": [0.145, -0.11, 0.025]
+  },
+  "extra_bones": [
+    {"name": "x_belly_jaw", "parent": "Spine1", "head": [0, 0.0, 0.47], "tail": [0, -0.22, 0.4]},
+    {"name": "x_tail_{i:02d}", "parent": "Hips", "points": [[0.03, 0.167, 0.35], [0.04, 0.34, 0.49], [0.04, 0.42, 0.74], [0.03, 0.31, 0.94]]}
+  ],
+  "weight_overrides": [
+    {"bone": "Head", "box": [-0.7, -0.7, 0.62, 0.7, 0.12, 1.2], "falloff": 0.04},
+    {"bone": "x_belly_jaw", "box": [-0.24, -0.7, 0.35, 0.24, -0.05, 0.47], "falloff": 0.015, "material": "body"},
+    {"bone": "Spine", "box": [-0.7, -0.7, 0.22, 0.7, 0.3, 0.35], "falloff": 0.01, "material": "cloth"}
+  ],
+  "sockets": {
+    "socket_hand_R": {"bone": "RightHand", "at": [-0.44, -0.02, 0.36]},
+    "socket_hip_L": {"bone": "Hips", "at": [0.24, -0.2, 0.3]},
+    "socket_head_top": {"bone": "Head", "at": [0, 0, 0.87]}
+  },
+  "morphs": {"eye_material": "eyes", "blink_squash": 0.1},
+  "motion_file": "source/v2/characters/pon/motion.py",
+  "export": "source/v2/characters/pon/export/pon_yokai.glb",
+  "runtime": "public/assets/models/v2/pon_yokai.glb"
+}

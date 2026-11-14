@@ -1,0 +1,36 @@
+{
+  "character": "pon",
+  "brief": "R06",
+  "room": "C",
+  "concept": [
+    "public/assets/pon-reference.png",
+    "public/assets/cast.png (column 2)"
+  ],
+  "turnaround": {
+    "model": "gpt_image_2_6 (high, 2k, 1:1)",
+    "front": "66a7df83-2d10-4f58-902b-414a891bb7b6",
+    "left": "04977bdc-8e85-4a72-95a2-58afe6188e52",
+    "back": "2f210ddc-4a86-405f-ac7a-162e9f4db033",
+    "right": "6e9b64d8-dfb9-4b76-95f8-1b380df8b635",
+    "files": "source/v2/characters/pon/turnaround/*.webp"
+  },
+  "mesh": {
+    "yokai": {
+      "model": "tripo_h3_1_multiview_to_3d (detailed/detailed, pbr, face_limit 400000)",
+      "job": "83a65522-16ba-4f98-9b9b-4cbdd97aa7ea",
+      "url": "https://d8j0ntlcm91z4.cloudfront.net/user_2zs4TXKZILG9oDiY1L03YTxgUob/hf_20261113_073833_83a65522-16ba-4f98-9b9b-4cbdd97aa7ea.glb",
+      "raw": "389,918 tris, 19.8 MB (not committed)"
+    },
+    "reveal": "tail cut from the clean yokai mesh (reveal_prop.py)"
+  },
+  "animation": "procedural: motion_lib + source/v2/characters/pon/motion.py (waddle, x_belly_jaw chomp, tail follow-through)",
+  "outputs": {
+    "yokai": "source/v2/characters/pon/export/pon_yokai.glb",
+    "reveal": "source/v2/characters/pon/export/pon_reveal.glb"
+  },
+  "credits": {
+    "images": 11.0,
+    "3d": 18,
+    "total": 29.0
+  }
+}
