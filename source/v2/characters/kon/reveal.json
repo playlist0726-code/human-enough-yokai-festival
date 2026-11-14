@@ -1,0 +1,20 @@
+{
+  "id": "kon_reveal",
+  "note": "Kon's twin fox tails with onibi tips pop out of the disguise. Origin = lowest point of the tails. R09: put socket_reveal on kon_human at the lower back (bone Hips, about [0, 0.1, 0.12] of height) so the tails fan out behind.",
+  "source": "source/v2/characters/kon/character.json",
+  "select": {
+    "region": [-0.6, 0.06, 0.08, 0.6, 0.7, 0.56],
+    "exclude_rules": [
+      {"h_min": 0.58, "h_max": 0.78, "s_min": 0.1, "v_max": 0.8},
+      {"h_min": 0.95, "h_max": 1.0, "s_min": 0.5},
+      {"h_min": 0.0, "h_max": 0.06, "s_min": 0.45},
+      {"h_min": 0.1, "h_max": 0.17, "s_min": 0.35}
+    ]
+  },
+  "min_island": 0.05,
+  "target_tris": 4500,
+  "width_m": 0.85,
+  "texture": {"base": 1024},
+  "export": "source/v2/characters/kon/export/kon_reveal.glb",
+  "runtime": "public/assets/models/v2/kon_reveal.glb"
+}

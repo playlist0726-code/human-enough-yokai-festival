@@ -101,6 +101,13 @@ Meshy의 자동 리깅(`3d_rigging`)은 쓰지 않는다: 계약 뼈 이름·보
 | `sockets` | 소켓 위치와 부모 뼈 | 계약 4장 |
 | `morphs` | `face_blink`/`face_shock`을 만들 눈 재질 | eyes 재질이 있으면 자동 |
 | `motion_file` | 성격 모듈 | 5장 |
+| `reparent` | 계약 뼈를 x_ 체인 밑으로(콘: `{"Neck": "x_neck_04"}`) | 긴 목·몸통 체인 |
+| `material_keep` | 평활화에서 빼는 작은 재질(기본 `["eyes"]`) | 구슬 눈(폰) |
+| 같은 이름 클래스 여러 개 | 한 재질을 여러 영역·규칙으로(폰: 체크무늬 빨강·크림) | 무늬가 두 톤일 때 |
+| `emissive` (클래스) | 그 재질이 자기 색으로 빛남(강도) | 콘의 도깨비불 꼬리 끝 |
+| `cage`, `max_ray` | 베이크 레이 길이(키 비율). 기본 0.012 / 0.05 | 깊은 입안·구멍(폰 0.02 / 0.1) |
+| `ao_strength` | glTF occlusion 강도 | 요괴 0.75, 인간 0.4 |
+| `jpeg_quality`, `export_texture_size` | 내보낸 GLB 텍스처 재인코딩 | 용량 한도에 걸릴 때 |
 
 ## 5. 스크립트 실행 순서
 
@@ -171,5 +178,13 @@ npm run build   # 런타임 사본 압축(Meshopt + KTX2/WebP). 이미 압축된
 | 클립 이름이 `Action` | 액션 이름 | 액션 이름 = 계약 클립 이름(자동) |
 | 원본 GLB 3 MB 초과 | PNG 텍스처 | export는 JPEG(q88). 그래도 넘으면 ORM·normal 512 |
 
+## 10. 체형별 요령 (R06)
+- **다리가 아주 짧은 캐릭터(폰 ~11 cm)**: 보폭은 다리 길이 한계 안(`step` ≈ 다리 길이 × 1.3), 사이클 7~8프레임. 걷는 느낌은 몸 굴림(`roll`)·좌우 이동(`sway`)·팔 균형·꼬리 반대 흔들림이 만든다. `gait.json`에서 run이 0이면 보폭이 닿지 않는 것(IK가 발을 못 디딤).
+- **배의 입 / 턱**: 턱 뼈(`x_belly_jaw`)에 `weight_overrides`를 `material: "body"`로 제한하고, 그 밑의 옷(오비)은 Spine에 고정해야 턱에 끌려 올라가지 않는다. 각도는 25° 안팎.
+- **긴 목(콘)**: `x_neck_*` 체인을 Spine1에서 시작하고 `reparent`로 Neck을 체인 끝에. 동작은 머리가 먼저, 아래 마디가 몇 프레임 늦게 따라가는 파동(`neck_wave(lag)`).
+- **꼬리·귀**: 체인 끝 마디에 `SECONDARY`(gain 0.7~1.0, lag 2~3). 놀라면 스케일로 부풀리기.
+- **인간 폼이 아직 없는 요괴**: `defs/<id>.json`은 만들되 `index.json` 등록은 인간 GLB가 생긴 뒤(rig-v2는 리그 전체를 바꾸므로 변장 단계에서 요괴가 보이게 됨). 검수는 `review_capture.py`가 defs를 직접 읽는다.
+
 ## 개선 기록
 - (R03) v1 작성. 실제 빌드에서 9장 결함 8개를 찾아 파이프라인에 반영, `review_capture.py` 추가, 맥 브라우저로 결과 받는 법 추가.
+- (R06) 폰·콘: `reparent`, 같은 이름 다중 클래스, `material_keep`, `emissive`, `cage`/`max_ray`, 체형별 요령(10장). 캐릭터당 실측 29 cr(요괴 턴어라운드 4장 11 + Tripo 18, 리빌은 0).

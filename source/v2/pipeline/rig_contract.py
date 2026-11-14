@@ -106,6 +106,10 @@ def build_armature(cfg, mesh):
                     bone.align_roll(Vector((0, 1, 0)) if abs((b - a).normalized().z) > 0.7 else Vector((0, 0, 1)))
                     bone.parent = prev
                     prev = bone
+        # `reparent`: put a contract bone under an x_ chain (Kon: Neck hangs off the end of x_neck_*)
+        for child, parent in cfg.get('reparent', {}).items():
+            eb[child].parent = eb[parent]
+            eb[child].use_connect = False
         bpy.ops.object.mode_set(mode='OBJECT')
     for b in arm_data.bones:
         b.use_deform = True

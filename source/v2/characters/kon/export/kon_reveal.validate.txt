@@ -1,0 +1,14 @@
+
+kon_reveal.glb  ·  profile: prop
+  ✓ file size                  0.25 MB (max 0.6 MB, before meshopt/KTX2)
+  ✓ triangles                  4,499 (max 5,000)
+  ✓ materials                  1 (max 2)
+  ✓ draw calls                 1 primitives (target ≤ 4; merge separate parts into one skinned mesh)
+  ✓ texture size               1024x1024 jpeg
+  ✓ texture count              1 images (max 3)
+  ✓ textured (not flat colour) has texture maps
+  ✓ power-of-two textures      ok
+  ✓ grounded origin            min Y 0.000 (feet should sit at 0)
+  ✓ clip naming                no clips
+
+PASS (0 warnings)

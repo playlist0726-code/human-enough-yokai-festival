@@ -79,8 +79,7 @@ def reveal_panic(t, ctx):
     flail = ML.env(x, 0.12, 0.2, 0.75, 0.92)
     jaw(p, 0.5 + 0.5 * math.sin(ML.TAU * 5 * x) * flail)
     puff = ML.env(x, 0.02, 0.1, 0.8, 1.0)
-    for i in (1, 2, 3):
-        p.scale[f'x_tail_{i:02d}'] = (1 + 0.25 * puff, 1 + 0.08 * puff, 1 + 0.25 * puff)
+    p.scale['x_tail_01'] = (1 + 0.18 * puff, 1 + 0.06 * puff, 1 + 0.18 * puff)  # root only: children inherit
     tail(p, swing=12 * math.sin(ML.TAU * 3 * x) * flail, lift=18 * puff)
     return p
 

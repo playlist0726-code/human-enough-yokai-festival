@@ -68,7 +68,8 @@ def orient_and_scale(obj, cfg):
     obj.data.transform(Matrix.Scale(s, 4))
     mn, mx = K.mesh_bounds(obj)
     # centre x/y on the feet (lowest 12 % of the mesh) so the origin sits between the feet
-    low = [v.co for v in obj.data.vertices if v.co.z < mn.z + (mx.z - mn.z) * 0.12]
+    band = cfg.get('feet_band', 0.12)  # lower it when tails/robes hang near the ground (Kon 0.04)
+    low = [v.co for v in obj.data.vertices if v.co.z < mn.z + (mx.z - mn.z) * band]
     cx = (min(v.x for v in low) + max(v.x for v in low)) / 2
     cy = (min(v.y for v in low) + max(v.y for v in low)) / 2
     obj.data.transform(Matrix.Translation((-cx, -cy, -mn.z)))
@@ -313,6 +314,10 @@ def build_materials(lo, cfg, imgs, faces):
             if name == 'cloth':
                 bsdf.inputs['Sheen Weight'].default_value = cfg.get('cloth_sheen', 0.35)
                 bsdf.inputs['Sheen Roughness'].default_value = 0.5
+            spec = next((c for c in cfg.get('materials', []) if c['name'] == name and c.get('emissive')), None)
+            if spec:  # e.g. Kon's onibi tail tips: glow with their own baked colour
+                nt.links.new(tex.outputs['Color'], bsdf.inputs['Emission Color'])
+                bsdf.inputs['Emission Strength'].default_value = spec['emissive']
         lo.data.materials.append(mat)
     idx = {n: i for i, n in enumerate(order)}
     for name, fl in faces.items():

@@ -1,6 +1,6 @@
 # C방 진행 상황 — 캐릭터 1: 미즈 파일럿(R03) → 폰·콘(R06)
 
-- 현재 브리프: **R06** · 브랜치 `remaster/r06-pon-kon` (R03 `remaster/r03-mizu-pilot` 위에 쌓음 — R03 PR #8이 먼저 병합돼야 함)
+- 현재 브리프: **R06 완료** · 브랜치 `remaster/r06-pon-kon` (R03 PR #8 위에 쌓음 — #8이 먼저 병합돼야 함)
 - 마지막 갱신: 2026-11-13 00:30 (America/Denver)
 - 상태: **R03 완료** — 사용자 승인(11-13 00:33), PR #8 https://github.com/playlist0726-code/human-enough-yokai-festival/pull/8
 
@@ -111,3 +111,25 @@
 - 파이프라인 개선: 같은 재질 클래스를 여러 영역으로(체크무늬 두 톤), 작은 눈은 평활화 제외(`material_keep`), 깊은 입안 베이크용 `cage`·`max_ray`.
 - 사용자 지시("승인 해줄게 바로 해주라", 11-13 22:46)에 따라 폰 결과를 보여주고 콘으로 바로 진행.
 - 리빌: 꼬리를 요괴 메시에서 잘라냄. **R09에게**: pon_human의 `socket_reveal`을 허리 뒤(Hips, 약 [0, 0.1, 0.3]×키)에.
+
+## 콘 (11-14)
+| 날짜 | 항목 | 모델 | 크레딧 | job id |
+|---|---|---|---|---|
+| 11-14 | 콘 턴어라운드 정면 | gpt_image_2_6 | 2.75 | d3efe78a-2c1a-43e0-94b3-59641fd929d6 |
+| 11-14 | 콘 턴어라운드 좌·후·우 | gpt_image_2_6 | 8.25 | 047f3eaa-f80a-4dc7-8dfb-e5401e131a36, 180772a1-6ab3-4658-bb74-81263b7a7618, 93292993-2114-45fd-8647-9eadaa9281c7 |
+| 11-14 | 콘 3D | tripo_h3_1_multiview_to_3d (face_limit 400k) | 18 | fe2d1e05-e937-47cc-808b-0f7dbb17ca97 |
+| | **R06 누계** | | **58** (예산 110~200 안) | |
+
+| 자산 | 삼각형 | 원본 | 런타임 | validator |
+|---|---|---|---|---|
+| kon_yokai | 22,000 · 31뼈(+x_neck_01~04, x_ear_L/R, x_tail_L/R_01~03) · 4재질(body·eyes·onibi 발광·cloth) | 2.80 MB | 1.47 MB | PASS(player) |
+| kon_reveal(쌍꼬리) | 4,499 | 0.24 MB | 0.13 MB | PASS(prop) |
+- 걸음: walk 2.20 / run 4.52 u/s → 서버에서 1.64×/1.07×.
+- 목이 먼저: `x_neck_01~04`(Spine1 → … → Neck, `reparent`), 머리 쪽 마디가 먼저 움직이고 아래로 늦게 전파(`neck_wave`). 걷기 S파 + 머리 수평 유지, idle 둘러보기, reveal_panic 목 곧게 뻗기 → 휘두르기 → 움츠림.
+- 수정: 목 스케일이 체인에 누적돼 머리가 ~1.9배 → 스케일 대신 S자 펴기 회전. 꼬리 부풀기도 뿌리 뼈만(폰 포함).
+- 수정: 꼬리가 바닥까지 내려와 발 중심 계산이 뒤로 밀림 → `feet_band: 0.04`.
+- 수정: 남색 유카타가 도깨비불 규칙에 걸림(HSV 확인 결과 h0.7 s0.2 v0.7) → 밝기로 분리. 색 확인 도구 `probe_colors.py` 추가.
+- R09에게: kon_human `socket_reveal`은 허리 뒤(Hips, 약 [0, 0.1, 0.12]×키).
+
+## R06 상태
+- 폰·콘 요괴 + 리빌 완료, `defs/pon.json`·`defs/kon.json` 작성(인덱스 등록은 R09 인간 폼 뒤). PR 생성.
