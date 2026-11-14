@@ -32,11 +32,13 @@ def run(cfg_path):
     base_img = next(i for i in bpy.data.images if i.name.endswith('_baseColor'))
     px = C.pixels(base_img)
     h, w = px.shape[:2]
-    lo_box, hi_box = (Vector(cfg['select']['region'][:3]) * src['height_m'], Vector(cfg['select']['region'][3:]) * src['height_m'])
+    # one box (`region`) or several (`regions`, e.g. both of Sumi's wings); a face is kept if it is inside any box
+    regions = cfg['select'].get('regions') or [cfg['select']['region']]
+    boxes = [(Vector(r[:3]) * src['height_m'], Vector(r[3:]) * src['height_m']) for r in regions]
     uv = yokai.data.uv_layers.active.data
     keep = set()
     for poly in yokai.data.polygons:
-        if not K.in_box(poly.center, lo_box, hi_box):
+        if not any(K.in_box(poly.center, lo_box, hi_box) for lo_box, hi_box in boxes):
             continue
         u = sum(uv[i].uv.x for i in poly.loop_indices) / len(poly.loop_indices)
         v = sum(uv[i].uv.y for i in poly.loop_indices) / len(poly.loop_indices)

@@ -60,6 +60,10 @@ document.title='READY';
 
 async def main(a):
     os.makedirs(a.out, exist_ok=True)
+    # yokai-only defs (D-room characters before R09 ships their disguise): skip the human/reveal shots
+    import json
+    with open(os.path.join('public', 'characters', 'defs', f'{a.id}.json')) as f:
+        has_human = 'human' in json.load(f).get('forms', {})
     page_path = os.path.join('public', '__review.html')
     with open(page_path, 'w') as f:
         f.write(PAGE)
@@ -96,19 +100,21 @@ async def main(a):
             print(await pg.evaluate("frame('close',.35)")); (await shot(pg)).save(os.path.join(a.out, 'closeup_yokai.png'))
             for yaw, tag in ((0, 'front'), (1.57, 'side'), (3.14, 'back'), (.6, 'tq')):
                 await pg.evaluate(f"frame('full',{yaw})"); (await shot(pg)).save(os.path.join(a.out, f'turn_yokai_{tag}.png'))
-            await pg.evaluate("step(30,{form:'human'})")
-            await pg.evaluate("frame('close',.35)"); (await shot(pg)).save(os.path.join(a.out, 'closeup_human.png'))
-            await pg.evaluate("frame('full',.45)"); (await shot(pg)).save(os.path.join(a.out, 'turn_human_tq.png'))
-            await pg.evaluate("step(10,{form:'human',revealed:true})")
-            print(await pg.evaluate("frame('full',.45)")); (await shot(pg)).save(os.path.join(a.out, 'reveal.png'))
+            if has_human:
+                await pg.evaluate("step(30,{form:'human'})")
+                await pg.evaluate("frame('close',.35)"); (await shot(pg)).save(os.path.join(a.out, 'closeup_human.png'))
+                await pg.evaluate("frame('full',.45)"); (await shot(pg)).save(os.path.join(a.out, 'turn_human_tq.png'))
+                await pg.evaluate("step(10,{form:'human',revealed:true})")
+                print(await pg.evaluate("frame('full',.45)")); (await shot(pg)).save(os.path.join(a.out, 'reveal.png'))
             await pg.close()
             # 3) walking GIFs at the game camera (server walk speed 3.6 u/s)
             pg = await open_page(640, 400)
             await gif(pg, 'walk_yokai.gif', 'yokai', n=20, kind='full', yaw=.25, facing=1.57)
             await pg.close()
-            pg = await open_page(640, 400)
-            await gif(pg, 'walk_human.gif', 'human', n=20, kind='full', yaw=.25, facing=1.57)
-            await pg.close()
+            if has_human:
+                pg = await open_page(640, 400)
+                await gif(pg, 'walk_human.gif', 'human', n=20, kind='full', yaw=.25, facing=1.57)
+                await pg.close()
             pg = await open_page(640, 400)
             await gif(pg, 'walk_game.gif', 'yokai', n=20, kind='game', yaw=.2, facing=-.9)
             await pg.close()
@@ -122,7 +128,7 @@ async def main(a):
             await pg.close()
             # 5) studio full-body (concept comparison), same key-art lighting as the portrait
             pg = await open_page(640, 640, alpha=True)
-            for form, yaw in (('yokai', 0), ('human', 0)):
+            for form, yaw in (('yokai', 0), ('human', 0))[:2 if has_human else 1]:
                 await pg.evaluate(f"step(20,{{form:'{form}'}})")
                 await pg.evaluate(f"frame('full',{yaw})")
                 data = await pg.evaluate("png()")

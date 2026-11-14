@@ -1,0 +1,12 @@
+{
+  "id": "sumi",
+  "version": 2,
+  "forms": {
+    "yokai": "/assets/models/v2/sumi_yokai.glb"
+  },
+  "reveal": "/assets/models/v2/sumi_reveal.glb",
+  "formGait": {
+    "yokai": {"walkSpeed": 2.616, "runSpeed": 5.637}
+  },
+  "note": "R07. Yokai form only: add forms.human (R09's sumi_human.glb) and its formGait before listing sumi in index.json, otherwise the disguise phase would show the yokai. Source and rebuild: source/v2/characters/sumi/build.py. formGait from build/v2/sumi/gait.json."
+}

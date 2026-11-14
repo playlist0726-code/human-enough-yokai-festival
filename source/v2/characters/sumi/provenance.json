@@ -1,0 +1,34 @@
+{
+  "character": "sumi",
+  "brief": "R07",
+  "date": "2026-11-13",
+  "room": "D",
+  "concept": ["public/assets/sumi-reference.png", "public/assets/cast.png (column 4, ref/cast_sumi_col.png)"],
+  "design_decision": "ONE head (user decision 2026-11-13). Both concept images draw two heads; the turnaround keeps a single centred crow head and the sleepy/shocked expressions become the face_blink/face_shock morphs.",
+  "turnaround": {
+    "model": "gpt_image_2_6 (quality high, 2k, 1:1)",
+    "refs": "media 58b3b6e3 (cast column), 29813d58 (sumi-reference.png) via GitHub raw -> media_import_url",
+    "yokai": {
+      "front": "cddb7482-7676-43af-923a-198b0f13ff39",
+      "left": "ae22b082-5951-44df-adcc-942ec5ecc998",
+      "back": "b45b29ec-e2f3-48e3-950f-f1179c157b9d",
+      "right": "8fedd7bc-245b-4b6f-b555-d0db43425cb6",
+      "three_quarter": "07b0ff2e-4596-4148-afa3-2093305c0218"
+    },
+    "files": "turnaround/*.webp (1024, downscaled from 2048 PNG)"
+  },
+  "mesh": {
+    "yokai": {
+      "model": "tripo_h3_1_multiview_to_3d (detailed/detailed, pbr, face_limit 400000)",
+      "job": "8c5da796-afd4-452b-b058-b23de64f47f4",
+      "url": "https://d8j0ntlcm91z4.cloudfront.net/user_2zs4TXKZILG9oDiY1L03YTxgUob/hf_20261114_055053_8c5da796-afd4-452b-b058-b23de64f47f4.glb",
+      "raw": "384,849 tris, 19.6 MB (not committed; downloaded through the user's Mac browser)"
+    }
+  },
+  "human_edits": [
+    "paint.py: eye whites re-tinted to the turnaround yellow #f2e27a (generator baked them pale cream); pupils and highlights untouched",
+    "skeleton/weights hand-placed in character.json (wing = arm chain, x_wing_*_01..02 trailing feathers, x_beak, tail fan on Hips)",
+    "reveal prop = both wings cut from the yokai mesh (reveal.json regions)"
+  ],
+  "credits": {"turnaround": 13.75, "mesh": 18, "total": 31.75}
+}
