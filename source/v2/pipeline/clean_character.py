@@ -179,7 +179,7 @@ def bake(lo, hi, cfg, kind, img, selected_to_active=True, samples=1):
     scn.cycles.samples = samples
     scn.render.bake.use_selected_to_active = selected_to_active
     scn.render.bake.cage_extrusion = cfg['height_m'] * cfg.get('cage', 0.012)
-    scn.render.bake.max_ray_distance = cfg['height_m'] * 0.05
+    scn.render.bake.max_ray_distance = cfg['height_m'] * cfg.get('max_ray', 0.05)  # deep cavities (Pon's mouth) need more
     scn.render.bake.margin = 8
     scn.render.bake.target = 'IMAGE_TEXTURES'
     bake_target_material(lo, img)
@@ -239,7 +239,10 @@ def classify_faces(lo, cfg, base_px):
     bm = bmesh.new(); bm.from_mesh(lo.data); bm.faces.ensure_lookup_table()
     for _ in range(cfg.get('material_smooth', 2)):
         new = label[:]
+        keep = set(cfg.get('material_keep', ['eyes']))  # small features (bead eyes) must not be smoothed away
         for f in bm.faces:
+            if label[f.index] in keep:
+                continue
             votes = {}
             for e in f.edges:
                 for nf in e.link_faces:
@@ -283,7 +286,7 @@ def gltf_output_group():
 def build_materials(lo, cfg, imgs, faces):
     """body/cloth: baseColor + ORM + normal. eyes: same baseColor, glossy clearcoat, no ORM."""
     lo.data.materials.clear()
-    order = ['body'] + [c['name'] for c in cfg.get('materials', []) if c['name'] in faces]
+    order = ['body'] + list(dict.fromkeys(c['name'] for c in cfg.get('materials', []) if c['name'] in faces))  # a class may span several entries
     rough = cfg.get('roughness', {})
     for name in order:
         mat = bpy.data.materials.new(f"{cfg['id']}_{name}")

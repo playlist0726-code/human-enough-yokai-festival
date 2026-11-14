@@ -1,0 +1,20 @@
+{
+  "id": "pon_reveal",
+  "note": "Pon's striped tail pops out of the disguise. Origin = tail root (lowest ring). R09: put socket_reveal on pon_human at the lower back (bone Hips, about [0, 0.1, 0.3] of height) so the tail sprouts from behind.",
+  "source": "source/v2/characters/pon/character.json",
+  "select": {
+    "region": [-0.5, 0.27, 0.22, 0.5, 0.9, 1.05],
+    "exclude_rules": [
+      {"h_min": 0.93, "h_max": 1.0, "s_min": 0.4},
+      {"h_min": 0.0, "h_max": 0.04, "s_min": 0.4},
+      {"h_min": 0.1, "h_max": 0.18, "s_min": 0.5, "v_min": 0.6},
+      {"s_max": 0.22, "v_min": 0.86}
+    ]
+  },
+  "min_island": 0.04,
+  "target_tris": 4500,
+  "width_m": 0.6,
+  "texture": {"base": 1024},
+  "export": "source/v2/characters/pon/export/pon_reveal.glb",
+  "runtime": "public/assets/models/v2/pon_reveal.glb"
+}
